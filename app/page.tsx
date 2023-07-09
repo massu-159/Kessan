@@ -12,14 +12,13 @@ const Home = async () => {
     <div>
       {session && (
         <div>
-          <div>ようこそ、Aさん</div>
-          <button>ログアウト</button>
+          <div>ようこそ</div>
+          <div>ログイン済みです。</div>
         </div>
       )}
       {!session && (
         <div>
           <div>ようこそ、ゲストさん</div>
-          <button>ログイン</button>
         </div>
       )}
     </div>
