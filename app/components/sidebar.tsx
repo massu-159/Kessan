@@ -57,7 +57,7 @@ export default function SideBar({
   return (
     <>
       {session && (
-        <Card className='fixed top-4 left-4 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5'>
+        <Card className='h-screen rounded-none  w-full max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5'>
           <div className='mb-2 flex items-center gap-4 p-4'>
             <div className='relative w-10 h-10'>
               <Image
@@ -72,17 +72,7 @@ export default function SideBar({
             </Typography>
           </div>
           <List>
-            <Accordion
-              open={open === 1}
-              icon={
-                <ChevronDownIcon
-                  strokeWidth={2.5}
-                  className={`mx-auto h-4 w-4 transition-transform ${
-                    open === 1 ? 'rotate-180' : ''
-                  }`}
-                />
-              }
-            >
+            <Link href='/dashboard'>
               <ListItem className='p-3' selected={open === 1}>
                 <ListItemPrefix>
                   <PresentationChartBarIcon className='h-5 w-5' />
@@ -91,7 +81,7 @@ export default function SideBar({
                   Dashboard
                 </Typography>
               </ListItem>
-            </Accordion>
+            </Link>
             <Accordion
               open={open === 2}
               icon={
@@ -118,18 +108,22 @@ export default function SideBar({
               </ListItem>
               <AccordionBody className='py-1'>
                 <List className='p-0'>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className='h-3 w-5' />
-                    </ListItemPrefix>
-                    Assets
-                  </ListItem>
-                  <ListItem>
-                    <ListItemPrefix>
-                      <ChevronRightIcon strokeWidth={3} className='h-3 w-5' />
-                    </ListItemPrefix>
-                    Finance
-                  </ListItem>
+                  <Link href='/matrix/assets'>
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className='h-3 w-5' />
+                      </ListItemPrefix>
+                      Assets
+                    </ListItem>
+                  </Link>
+                  <Link href='/matrix/finance'>
+                    <ListItem>
+                      <ListItemPrefix>
+                        <ChevronRightIcon strokeWidth={3} className='h-3 w-5' />
+                      </ListItemPrefix>
+                      Finance
+                    </ListItem>
+                  </Link>
                 </List>
               </AccordionBody>
             </Accordion>
@@ -155,22 +149,22 @@ export default function SideBar({
               </ListItemPrefix>
               Profile
             </ListItem>
-            <ListItem>
+            <Link href='/settings/profile'>
+              <ListItem>
                 <ListItemPrefix>
                   <Cog6ToothIcon className='h-5 w-5' />
                 </ListItemPrefix>
-              <Link href='/settings/profile'>
                 Settings
-              </Link>
-            </ListItem>
-            <ListItem>
+              </ListItem>
+            </Link>
+            <Link href='/settings/logout'>
+              <ListItem>
                 <ListItemPrefix>
                   <PowerIcon className='h-5 w-5' />
                 </ListItemPrefix>
-              <Link href='/settings/logout'>
                 Log Out
-              </Link>
-            </ListItem>
+              </ListItem>
+            </Link>
           </List>
         </Card>
       )}

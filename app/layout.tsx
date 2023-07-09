@@ -16,11 +16,9 @@ export default function RootLayout({
   return (
     <html>
       <body className={`${inter.className} bg-cyan-50`}>
-        <div className=''>
+        <div className='flex'>
           <SupabaseListener />
-          <main className=''>
-            {children}
-          </main>
+          <main className='flex-initial'>{children}</main>
         </div>
       </body>
     </html>

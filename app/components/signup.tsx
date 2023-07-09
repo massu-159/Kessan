@@ -93,7 +93,7 @@ const Signup = () => {
   }
 
   return (
-    <div className='grid grid-cols-2'>
+    <div className='grid grid-cols-2 w-screen bg-[url(/wave.svg)] bg-bottom bg-no-repeat'>
       <div className='h-screen flex justify-center items-center'>
         <Card className='w-96'>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -167,7 +167,7 @@ const Signup = () => {
           </form>
         </Card>
       </div>
-      <div className='relative bg-cyan-600  flex juxtify-center items-center'>
+      <div className='relative flex juxtify-center items-center bg-[url(/top-wave.svg)] bg-left-top bg-no-repeat'>
         <div className='absolute z-10'>
           <Image
             src='/blobanimation.svg'
