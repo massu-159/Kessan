@@ -1,6 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import { Database } from "../lib/database.types"
 import {cookies} from 'next/headers'
+import LoginPage from "./auth/login/page"
 
 const Home = async () => {
   const supabase = createServerComponentClient<Database>({
@@ -9,17 +10,14 @@ const Home = async () => {
 
   const {data: {session},} = await supabase.auth.getSession()
   return (
-    <div>
+    <div className="">
       {session && (
         <div>
-          <div>ようこそ</div>
-          <div>ログイン済みです。</div>
+          <h1>Home</h1>
         </div>
       )}
       {!session && (
-        <div>
-          <div>ようこそ、ゲストさん</div>
-        </div>
+          <LoginPage></LoginPage>
       )}
     </div>
   )

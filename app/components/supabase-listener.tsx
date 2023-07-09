@@ -3,7 +3,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
 import {cookies} from 'next/headers'
 import { Database } from "../../lib/database.types"
-import Navigation from "./navigation"
+import SideBar from "./sidebar"
 
 const SupabaseListener = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -34,7 +34,7 @@ const SupabaseListener = async () => {
     }
   }
   return (
-    <Navigation session={session} profile={profile} />
+    <SideBar session={session} profile={profile} />
   )
 }
 

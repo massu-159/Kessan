@@ -5,11 +5,20 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Link from 'next/link'
 import Loading from '../loading'
 import * as z from 'zod'
 import type { Database } from '../../lib/database.types'
 type Schema = z.infer<typeof schema>
+import Image from 'next/image'
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+  Input,
+  Button,
+} from './common'
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -84,52 +93,96 @@ const Signup = () => {
   }
 
   return (
-    <div>
-      <div>サインアップ</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* 名前 */}
-        <div>
-          <input
-            type='text'
-            placeholder='名前'
-            id='name'
-            {...register('name', { required: true })}
-          />
-          <div>{errors.name?.message}</div>
+    <div className='grid grid-cols-2'>
+      <div className='h-screen flex justify-center items-center'>
+        <Card className='w-96'>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <CardHeader
+              variant='gradient'
+              color='blue'
+              className='mb-4 grid h-28 place-items-center'
+            >
+              <Typography variant='h3' color='white'>
+                Sign Up
+              </Typography>
+            </CardHeader>
+            <CardBody className='flex flex-col gap-4'>
+              <Input
+                type='name'
+                label='名前'
+                size='lg'
+                id='name'
+                {...register('name', { required: true })}
+              />
+              <div className='text-center text-sm text-red-500'>
+                {errors.name?.message}
+              </div>
+              <Input
+                type='email'
+                label='メールアドレス'
+                size='lg'
+                id='email'
+                {...register('email', { required: true })}
+              />
+              <div className='text-center text-sm text-red-500'>
+                {errors.email?.message}
+              </div>
+              <Input
+                type='password'
+                label='パスワード'
+                size='lg'
+                id='password'
+                {...register('password', { required: true })}
+              />
+              <div className='text-center text-sm text-red-500'>
+                {errors.password?.message}
+              </div>
+            </CardBody>
+            <CardFooter className='pt-0'>
+              {loading ? (
+                <Loading />
+              ) : (
+                <Button type='submit' variant='gradient' fullWidth>
+                  Sign Up
+                </Button>
+              )}
+              {message && (
+                <div className='my-5 text-center text-sm text-red-500'>
+                  {message}
+                </div>
+              )}
+              <Typography variant='small' className='mt-6 flex justify-center'>
+                すでにアカウントをお持ちですか？
+                <Typography
+                  as='a'
+                  href='/auth/login'
+                  variant='small'
+                  color='blue'
+                  className='ml-1 font-bold'
+                >
+                  Sign in
+                </Typography>
+              </Typography>
+            </CardFooter>
+          </form>
+        </Card>
+      </div>
+      <div className='relative bg-cyan-600  flex juxtify-center items-center'>
+        <div className='absolute z-10'>
+          <Image
+            src='/blobanimation.svg'
+            alt='blob'
+            width='600'
+            height='600'
+          ></Image>
         </div>
-
-        {/* メールアドレス */}
-        <div>
-          <input
-            type='email'
-            placeholder='メールアドレス'
-            id='email'
-            {...register('email', { required: true })}
-          />
-          <div>{errors.email?.message}</div>
-        </div>
-
-        {/* パスワード */}
-        <div>
-          <input
-            type='password'
-            placeholder='パスワード'
-            id='password'
-            {...register('password', { required: true })}
-          />
-          <div>{errors.password?.message}</div>
-        </div>
-
-        {/* サインアップボタン */}
-        <div>
-          {loading ? <Loading /> : <button type='submit'>サインアップ</button>}
-        </div>
-      </form>
-
-      {message && <div>{message}</div>}
-
-      <div>
-        <Link href='/auth/login'>ログインはこちら</Link>
+        <Image
+          src='/start.png'
+          alt='blob'
+          width='360'
+          height='360'
+          className='z-30 mx-auto'
+        ></Image>
       </div>
     </div>
   )

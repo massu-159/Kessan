@@ -1,4 +1,7 @@
+import '../styles/globals.css'
 import SupabaseListener from './components/supabase-listener'
+import {Inter} from "next/font/google"
+const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Kessan',
   description:
@@ -12,14 +15,13 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>
-        <SupabaseListener></SupabaseListener>
-        <main>{children}</main>
-        <footer>
-          <div>
-            copyright ©︎ ALL rights reserved. Kessan
-          </div>
-        </footer>
+      <body className={`${inter.className} bg-cyan-50`}>
+        <div className=''>
+          <SupabaseListener />
+          <main className=''>
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   )
