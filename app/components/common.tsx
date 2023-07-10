@@ -19,7 +19,10 @@ import {
   CardFooter,
   Input,
   Checkbox,
-} from '@material-tailwind/react'
+  Navbar,
+  IconButton,
+} from "@material-tailwind/react";
+
 
 export {
   Card,
@@ -39,4 +42,6 @@ export {
   CardFooter,
   Input,
   Checkbox,
+  Navbar,
+  IconButton,
 }

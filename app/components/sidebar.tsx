@@ -20,7 +20,7 @@ import {
   AccordionBody,
 } from './common'
 import {
-  PresentationChartBarIcon,
+  ChartBarIcon,
   UserCircleIcon,
   Cog6ToothIcon,
   InboxIcon,
@@ -57,7 +57,7 @@ export default function SideBar({
   return (
     <>
       {session && (
-        <Card className='h-screen rounded-none  w-full max-w-[16rem] p-4 shadow-xl shadow-blue-gray-900/5'>
+        <Card className='h-screen bg-cyan-900 rounded-none w-full max-w-[16rem] p-4 shadow-xl'>
           <div className='mb-2 flex items-center gap-4 p-4'>
             <div className='relative w-10 h-10'>
               <Image
@@ -67,17 +67,17 @@ export default function SideBar({
                 className='object-cover'
               ></Image>
             </div>
-            <Typography variant='h5' color='blue-gray'>
+            <Typography variant='h5' color='white'>
               Kessan
             </Typography>
           </div>
           <List>
-            <Link href='/dashboard'>
+            <Link href='/'>
               <ListItem className='p-3' selected={open === 1}>
                 <ListItemPrefix>
-                  <PresentationChartBarIcon className='h-5 w-5' />
+                  <ChartBarIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
-                <Typography color='blue-gray' className='mr-auto font-normal'>
+                <Typography className='text-white mr-auto font-normal hover:text-gray'>
                   Dashboard
                 </Typography>
               </ListItem>
@@ -87,7 +87,7 @@ export default function SideBar({
               icon={
                 <ChevronDownIcon
                   strokeWidth={2.5}
-                  className={`mx-auto h-4 w-4 transition-transform ${
+                  className={`text-white mx-auto h-4 w-4 transition-transform ${
                     open === 2 ? 'rotate-180' : ''
                   }`}
                 />
@@ -99,9 +99,12 @@ export default function SideBar({
                   className='border-b-0 p-3'
                 >
                   <ListItemPrefix>
-                    <AdjustmentsHorizontalIcon className='h-5 w-5' />
+                    <AdjustmentsHorizontalIcon
+                      className='h-5 w-5'
+                      fill='cyan'
+                    />
                   </ListItemPrefix>
-                  <Typography color='blue-gray' className='mr-auto font-normal'>
+                  <Typography color='white' className='mr-auto font-normal'>
                     Matrix
                   </Typography>
                 </AccordionHeader>
@@ -111,17 +114,23 @@ export default function SideBar({
                   <Link href='/matrix/assets'>
                     <ListItem>
                       <ListItemPrefix>
-                        <ChevronRightIcon strokeWidth={3} className='h-3 w-5' />
+                        <ChevronRightIcon
+                          strokeWidth={3}
+                          className='text-white h-3 w-5'
+                        />
                       </ListItemPrefix>
-                      Assets
+                      <Typography color='white'>Assets</Typography>
                     </ListItem>
                   </Link>
                   <Link href='/matrix/finance'>
                     <ListItem>
                       <ListItemPrefix>
-                        <ChevronRightIcon strokeWidth={3} className='h-3 w-5' />
+                        <ChevronRightIcon
+                          strokeWidth={3}
+                          className='text-white h-3 w-5'
+                        />
                       </ListItemPrefix>
-                      Finance
+                      <Typography color='white'>Finance</Typography>
                     </ListItem>
                   </Link>
                 </List>
@@ -130,39 +139,39 @@ export default function SideBar({
             <hr className='my-2 border-blue-gray-50' />
             <ListItem>
               <ListItemPrefix>
-                <InboxIcon className='h-5 w-5' />
+                <InboxIcon className='h-5 w-5' fill='cyan' />
               </ListItemPrefix>
-              AI Chat
+              <Typography color='white'>AI Chat</Typography>
+
               <ListItemSuffix>
                 <Chip
                   value='Beta'
                   size='sm'
-                  variant='ghost'
-                  color='blue'
+                  variant='gradient'
                   className='rounded-full'
                 />
               </ListItemSuffix>
             </ListItem>
             <ListItem>
               <ListItemPrefix>
-                <UserCircleIcon className='h-5 w-5' />
+                <UserCircleIcon className='h-5 w-5' fill='cyan' />
               </ListItemPrefix>
-              Profile
+              <Typography color='white'>Profile</Typography>
             </ListItem>
             <Link href='/settings/profile'>
               <ListItem>
                 <ListItemPrefix>
-                  <Cog6ToothIcon className='h-5 w-5' />
+                  <Cog6ToothIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
-                Settings
+                <Typography color='white'>Settings</Typography>
               </ListItem>
             </Link>
             <Link href='/settings/logout'>
               <ListItem>
                 <ListItemPrefix>
-                  <PowerIcon className='h-5 w-5' />
+                  <PowerIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
-                Log Out
+                <Typography color='white'>Log Out</Typography>
               </ListItem>
             </Link>
           </List>
