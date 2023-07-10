@@ -15,10 +15,10 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body className={`${inter.className} bg-cyan-50`}>
+      <body className={`${inter.className}`}>
         <div className='flex'>
           <SupabaseListener />
-          <main className='flex-initial'>{children}</main>
+          <main className=''>{children}</main>
         </div>
       </body>
     </html>
