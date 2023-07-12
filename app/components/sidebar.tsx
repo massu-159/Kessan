@@ -73,7 +73,11 @@ export default function SideBar({
           </div>
           <List>
             <Link href='/'>
-              <ListItem className='p-3' selected={open === 1}>
+              <ListItem
+                className='p-3 hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'
+                ripple
+                selected={open === 1}
+              >
                 <ListItemPrefix>
                   <ChartBarIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
@@ -93,10 +97,13 @@ export default function SideBar({
                 />
               }
             >
-              <ListItem className='p-0' selected={open === 2}>
+              <ListItem
+                className='p-0 hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'
+                selected={open === 2}
+              >
                 <AccordionHeader
                   onClick={() => handleOpen(2)}
-                  className='border-b-0 p-3'
+                  className='border-b-0 p-3 hover:bg-transparent focus:bg-transparent active:bg-transparent'
                 >
                   <ListItemPrefix>
                     <AdjustmentsHorizontalIcon
@@ -112,7 +119,7 @@ export default function SideBar({
               <AccordionBody className='py-1'>
                 <List className='p-0'>
                   <Link href='/matrix/assets'>
-                    <ListItem>
+                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
                           strokeWidth={3}
@@ -123,7 +130,7 @@ export default function SideBar({
                     </ListItem>
                   </Link>
                   <Link href='/matrix/finance'>
-                    <ListItem>
+                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
                           strokeWidth={3}
@@ -137,7 +144,7 @@ export default function SideBar({
               </AccordionBody>
             </Accordion>
             <hr className='my-2 border-blue-gray-50' />
-            <ListItem>
+            <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
               <ListItemPrefix>
                 <InboxIcon className='h-5 w-5' fill='cyan' />
               </ListItemPrefix>
@@ -152,14 +159,14 @@ export default function SideBar({
                 />
               </ListItemSuffix>
             </ListItem>
-            <ListItem>
+            <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
               <ListItemPrefix>
                 <UserCircleIcon className='h-5 w-5' fill='cyan' />
               </ListItemPrefix>
               <Typography color='white'>Profile</Typography>
             </ListItem>
             <Link href='/settings/profile'>
-              <ListItem>
+              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                 <ListItemPrefix>
                   <Cog6ToothIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
@@ -167,7 +174,7 @@ export default function SideBar({
               </ListItem>
             </Link>
             <Link href='/settings/logout'>
-              <ListItem>
+              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                 <ListItemPrefix>
                   <PowerIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
