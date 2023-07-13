@@ -1,32 +1,36 @@
-import {
-  CreditCardIcon,
-  ArrowLongDownIcon,
-  ArrowLongUpIcon,
-  ArrowLongRightIcon,
-} from '@heroicons/react/24/solid'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
+import {
+  ArrowLongUpIcon,
+  ArrowLongDownIcon,
+  CurrencyYenIcon,
+} from '@heroicons/react/24/solid'
 
-interface Acount {
-  id: number
-  name: string
-  role: string
+interface Record { 
+  amount: number
   rate: number
 }
 
-const AcountCard = ({ acount }: { acount: Acount }) => {
+const ActualVsTarget = ({ record }: {record:Record}) => {
   return (
     <Card>
       <CardBody className='w-full h-fit'>
         <div className='flex gap-4 items-center'>
-          <CreditCardIcon fill='#00bcd4' className='w-10 h-10'></CreditCardIcon>
-          <Typography variant='h5' color='blue-gray' className=''>
-            {acount.name}
-          </Typography>
+          <div>
+            <Typography variant='h5' className='text-sm font-normal'>
+              actual vs target
+            </Typography>
+            <Typography variant='lead' className='text-2xl font-bold'>
+              {record.amount.toLocaleString()} 円
+            </Typography>
+          </div>
+            <CurrencyYenIcon
+              fill='#00C49F'
+              className='w-10 h-10'
+            ></CurrencyYenIcon>
         </div>
 
-        <Typography>{acount.role}</Typography>
         <div className='flex justify-center items-center'>
-          {acount.rate > 0 ? (
+          {record.rate > 0 ? (
             <>
               <ArrowLongUpIcon
                 fill='#1e88e5'
@@ -36,10 +40,10 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
                 variant='lead'
                 className='text-blue-600 font-bold flex justify-center items-center'
               >
-                {acount.rate}%
+                {record.rate}%
               </Typography>
             </>
-          ) : acount.rate < 0 ? (
+          ) : record.rate < 0 ? (
             <>
               <ArrowLongDownIcon
                 fill='#e53834'
@@ -49,7 +53,7 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
                 variant='lead'
                 className='text-red-600 font-bold flex justify-center items-center'
               >
-                {acount.rate * -1}%
+                {record.rate * -1}%
               </Typography>
             </>
           ) : (
@@ -58,7 +62,7 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
                 variant='lead'
                 className='font-bold flex justify-center items-center'
               >
-                ±{acount.rate}%
+                ±{record.rate}%
               </Typography>
             </>
           )}
@@ -74,4 +78,4 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
   )
 }
 
-export default AcountCard
+export default ActualVsTarget

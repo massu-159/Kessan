@@ -1,6 +1,6 @@
 import '../styles/globals.css'
 import SupabaseListener from './components/supabase-listener'
-import {Inter} from "next/font/google"
+import { Inter } from 'next/font/google'
 const inter = Inter({ subsets: ['latin'] })
 export const metadata = {
   title: 'Kessan',
@@ -17,8 +17,10 @@ export default function RootLayout({
     <html>
       <body className={`${inter.className}`}>
         <div className='flex'>
-          <SupabaseListener />
-          <main className=''>{children}</main>
+          <div className='flex-[1_1_22%] max-w-[16rem]'>
+            <SupabaseListener />
+          </div>
+          <main className='flex-[1_1_78%] bg-[#f4fcfc]'>{children}</main>
         </div>
       </body>
     </html>

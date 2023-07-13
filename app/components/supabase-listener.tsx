@@ -34,7 +34,7 @@ const SupabaseListener = async () => {
     }
   }
   return (
-    <SideBar session={session} profile={profile} />
+      <SideBar session={session} profile={profile} />
   )
 }
 

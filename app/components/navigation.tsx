@@ -16,7 +16,7 @@ type ProfileType = Database['public']['Tables']['profiles']['Row']
 // ナビゲーション
 const Navigation = ({ profile }: { profile: ProfileType | null }) => {
   return (
-    <nav className='block max-w-[calc(100vw-16rem)] bg-white bg-opacity-70 text-white mx-auto w-screen px-4 py-3 rounded-none shadow-none backdrop-blur-sm'>
+    <nav className='block fixed max-w-[calc(100vw-16rem)] bg-[#f4fcfc] bg-opacity-30 text-white mx-auto w-screen px-4 py-3 rounded-none shadow-none backdrop-blur-sm z-30'>
       <div className='flex flex-wrap items-center justify-between gap-y-4 text-blue-gray-900'>
         <div className='relative flex w-full gap-2 md:w-max'>
           <Input
@@ -53,6 +53,7 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
                 className='rounded-full object-cover'
                 alt='avatar'
                 fill
+                sizes='100vw'
               />
             </div>
           </Link>

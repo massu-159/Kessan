@@ -12,18 +12,17 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 const TotalPieChart = () => {
   return (
     <ResponsiveContainer width='100%' height='100%'>
-      <PieChart>
+      <PieChart width={400} height={400}>
         <Pie
-          width={240}
-          height={240}
           data={data}
-          cx={120}
-          cy={200}
+          cx='50%'
+          cy='50%'
           innerRadius={80}
           outerRadius={120}
           fill='#8884d8'
           paddingAngle={1}
           dataKey='value'
+          label
         >
           {data.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />

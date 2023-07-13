@@ -2,8 +2,8 @@ import { ReactNode } from "react"
 
 const Content = ({ children }: {children: ReactNode}) => {
   return (
-    <div className='h-full overflow-y-auto'>
-      <div className='container grid px-6 mx-auto'>{children}</div>
+    <div className='mt-32 h-full overflow-y-auto z-10'>
+      <div className='container grid px-4 mx-auto'>{children}</div>
     </div>
   )
 }
