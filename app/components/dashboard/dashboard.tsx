@@ -1,7 +1,8 @@
 import TotalBarChart from './total-bar-chart'
-import { Card, CardBody, CardFooter, Button } from '../common'
+import { Card, CardBody, CardFooter, Button, Typography } from '../common'
 import TotalPieChart from './total-pie-chart'
 import AcountCard from './acount-card'
+import CumulativeRateCard from './cumulative-rate-card'
 
 const acountData = [
   {
@@ -30,9 +31,27 @@ const acountData = [
   },
 ]
 
+const cumulative = {
+  amount: 600000,
+  rate: 12,
+}
+
 const Dashboard = () => {
   return (
     <div className='grid grid-cols-8 gap-6'>
+      <div className='col-span-3'>
+        <CumulativeRateCard cumulative={cumulative} />
+      </div>
+      <div className='col-span-3'>
+        <CumulativeRateCard cumulative={cumulative} />
+      </div>
+      <Card className='col-span-2 bg-[url(/sneaker.jpg)] bg-cover'>
+        <CardBody className='h-fit flex justify-center items-center'>
+          <Typography variant='h5' className='text-cyan-500 font-bold text-7xl'>
+            JUST DO IT
+          </Typography>
+        </CardBody>
+      </Card>
       <div className='col-span-5 pb-2'>
         <Card className=''>
           <CardBody className='w-11/12 h-96'>
@@ -47,7 +66,7 @@ const Dashboard = () => {
       </div>
       <div className='col-span-3 pb-2'>
         <Card>
-          <CardBody className='w-full h-96'>
+          <CardBody className='w-full h-96 flex justify-center items-center'>
             <TotalPieChart></TotalPieChart>
           </CardBody>
           <CardFooter className='pt-0 text-end'>
@@ -57,13 +76,11 @@ const Dashboard = () => {
           </CardFooter>
         </Card>
       </div>
-      {
-        acountData.map((acount) => (
-        <div className="col-span-2" key={acount.id}>
+      {acountData.map((acount) => (
+        <div className='col-span-2' key={acount.id}>
           <AcountCard acount={acount} />
         </div>
-        ))
-      }
+      ))}
     </div>
   )
 }

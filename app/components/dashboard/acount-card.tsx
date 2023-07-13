@@ -65,7 +65,7 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
         </div>
         <Typography variant='small'>Since last month</Typography>
       </CardBody>
-      <CardFooter className='pt-0 text-end'>
+      <CardFooter className='pt-0 pb-2 text-end'>
         <Button color='cyan' variant='text'>
           view all →
         </Button>
