@@ -53,6 +53,7 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
                 className='rounded-full object-cover'
                 alt='avatar'
                 fill
+                sizes='100vw'
               />
             </div>
           </Link>

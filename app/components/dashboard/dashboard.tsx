@@ -3,6 +3,7 @@ import { Card, CardBody, CardFooter, Button, Typography } from '../common'
 import TotalPieChart from './total-pie-chart'
 import AcountCard from './acount-card'
 import CumulativeRateCard from './cumulative-rate-card'
+import ActualVsTarget from './actual-vs-target'
 
 const acountData = [
   {
@@ -36,6 +37,11 @@ const cumulative = {
   rate: 12,
 }
 
+const record = {
+  amount: 2300000,
+  rate: 8,
+}
+
 const Dashboard = () => {
   return (
     <div className='grid grid-cols-8 gap-6'>
@@ -43,7 +49,7 @@ const Dashboard = () => {
         <CumulativeRateCard cumulative={cumulative} />
       </div>
       <div className='col-span-3'>
-        <CumulativeRateCard cumulative={cumulative} />
+        <ActualVsTarget record={record} />
       </div>
       <Card className='col-span-2 bg-[url(/sneaker.jpg)] bg-cover'>
         <CardBody className='h-fit flex justify-center items-center'>

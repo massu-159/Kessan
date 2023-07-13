@@ -65,6 +65,7 @@ export default function SideBar({
                 alt='logo'
                 fill
                 className='object-cover'
+                sizes='100vw'
               ></Image>
             </div>
             <Typography variant='h5' color='white'>
