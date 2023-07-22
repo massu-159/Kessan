@@ -2,6 +2,7 @@ import TotalBarChart from '../../dashboard/total-bar-chart'
 import { Card, CardBody, CardFooter, Button } from '../../common'
 import TotalPieChart from '../../dashboard/total-pie-chart'
 import AcountCard from '../../dashboard/acount-card'
+import AssetsTable from './total-table'
 
 const acountData = [
   {
@@ -67,11 +68,9 @@ const Dashboard = () => {
           </CardFooter>
         </Card>
       </div>
-      {acountData.map((acount) => (
-        <div className='col-span-2' key={acount.id}>
-          <AcountCard acount={acount} />
-        </div>
-      ))}
+      <div className="col-span-8">
+        <AssetsTable></AssetsTable>
+      </div>
     </div>
   )
 }
