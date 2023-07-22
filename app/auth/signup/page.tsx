@@ -17,7 +17,7 @@ const SignupPage = async () => {
   } = await supabase.auth.getSession()
 
   if(session) {
-    redirect('/')
+    redirect('/dashboard')
   }
   return <Signup />
 }

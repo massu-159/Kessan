@@ -8,7 +8,7 @@ export const metadata = {
     'Kessan is a web application for managing your personal finances.',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
@@ -20,7 +20,9 @@ export default function RootLayout({
           <div className='flex-[1_1_22%] max-w-[16rem]'>
             <SupabaseListener />
           </div>
-          <main className='flex-[1_1_78%] bg-[#f4fcfc]'>{children}</main>
+          <main className='flex-[1_1_78%] bg-[#f4fcfc] h-screen'>
+            {children}
+          </main>
         </div>
       </body>
     </html>

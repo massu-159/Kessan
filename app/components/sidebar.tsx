@@ -73,7 +73,7 @@ export default function SideBar({
             </Typography>
           </div>
           <List>
-            <Link href='/'>
+            <Link href='/dashboard'>
               <ListItem
                 className='p-3 hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'
                 ripple
@@ -119,7 +119,7 @@ export default function SideBar({
               </ListItem>
               <AccordionBody className='py-1'>
                 <List className='p-0'>
-                  <Link href='/matrix/assets'>
+                  <Link href='/dashboard/matrix/assets'>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
@@ -130,7 +130,7 @@ export default function SideBar({
                       <Typography color='white'>Assets</Typography>
                     </ListItem>
                   </Link>
-                  <Link href='/matrix/finance'>
+                  <Link href='/dashboard/matrix/finance'>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
@@ -160,13 +160,15 @@ export default function SideBar({
                 />
               </ListItemSuffix>
             </ListItem>
-            <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
-              <ListItemPrefix>
-                <UserCircleIcon className='h-5 w-5' fill='cyan' />
-              </ListItemPrefix>
-              <Typography color='white'>Profile</Typography>
-            </ListItem>
-            <Link href='/settings/profile'>
+            <Link href='/dashboard/settings/email'>
+              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                <ListItemPrefix>
+                  <UserCircleIcon className='h-5 w-5' fill='cyan' />
+                </ListItemPrefix>
+                <Typography color='white'>Profile</Typography>
+              </ListItem>
+            </Link>
+            <Link href='/dashboard/settings/email'>
               <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                 <ListItemPrefix>
                   <Cog6ToothIcon className='h-5 w-5' fill='cyan' />
@@ -174,7 +176,7 @@ export default function SideBar({
                 <Typography color='white'>Settings</Typography>
               </ListItem>
             </Link>
-            <Link href='/settings/logout'>
+            <Link href='/dashboard/settings/logout'>
               <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                 <ListItemPrefix>
                   <PowerIcon className='h-5 w-5' fill='cyan' />

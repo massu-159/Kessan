@@ -11,6 +11,7 @@ import Loading from '../loading'
 import * as z from 'zod'
 import type { Database } from '../../lib/database.types'
 import useStore from '../../store'
+import { Card, CardBody, Button } from './common'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -149,76 +150,77 @@ const Profile = () => {
   }
 
   return (
-    <div>
-      <div className='text-center font-bold text-xl mb-10'>プロフィール</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {/* アバター画像 */}
-        <div className='mb-5'>
-          <div className='flex flex-col text-sm items-center justify-center mb-5'>
-            <div className='relative w-24 h-24 mb-5'>
-              <Image
-                src={avatarUrl}
-                className='rounded-full object-cover'
-                alt='avatar'
-                width={60}
-                height={60}
-              />
+    <Card>
+      <CardBody>
+        <div className='text-center font-bold text-xl mb-10'>プロフィール</div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {/* アバター画像 */}
+          <div className='mb-5'>
+            <div className='flex flex-col text-sm items-center justify-center mb-5'>
+              <div className='relative w-24 h-24 mb-5'>
+                <Image
+                  src={avatarUrl}
+                  className='rounded-full object-cover'
+                  alt='avatar'
+                  width={60}
+                  height={60}
+                />
+              </div>
+              <input type='file' id='avatar' onChange={onUploadImage} />
+              {fileMessage && (
+                <div className='text-center text-red-500 my-5'>
+                  {fileMessage}
+                </div>
+              )}
             </div>
-            <input type='file' id='avatar' onChange={onUploadImage} />
-            {fileMessage && (
-              <div className='text-center text-red-500 my-5'>{fileMessage}</div>
+          </div>
+
+          {/* 名前 */}
+          <div className='mb-5'>
+            <div className='text-sm mb-1 font-bold'>名前</div>
+            <input
+              type='text'
+              className='border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500'
+              placeholder='名前'
+              id='name'
+              {...register('name', { required: true })}
+              required
+            />
+            <div className='my-3 text-center text-sm text-red-500'>
+              {errors.name?.message}
+            </div>
+          </div>
+
+          {/* 自己紹介 */}
+          <div className='mb-5'>
+            <div className='text-sm mb-1 font-bold'>自己紹介</div>
+            <textarea
+              className='border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500'
+              placeholder='自己紹介'
+              id='introduce'
+              {...register('introduce')}
+              rows={5}
+            />
+          </div>
+
+          {/* 変更ボタン */}
+          <div className='mb-5'>
+            {loading ? (
+              <Loading />
+            ) : (
+              <Button type='submit' variant='gradient' color='cyan' fullWidth>
+                変更
+              </Button>
             )}
           </div>
-        </div>
+        </form>
 
-        {/* 名前 */}
-        <div className='mb-5'>
-          <div className='text-sm mb-1 font-bold'>名前</div>
-          <input
-            type='text'
-            className='border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500'
-            placeholder='名前'
-            id='name'
-            {...register('name', { required: true })}
-            required
-          />
-          <div className='my-3 text-center text-sm text-red-500'>
-            {errors.name?.message}
-          </div>
-        </div>
-
-        {/* 自己紹介 */}
-        <div className='mb-5'>
-          <div className='text-sm mb-1 font-bold'>自己紹介</div>
-          <textarea
-            className='border rounded-md w-full py-2 px-3 focus:outline-none focus:border-sky-500'
-            placeholder='自己紹介'
-            id='introduce'
-            {...register('introduce')}
-            rows={5}
-          />
-        </div>
-
-        {/* 変更ボタン */}
-        <div className='mb-5'>
-          {loading ? (
-            <Loading />
-          ) : (
-            <button
-              type='submit'
-              className='font-bold bg-sky-500 hover:brightness-95 w-full rounded-full p-2 text-white text-sm'
-            >
-              変更
-            </button>
-          )}
-        </div>
-      </form>
-
-      {/* メッセージ */}
-      {message && (
-        <div className='my-5 text-center text-red-500 mb-5'>{message}</div>
-      )}
-    </div>
+        {/* メッセージ */}
+        {message && (
+          <div className='my-5 text-center text-red-500 mb-5'>{message}</div>
+        )}
+      </CardBody>
+    </Card>
   )
 }
 

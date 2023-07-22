@@ -1,11 +1,10 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../lib/database.types'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import LoginPage from './auth/login/page'
-import DashboardPage from './dashboard/page'
+import Dashboard from '../components/dashboard/dashboard'
+import { Database } from '../../lib/database.types'
 
-const Home = async () => {
+const DashboardPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -15,12 +14,12 @@ const Home = async () => {
     data: { session },
   } = await supabase.auth.getSession()
 
-  // 認証している場合、リダイレクト
-  if (session) {
-    redirect('/dashboard')
+  // 未認証の場合、リダイレクト
+  if (!session) {
+    redirect('/auth/login')
   }
 
-  return <div>{session ? <DashboardPage /> : <LoginPage />}</div>
+  return <Dashboard />
 }
 
-export default Home
+export default DashboardPage

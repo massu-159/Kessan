@@ -1,11 +1,11 @@
 'use client'
 
+import { IconButton, Button, Input } from './common'
 import {
-  IconButton,
-  Button,
-  Input,
-} from './common'
-import { BellIcon, Cog6ToothIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid'
+  BellIcon,
+  Cog6ToothIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/react/24/solid'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Database } from '../../lib/database.types'
@@ -34,13 +34,15 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
           </Button>
         </div>
         <div className='ml-auto flex gap-3 md:mr-4'>
-          <IconButton variant='text' color='blue-gray'>
-            <Cog6ToothIcon className='h-6 w-6' />
-          </IconButton>
+          <Link href='/dashboard/settings/email'>
+            <IconButton variant='text' color='blue-gray'>
+              <Cog6ToothIcon className='h-6 w-6' />
+            </IconButton>
+          </Link>
           <IconButton variant='text' color='blue-gray'>
             <BellIcon className='h-6 w-6' />
           </IconButton>
-          <Link href='/settings/profile'>
+          <Link href='/dashboard/settings/profile'>
             <div className='relative w-10 h-10'>
               <Image
                 src={
