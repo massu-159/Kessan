@@ -46,7 +46,7 @@ const Home = async () => {
     <div>
       {session && (
         <div className='flex flex-col h-full'>
-            <Navigation profile={profile}></Navigation>
+          <Navigation profile={profile}></Navigation>
           <Content>
             <Dashboard></Dashboard>
           </Content>

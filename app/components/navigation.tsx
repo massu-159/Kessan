@@ -1,8 +1,6 @@
 'use client'
 
 import {
-  Navbar,
-  Typography,
   IconButton,
   Button,
   Input,
