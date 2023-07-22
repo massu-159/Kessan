@@ -1,11 +1,11 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
-import Password from '../../components/password'
-import type { Database } from '../../../lib/database.types'
+import Email from '../../../components/email'
+import type { Database } from '../../../../lib/database.types'
 
-// パスワード変更ページ
-const PasswordPage = async () => {
+// メールアドレス変更ページ
+const EmailPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -20,7 +20,7 @@ const PasswordPage = async () => {
     redirect('/auth/login')
   }
 
-  return <Password />
+  return <Email email={session.user.email!} />
 }
 
-export default PasswordPage
+export default EmailPage

@@ -1,8 +1,10 @@
 import TotalBarChart from '../../dashboard/total-bar-chart'
-import { Card, CardBody, CardFooter, Button } from '../../common'
+import { Card, CardBody, CardFooter, Button, Typography } from '../../common'
 import TotalPieChart from '../../dashboard/total-pie-chart'
 import AcountCard from '../../dashboard/acount-card'
 import AssetsTable from './total-table'
+import ActualVsTarget from '../../dashboard/actual-vs-target'
+import CumulativeRateCard from '../../dashboard/cumulative-rate-card'
 
 const acountData = [
   {
@@ -44,6 +46,19 @@ const record = {
 const Dashboard = () => {
   return (
     <div className='grid grid-cols-8 gap-6'>
+      <div className='col-span-3'>
+        <CumulativeRateCard cumulative={cumulative} />
+      </div>
+      <div className='col-span-3'>
+        <ActualVsTarget record={record} />
+      </div>
+      <Card className='col-span-2 bg-[url(/sneaker.jpg)] bg-cover'>
+        <CardBody className='h-fit flex justify-center items-center'>
+          <Typography variant='h5' className='text-cyan-500 font-bold text-7xl'>
+            JUST DO IT
+          </Typography>
+        </CardBody>
+      </Card>
       <div className='col-span-5 pb-2'>
         <Card className=''>
           <CardBody className='w-11/12 h-96'>
@@ -68,7 +83,7 @@ const Dashboard = () => {
           </CardFooter>
         </Card>
       </div>
-      <div className="col-span-8">
+      <div className='col-span-8'>
         <AssetsTable></AssetsTable>
       </div>
     </div>

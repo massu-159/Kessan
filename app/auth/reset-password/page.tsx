@@ -17,7 +17,7 @@ const ResetPasswordPage = async () => {
 
   // 認証している場合、リダイレクト
   if (session) {
-    redirect('/')
+    redirect('/dashboard')
   }
 
   return <ResetPassword />

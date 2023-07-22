@@ -1,32 +1,32 @@
 import { Card, Typography } from '../../common'
 
-const TABLE_HEAD = ['Name', 'Job', 'Employed', '']
+const TABLE_HEAD = ['日付', '資産残高', '増減率', '']
 
 const TABLE_ROWS = [
   {
-    name: 'John Michael',
-    job: 'Manager',
-    date: '23/04/18',
+    date: '23/07/01',
+    amount: '23000000',
+    rate: '20',
   },
   {
-    name: 'Alexa Liras',
-    job: 'Developer',
-    date: '23/04/18',
+    date: '23/06/01',
+    amount: '2000000',
+    rate: '14',
   },
   {
-    name: 'Laurent Perrier',
-    job: 'Executive',
-    date: '19/09/17',
+    date: '23/05/01',
+    amount: '1760000',
+    rate: '8',
   },
   {
-    name: 'Michael Levi',
-    job: 'Developer',
-    date: '24/12/08',
+    date: '23/04/01',
+    amount: '1440000',
+    rate: '13',
   },
   {
-    name: 'Richard Gran',
-    job: 'Manager',
-    date: '04/10/21',
+    date: '23/03/01',
+    amount: '1290000',
+    rate: '-2',
   },
 ]
 
@@ -53,26 +53,8 @@ export default function AssetsTable() {
           </tr>
         </thead>
         <tbody>
-          {TABLE_ROWS.map(({ name, job, date }, index) => (
-            <tr key={name} className='even:bg-blue-gray-50/50'>
-              <td className='p-4'>
-                <Typography
-                  variant='small'
-                  color='blue-gray'
-                  className='font-normal'
-                >
-                  {name}
-                </Typography>
-              </td>
-              <td className='p-4'>
-                <Typography
-                  variant='small'
-                  color='blue-gray'
-                  className='font-normal'
-                >
-                  {job}
-                </Typography>
-              </td>
+          {TABLE_ROWS.map(({ amount, rate, date }, index) => (
+            <tr key={date} className='even:bg-blue-gray-50/50'>
               <td className='p-4'>
                 <Typography
                   variant='small'
@@ -80,6 +62,24 @@ export default function AssetsTable() {
                   className='font-normal'
                 >
                   {date}
+                </Typography>
+              </td>
+              <td className='p-4'>
+                <Typography
+                  variant='small'
+                  color='blue-gray'
+                  className='font-normal'
+                >
+                  {amount}
+                </Typography>
+              </td>
+              <td className='p-4'>
+                <Typography
+                  variant='small'
+                  color='blue-gray'
+                  className='font-normal'
+                >
+                  {rate}
                 </Typography>
               </td>
               <td className='p-4'>

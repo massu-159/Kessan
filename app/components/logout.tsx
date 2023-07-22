@@ -5,6 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import Loading from '../loading'
 import type { Database } from '../../lib/database.types'
+import { Card, CardBody, Button } from './common'
 
 // ログアウト
 const Logout = () => {
@@ -39,28 +40,27 @@ const Logout = () => {
   }
 
   return (
-    <div>
-      <div className='text-center mb-5'>ログアウトしますか？</div>
-      {/* ログアウトボタン */}
-      <form onSubmit={onSubmit}>
-        <div className='mb-5'>
-          {loading ? (
-            <Loading />
-          ) : (
-            <button
-              type='submit'
-              className='font-bold bg-red-500 hover:brightness-95 w-full rounded-full p-2 text-white text-sm'
-            >
-              ログアウト
-            </button>
-          )}
-        </div>
-      </form>
+    <Card>
+      <CardBody>
+        <div className='text-center mb-5'>ログアウトしますか？</div>
+        {/* ログアウトボタン */}
+        <form onSubmit={onSubmit}>
+          <div className='mb-5'>
+            {loading ? (
+              <Loading />
+            ) : (
+              <Button type='submit' variant='gradient' color='red' fullWidth>
+                ログアウト
+              </Button>
+            )}
+          </div>
+        </form>
 
-      {message && (
-        <div className='my-5 text-center text-sm text-red-500'>{message}</div>
-      )}
-    </div>
+        {message && (
+          <div className='my-5 text-center text-sm text-red-500'>{message}</div>
+        )}
+      </CardBody>
+    </Card>
   )
 }
 
