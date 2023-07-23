@@ -4,6 +4,9 @@ import TotalPieChart from './total-pie-chart'
 import AcountCard from './acount-card'
 import CumulativeRateCard from './cumulative-rate-card'
 import ActualVsTarget from './actual-vs-target'
+import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { cookies } from 'next/headers'
+import { Database } from '../../../lib/database.types'
 
 const acountData = [
   {
@@ -38,18 +41,35 @@ const cumulative = {
 }
 
 const record = {
-  amount: 2300000,
-  rate: 8,
+  amount: 1400000,
 }
 
-const Dashboard = () => {
+const Dashboard = async () => {
+    const supabase = createServerComponentClient<Database>({ cookies })
+
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+
+    let goal = null
+    if (session) {
+      const { data: currentGoal } = await supabase
+        .from('Goal')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .order('created_at', { ascending: false })
+        .single()
+
+      goal = currentGoal
+    }
+  
   return (
     <div className='grid grid-cols-8 gap-6'>
       <div className='col-span-3'>
         <CumulativeRateCard cumulative={cumulative} />
       </div>
       <div className='col-span-3'>
-        <ActualVsTarget record={record} />
+        <ActualVsTarget goal={goal} record={record} />
       </div>
       <Card className='col-span-2 bg-[url(/sneaker.jpg)] bg-cover'>
         <CardBody className='h-fit flex justify-center items-center'>

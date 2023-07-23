@@ -1,16 +1,25 @@
+import { Database } from '../../../lib/database.types'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import {
   ArrowLongUpIcon,
   ArrowLongDownIcon,
   CurrencyYenIcon,
 } from '@heroicons/react/24/solid'
+type GoalType = Database['public']['Tables']['Goal']['Row']
 
-interface Record { 
+type Record = {
   amount: number
-  rate: number
 }
 
-const ActualVsTarget = ({ record }: {record:Record}) => {
+const ActualVsTarget = ({ goal, record }: { goal: GoalType | null, record: Record }) => {
+  let difference = 0
+  let rate = 0
+  if (goal && goal.amount) {
+    // 目標と実績の差分
+    difference = goal.amount - record.amount
+    // 目標達成率
+    rate = Math.round((record.amount / goal.amount) * 100)
+  }
   return (
     <Card>
       <CardBody className='w-full h-fit'>
@@ -19,18 +28,24 @@ const ActualVsTarget = ({ record }: {record:Record}) => {
             <Typography variant='h5' className='text-sm font-normal'>
               actual vs target
             </Typography>
-            <Typography variant='lead' className='text-2xl font-bold'>
-              {record.amount.toLocaleString()} 円
-            </Typography>
+            {goal && goal.amount ? (
+              <Typography variant='lead' className='text-2xl font-bold'>
+                {difference.toLocaleString()} 円
+              </Typography>
+            ) : (
+              <Typography variant='lead' className='text-2xl font-bold'>
+                目標が未設定です
+              </Typography>
+            )}
           </div>
-            <CurrencyYenIcon
-              fill='#00C49F'
-              className='w-10 h-10'
-            ></CurrencyYenIcon>
+          <CurrencyYenIcon
+            fill='#00C49F'
+            className='w-10 h-10'
+          ></CurrencyYenIcon>
         </div>
 
         <div className='flex justify-center items-center'>
-          {record.rate > 0 ? (
+          {rate > 0 ? (
             <>
               <ArrowLongUpIcon
                 fill='#1e88e5'
@@ -40,10 +55,10 @@ const ActualVsTarget = ({ record }: {record:Record}) => {
                 variant='lead'
                 className='text-blue-600 font-bold flex justify-center items-center'
               >
-                {record.rate}%
+                {rate}%
               </Typography>
             </>
-          ) : record.rate < 0 ? (
+          ) : rate < 0 ? (
             <>
               <ArrowLongDownIcon
                 fill='#e53834'
@@ -53,7 +68,7 @@ const ActualVsTarget = ({ record }: {record:Record}) => {
                 variant='lead'
                 className='text-red-600 font-bold flex justify-center items-center'
               >
-                {record.rate * -1}%
+                {rate * -1}%
               </Typography>
             </>
           ) : (
@@ -62,12 +77,12 @@ const ActualVsTarget = ({ record }: {record:Record}) => {
                 variant='lead'
                 className='font-bold flex justify-center items-center'
               >
-                ±{record.rate}%
+                ±{rate}%
               </Typography>
             </>
           )}
         </div>
-        <Typography variant='small'>Since last month</Typography>
+        <Typography variant='small'>Target achievement rate</Typography>
       </CardBody>
       <CardFooter className='pt-0 pb-2 text-end'>
         <Button color='cyan' variant='text'>

@@ -50,7 +50,7 @@ const Dashboard = () => {
         <CumulativeRateCard cumulative={cumulative} />
       </div>
       <div className='col-span-3'>
-        <ActualVsTarget record={record} />
+        {/* <ActualVsTarget record={record} /> */}
       </div>
       <Card className='col-span-2 bg-[url(/sneaker.jpg)] bg-cover'>
         <CardBody className='h-fit flex justify-center items-center'>
