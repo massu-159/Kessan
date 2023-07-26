@@ -13,14 +13,25 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
+type Data = {
+  sort(arg0: (a: Data, b: Data) => number): unknown
+  date: string
+  amount: number
+}
 
-const FinanceBarChart = ({ data }: {data:any}) => {
+const FinanceBarChart = ({ data, index }: { data: Data; index: number }) => {
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+  const colorIndex = Math.floor(index % COLORS.length)
+  const chartData: any = data.sort((a: Data, b: Data) =>
+    a.date.localeCompare(b.date)
+  )
+
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <ComposedChart
         width={500}
         height={300}
-        data={data}
+        data={chartData}
         margin={{
           top: 20,
           right: 30,
@@ -29,36 +40,15 @@ const FinanceBarChart = ({ data }: {data:any}) => {
         }}
       >
         <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='name' />
+        <XAxis dataKey='date' />
         <YAxis />
         <Tooltip />
         <Bar
-          dataKey='ゆうちょ銀行'
+          dataKey='amount'
           stackId='a'
-          fill='#0088FE'
+          fill={COLORS[colorIndex]}
           unit='円'
-          barSize={20}
-        />
-        <Bar
-          dataKey='三菱UFJ銀行'
-          stackId='a'
-          fill='#00C49F'
-          unit='円'
-          barSize={20}
-        />
-        <Bar
-          dataKey='楽天銀行'
-          stackId='a'
-          fill='#FFBB28'
-          unit='円'
-          barSize={20}
-        />
-        <Bar
-          dataKey='楽天証券'
-          stackId='a'
-          fill='#FF8042'
-          unit='円'
-          barSize={20}
+          barSize={28}
         />
       </ComposedChart>
     </ResponsiveContainer>

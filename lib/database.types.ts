@@ -34,6 +34,136 @@ export interface Database {
   }
   public: {
     Tables: {
+      Asset: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          date: string | null
+          financial_institution_id: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          date?: string | null
+          financial_institution_id?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          date?: string | null
+          financial_institution_id?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Asset_financial_institution_id_fkey"
+            columns: ["financial_institution_id"]
+            referencedRelation: "FinancialInstitution"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "Asset_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      FinancialInstitution: {
+        Row: {
+          created_at: string | null
+          id: string
+          name: string | null
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          name?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          name?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "FinancialInstitution_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      Goal: {
+        Row: {
+          amount: number | null
+          created_at: string | null
+          goal: string | null
+          id: string | null
+          user_id: string | null
+        }
+        Insert: {
+          amount?: number | null
+          created_at?: string | null
+          goal?: string | null
+          id?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          amount?: number | null
+          created_at?: string | null
+          goal?: string | null
+          id?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Goal_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
+      Memo: {
+        Row: {
+          content: string | null
+          created_at: string | null
+          date: string | null
+          id: string
+          user_id: string | null
+        }
+        Insert: {
+          content?: string | null
+          created_at?: string | null
+          date?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Update: {
+          content?: string | null
+          created_at?: string | null
+          date?: string | null
+          id?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "Memo_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
