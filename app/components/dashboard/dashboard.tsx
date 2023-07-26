@@ -45,24 +45,31 @@ const record = {
 }
 
 const Dashboard = async () => {
-    const supabase = createServerComponentClient<Database>({ cookies })
+  const supabase = createServerComponentClient<Database>({ cookies })
 
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
 
-    let goal = null
-    if (session) {
-      const { data: currentGoal } = await supabase
-        .from('Goal')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .order('created_at', { ascending: false })
-        .single()
+  let goal = null
+  if (session) {
+    // 目標テーブルから取得
+    const { data: currentGoal } = await supabase
+      .from('Goal')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false })
+      .single()
 
-      goal = currentGoal
-    }
-  
+    // 資産テーブルから取得
+    const { data: Asset } = await supabase
+      .from('Asset')
+      .select('*')
+      .eq('user_id', session.user.id)
+
+    goal = currentGoal
+  }
+
   return (
     <div className='grid grid-cols-8 gap-6'>
       <div className='col-span-3'>
