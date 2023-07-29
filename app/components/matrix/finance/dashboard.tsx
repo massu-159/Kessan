@@ -5,6 +5,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import AcountTable from './acount-table'
+import { PlusCircleIcon } from '@heroicons/react/24/solid'
 
 type Acount = {
   id: number
@@ -43,7 +44,7 @@ const FinanceDashboard = async () => {
       {Assets?.map((acount: Acount, i: number) => (
         <>
           <div className='col-span-4 pb-2' key={acount.id}>
-            <AcountCard acount={acount} userId={session?.user.id} />
+            <AcountCard acount={acount} userId={session?.user.id} index={i} />
             <Card className='bg-opacity-0 shadow-none'>
               <CardBody className='w-full h-60'>
                 <FinanceBarChart
@@ -59,10 +60,20 @@ const FinanceDashboard = async () => {
               name={acount.name}
               userId={session?.user.id}
             ></AcountTable>
-            
           </div>
         </>
       ))}
+      <div className='col-span-8'>
+        <Card>
+          <Button
+            variant='outlined'
+            color='cyan'
+            className='flex items-center justify-center'
+          >
+            <PlusCircleIcon fill='#035f64' className='h-8 w-8'></PlusCircleIcon>
+          </Button>
+        </Card>
+      </div>
     </div>
   )
 }

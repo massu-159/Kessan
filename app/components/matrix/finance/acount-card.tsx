@@ -4,14 +4,18 @@ import { Card, CardBody, CardFooter, Typography, Button } from '../../common'
 import { useState } from 'react'
 import PopUpForm from './finance-form'
 
-interface Acount {
-  id: string
-  name: string
-  usage: string
+type Acount ={
+  id: string;
+  name: string;
+  usage: string;
 }
 
-const AcountCard = ({ acount, userId }: { acount: Acount, userId:string}) => {
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+  
+  const AcountCard = ({ acount, userId, index }: { acount: Acount, userId:string, index:number}) => {
   const [open, setOpen] = useState(false)
+  // 配色
+  const colorIndex = Math.floor(index % COLORS.length)
   // 金額入力ボタンを押したら、金額入力モーダルウィンドウを表示する
   const handleClick = () => {
     setOpen(true)
@@ -21,7 +25,7 @@ const AcountCard = ({ acount, userId }: { acount: Acount, userId:string}) => {
     <Card className='bg-opacity-50'>
       <CardBody className='w-full h-fit pb-0'>
         <div className='flex gap-4 items-center'>
-          <CreditCardIcon fill='#00bcd4' className='w-10 h-10'></CreditCardIcon>
+          <CreditCardIcon fill={COLORS[colorIndex]} className='w-10 h-10'></CreditCardIcon>
           <Typography variant='h5' color='blue-gray'>
             {acount.name}
           </Typography>
