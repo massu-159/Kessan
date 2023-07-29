@@ -33,8 +33,6 @@ const AssetDashboard = async () => {
       .order('date', { ascending: false })
 
     Assets = AssetParDate
-
-    // console.log(Assets)
   }
 
   const processData = (data: Assets[]) => {
@@ -53,7 +51,6 @@ const AssetDashboard = async () => {
   }
 
   const acountData = processData(Assets)
-  // console.log(acountData)
 
   // 各日付ごとの資産を計算する関数
   const calcTotalAmountParDate = (Assets: Assets[]) => {
