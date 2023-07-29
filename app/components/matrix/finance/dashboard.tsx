@@ -27,9 +27,7 @@ const FinanceDashboard = async () => {
 
   if (session) {
     // 金融機関・資産を取得
-    const {
-      data: AssetParFinancialInstitution,
-    } = await supabase
+    const { data: AssetParFinancialInstitution }:{data: Acount[]|null} = await supabase
       .from('FinancialInstitution')
       .select(`name, usage, Asset!inner(date, amount)`)
       .eq('user_id', session.user.id)
@@ -41,11 +39,11 @@ const FinanceDashboard = async () => {
     Assets = AssetParFinancialInstitution
   }
   return (
-    <div className='grid grid-cols-8 gap-6'>
+    <div className='grid grid-cols-8 gap-4'>
       {Assets?.map((acount: Acount, i: number) => (
         <>
           <div className='col-span-4 pb-2' key={acount.id}>
-            <AcountCard acount={acount} />
+            <AcountCard acount={acount} userId={session?.user.id} />
             <Card className='bg-opacity-0 shadow-none'>
               <CardBody className='w-full h-60'>
                 <FinanceBarChart
@@ -56,7 +54,12 @@ const FinanceDashboard = async () => {
             </Card>
           </div>
           <div className='col-span-4 pb-2 max-h-96'>
-            <AcountTable tableRows={acount.Asset}></AcountTable>
+            <AcountTable
+              tableRows={acount.Asset}
+              name={acount.name}
+              userId={session?.user.id}
+            ></AcountTable>
+            
           </div>
         </>
       ))}
