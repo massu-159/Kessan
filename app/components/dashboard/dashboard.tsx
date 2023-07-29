@@ -61,12 +61,6 @@ const Dashboard = async () => {
       .order('created_at', { ascending: false })
       .single()
 
-    // 資産テーブルから取得
-    const { data: Asset } = await supabase
-      .from('Asset')
-      .select('*')
-      .eq('user_id', session.user.id)
-
     goal = currentGoal
   }
 

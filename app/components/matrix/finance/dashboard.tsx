@@ -4,7 +4,7 @@ import AcountCard from './acount-card'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
-import AcountTable from './total-table'
+import AcountTable from './acount-table'
 
 type Acount = {
   id: number
@@ -27,7 +27,9 @@ const FinanceDashboard = async () => {
 
   if (session) {
     // 金融機関・資産を取得
-    const { data: AssetParFinancialInstitution } = await supabase
+    const {
+      data: AssetParFinancialInstitution,
+    } = await supabase
       .from('FinancialInstitution')
       .select(`name, usage, Asset!inner(date, amount)`)
       .eq('user_id', session.user.id)

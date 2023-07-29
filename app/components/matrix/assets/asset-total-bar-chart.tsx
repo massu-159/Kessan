@@ -13,27 +13,25 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 
-type Data = {
-  sort(arg0: (a: Data, b: Data) => number): unknown
-  date: string
-  amount: number
-}
 
-const FinanceBarChart = ({ data, index }: { data: Data; index: number }) => {
+
+const AssetTotalBarChart = ({ data }: any) => {
+  // 金融機関の配列を取得
+  const set = new Set(
+    data.flatMap((item: {}) =>
+      Object.keys(item).filter((key) => key !== 'date')
+    )
+  )
+  const financeInstitutions = Array.from(set)
   // 配色
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
-  const colorIndex = Math.floor(index % COLORS.length)
-  // チャートデータを日付でソート
-  const chartData: any = data.sort((a: Data, b: Data) =>
-    a.date.localeCompare(b.date)
-  )
 
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <ComposedChart
         width={500}
         height={300}
-        data={chartData}
+        data={data}
         margin={{
           top: 20,
           right: 30,
@@ -45,16 +43,20 @@ const FinanceBarChart = ({ data, index }: { data: Data; index: number }) => {
         <XAxis dataKey='date' />
         <YAxis />
         <Tooltip />
-        <Bar
-          dataKey='amount'
-          stackId='a'
-          fill={COLORS[colorIndex]}
-          unit='円'
-          barSize={28}
-        />
+        <Legend />
+        {financeInstitutions.map((item: any, index) => (
+          <Bar
+            dataKey={item}
+            stackId='a'
+            fill={COLORS[Math.floor(index % COLORS.length)]}
+            unit='円'
+            barSize={28}
+            key={item}
+          />
+        ))}
       </ComposedChart>
     </ResponsiveContainer>
   )
 }
 
-export default FinanceBarChart
+export default AssetTotalBarChart
