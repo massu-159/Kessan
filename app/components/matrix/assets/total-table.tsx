@@ -1,7 +1,7 @@
 import { ArrowLongDownIcon, ArrowLongUpIcon } from '@heroicons/react/24/solid'
 import { Card, Typography } from '../../common'
 
-const TABLE_HEAD = ['日付', '資産残高', '増減率', '']
+const TABLE_HEAD = ['日付', '資産残高', '増減率', '増減額']
 
 
 export default function AssetsTable(data: any) {
@@ -12,6 +12,11 @@ export default function AssetsTable(data: any) {
     return Math.floor(
       ((Number(amount) - Number(previousAmount)) / Number(previousAmount)) * 100
     )
+  }
+  // 増減額を計算
+  const difference = (amount: number, previousAmount: number) => {
+    if (data.length < 2) return 0
+    return Number(amount) - Number(previousAmount)
   }
 
   return (
@@ -98,15 +103,43 @@ export default function AssetsTable(data: any) {
                   )}
                 </td>
                 <td className='p-4'>
-                  <Typography
-                    as='a'
-                    href='#'
-                    variant='small'
-                    color='blue'
-                    className='font-medium'
-                  >
-                    Edit
-                  </Typography>
+                  {difference(amount, previousAmount) > 0 ? (
+                    <div className='flex items-center'>
+                      <ArrowLongUpIcon
+                        fill='#1e88e5'
+                        className='w-6 h-6'
+                      ></ArrowLongUpIcon>
+                      <Typography
+                        variant='small'
+                        color='blue'
+                        className='font-normal'
+                      >
+                        {difference(amount, previousAmount).toLocaleString()}円
+                      </Typography>
+                    </div>
+                  ) : difference(amount, previousAmount) < 0 ? (
+                    <div className='flex items-center'>
+                      <ArrowLongDownIcon
+                        fill='#e53834'
+                        className='w-6 h-6'
+                      ></ArrowLongDownIcon>
+                      <Typography
+                        variant='small'
+                        color='red'
+                        className='font-normal'
+                      >
+                        {difference(amount, previousAmount).toLocaleString()}円
+                      </Typography>
+                    </div>
+                  ) : (
+                    <Typography
+                      variant='small'
+                      color='blue-gray'
+                      className='font-normal'
+                    >
+                      0円
+                    </Typography>
+                  )}
                 </td>
               </tr>
             )
