@@ -2,18 +2,18 @@ import AssetTotalBarChart from './asset-total-bar-chart'
 import { Card, CardBody, CardFooter, Button, Typography } from '../../common'
 import AssetTotalPieChart from './asset-total-pie-chart'
 import AssetsTable from './total-table'
-import ActualVsTarget from '../../dashboard/actual-vs-target'
 import AssetCumulativeRateCard from './asset-cumulative-rate-card'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
-
+import AssetActualVsTarget from './asset-actual-vs-target'
 
 type Assets = {
   date: string | null
   amount: number | null
   FinancialInstitution: {
     name: string | null
+    usage: string | null
   }
 }
 
@@ -24,6 +24,7 @@ const AssetDashboard = async () => {
   } = await supabase.auth.getSession()
 
   let Assets = null
+  let goal = null
   if (session) {
     // 資産を取得
     const { data: AssetParDate } = await supabase
@@ -32,6 +33,15 @@ const AssetDashboard = async () => {
       .eq('user_id', session.user.id)
       .order('date', { ascending: false })
 
+    // 目標を取得
+    const { data: currentGoal } = await supabase
+      .from('Goal')
+      .select('*')
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false })
+      .single()
+
+    goal = currentGoal
     Assets = AssetParDate
   }
 
@@ -52,7 +62,7 @@ const AssetDashboard = async () => {
 
   const acountData = processData(Assets)
 
-  // 各日付ごとの資産を計算する関数
+  // 各日付ごとの資産合計を計算する関数
   const calcTotalAmountParDate = (Assets: Assets[]) => {
     const totalAmountParDate: {
       date: string
@@ -95,9 +105,9 @@ const AssetDashboard = async () => {
         <AssetCumulativeRateCard cumulative={cumulative} />
       </div>
       <div className='col-span-3'>
-        {/* <ActualVsTarget record={null} goal={null} /> */}
+        <AssetActualVsTarget record={totalAmountParDate[0]} goal={goal} />
       </div>
-      <Card className='col-span-2 bg-[url(/glass-bowl.jpg)] bg-cover bg-center'>
+      <Card className='col-span-2 bg-[url(/glass-bowl.jpg)] bg-cover bg-center justify-center'>
         <CardBody className='h-fit flex justify-center items-center'>
           <Typography variant='h5' className='text-cyan-500 font-bold text-5xl'>
             NEVER GIVE UP

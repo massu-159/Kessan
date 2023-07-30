@@ -14,6 +14,8 @@ import {
 } from 'recharts'
 
 
+// 配色
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
 const AssetTotalBarChart = ({ data }: any) => {
   // 金融機関の配列を取得
@@ -23,8 +25,6 @@ const AssetTotalBarChart = ({ data }: any) => {
     )
   )
   const financeInstitutions = Array.from(set)
-  // 配色
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
   return (
     <ResponsiveContainer width='100%' height='100%'>

@@ -10,7 +10,7 @@ import {
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
-const AssetTotalPieChart = ({ data }: any) => {
+const AssetTotalPieChart = ({ data }:any) => {
   // 直近のデータを取得
   const record = Object.entries(data)
     .slice(1)
@@ -23,8 +23,8 @@ const AssetTotalPieChart = ({ data }: any) => {
           data={record}
           cx='50%'
           cy='50%'
-          innerRadius={80}
-          outerRadius={120}
+          innerRadius={60}
+          outerRadius={100}
           fill='#8884d8'
           paddingAngle={1}
           dataKey='value'

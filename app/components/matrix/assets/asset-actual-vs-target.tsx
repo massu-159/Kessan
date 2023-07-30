@@ -1,6 +1,5 @@
-import Link from 'next/link'
-import { Database } from '../../../lib/database.types'
-import { Button, Card, CardBody, CardFooter, Typography } from '../common'
+import { Database } from '../../../../lib/database.types'
+import { Button, Card, CardBody, CardFooter, Typography } from '../../common'
 import {
   ArrowLongUpIcon,
   ArrowLongDownIcon,
@@ -13,16 +12,16 @@ type Record = {
   date: string
 }
 
-const ActualVsTarget = ({
+const AssetActualVsTarget = ({
   goal,
   record,
 }: {
   goal: GoalType | null
-  record: Record
+  record: Record | null
 }) => {
   let difference = 0
   let rate = 0
-  if (goal && goal.amount) {
+  if (goal && record && goal.amount && record.amount) {
     // 目標と実績の差分
     difference = goal.amount - record.amount
     // 目標達成率
@@ -63,15 +62,12 @@ const ActualVsTarget = ({
         </div>
         <Typography variant='small'>Target achievement rate</Typography>
       </CardBody>
-      <CardFooter className='pt-0 pb-2 text-end'>
-        <Link href='dashboard/matrix/assets'>
-          <Button color='cyan' variant='text'>
-            view all →
-          </Button>
-        </Link>
+      <CardFooter className='pt-0 pb-2'>
+        <Typography className='text-base font-bold'>目標金額 {goal?.amount?.toLocaleString()}円</Typography>
+        <Typography className='text-2xl font-bold'>{goal?.goal}</Typography>
       </CardFooter>
     </Card>
   )
 }
 
-export default ActualVsTarget
+export default AssetActualVsTarget

@@ -1,4 +1,4 @@
-
+import Link from 'next/link'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import {
   ArrowLongUpIcon,
@@ -6,12 +6,12 @@ import {
   CurrencyYenIcon,
 } from '@heroicons/react/24/solid'
 
-interface Cumulative { 
+interface Cumulative {
   amount: number
   rate: number
 }
 
-const CumulativeRateCard = ({ cumulative}:{cumulative: Cumulative}) => {
+const CumulativeRateCard = ({ cumulative }: { cumulative: Cumulative }) => {
   return (
     <Card>
       <CardBody className='w-full h-fit'>
@@ -71,9 +71,11 @@ const CumulativeRateCard = ({ cumulative}:{cumulative: Cumulative}) => {
         <Typography variant='small'>Since last month</Typography>
       </CardBody>
       <CardFooter className='pt-0 pb-2 text-end'>
-        <Button color='cyan' variant='text'>
-          view all →
-        </Button>
+        <Link href='dashboard/matrix/assets'>
+          <Button color='cyan' variant='text'>
+            view all →
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   )
