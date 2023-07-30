@@ -113,6 +113,7 @@ const Signup = () => {
                 size='lg'
                 id='name'
                 {...register('name', { required: true })}
+                disabled
               />
               <div className='text-center text-sm text-red-500'>
                 {errors.name?.message}
@@ -123,6 +124,7 @@ const Signup = () => {
                 size='lg'
                 id='email'
                 {...register('email', { required: true })}
+                disabled
               />
               <div className='text-center text-sm text-red-500'>
                 {errors.email?.message}
@@ -133,6 +135,7 @@ const Signup = () => {
                 size='lg'
                 id='password'
                 {...register('password', { required: true })}
+                disabled
               />
               <div className='text-center text-sm text-red-500'>
                 {errors.password?.message}
@@ -142,7 +145,7 @@ const Signup = () => {
               {loading ? (
                 <Loading />
               ) : (
-                <Button type='submit' variant='gradient' fullWidth>
+                <Button type='submit' variant='gradient' fullWidth disabled>
                   Sign Up
                 </Button>
               )}
