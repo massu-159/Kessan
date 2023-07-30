@@ -168,19 +168,11 @@ const Signup = () => {
         </Card>
       </div>
       <div className='relative flex juxtify-center items-center bg-[url(/top-wave.svg)] bg-left-top bg-no-repeat'>
-        <div className='absolute z-10'>
-          <Image
-            src='/blobanimation.svg'
-            alt='blob'
-            width='600'
-            height='600'
-          ></Image>
-        </div>
         <Image
-          src='/start.png'
+          src='/start-image.png'
           alt='blob'
-          width='360'
-          height='360'
+          width='700'
+          height='500'
           className='z-30 mx-auto'
         ></Image>
       </div>
