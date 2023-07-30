@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { Database } from '../../../lib/database.types'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import {
@@ -9,9 +10,16 @@ type GoalType = Database['public']['Tables']['Goal']['Row']
 
 type Record = {
   amount: number
+  date: string
 }
 
-const ActualVsTarget = ({ goal, record }: { goal: GoalType | null, record: Record }) => {
+const ActualVsTarget = ({
+  goal,
+  record,
+}: {
+  goal: GoalType | null
+  record: Record
+}) => {
   let difference = 0
   let rate = 0
   if (goal && goal.amount) {
@@ -30,7 +38,7 @@ const ActualVsTarget = ({ goal, record }: { goal: GoalType | null, record: Recor
             </Typography>
             {goal && goal.amount ? (
               <Typography variant='lead' className='text-2xl font-bold'>
-                {difference.toLocaleString()} 円
+                あと {difference.toLocaleString()} 円
               </Typography>
             ) : (
               <Typography variant='lead' className='text-2xl font-bold'>
@@ -44,50 +52,23 @@ const ActualVsTarget = ({ goal, record }: { goal: GoalType | null, record: Recor
           ></CurrencyYenIcon>
         </div>
 
-        <div className='flex justify-center items-center'>
-          {rate > 0 ? (
-            <>
-              <ArrowLongUpIcon
-                fill='#1e88e5'
-                className='w-8 h-8'
-              ></ArrowLongUpIcon>
-              <Typography
-                variant='lead'
-                className='text-blue-600 font-bold flex justify-center items-center'
-              >
-                {rate}%
-              </Typography>
-            </>
-          ) : rate < 0 ? (
-            <>
-              <ArrowLongDownIcon
-                fill='#e53834'
-                className='w-8 h-8'
-              ></ArrowLongDownIcon>
-              <Typography
-                variant='lead'
-                className='text-red-600 font-bold flex justify-center items-center'
-              >
-                {rate * -1}%
-              </Typography>
-            </>
-          ) : (
-            <>
-              <Typography
-                variant='lead'
-                className='font-bold flex justify-center items-center'
-              >
-                ±{rate}%
-              </Typography>
-            </>
-          )}
+        <div className='flex justify-center items-center gap-6'>
+          <div>{record?.date} 現在</div>
+          <Typography
+            variant='lead'
+            className='text-blue-600 font-bold flex justify-center items-center'
+          >
+            {rate}%
+          </Typography>
         </div>
         <Typography variant='small'>Target achievement rate</Typography>
       </CardBody>
       <CardFooter className='pt-0 pb-2 text-end'>
-        <Button color='cyan' variant='text'>
-          view all →
-        </Button>
+        <Link href='dashboard/matrix/assets'>
+          <Button color='cyan' variant='text'>
+            view all →
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   )

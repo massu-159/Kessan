@@ -5,28 +5,44 @@ import {
   ArrowLongRightIcon,
 } from '@heroicons/react/24/solid'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
+import Link from 'next/link'
 
-interface Acount {
-  id: number
-  name: string
-  role: string
-  rate: number
-}
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
-const AcountCard = ({ acount }: { acount: Acount }) => {
+const AcountCard = ({ acount, index }: any) => {
+  // 配色
+  const colorIndex = Math.floor(index % COLORS.length)
+  // 増減率を計算
+  const calcRate = (amount: number, previousAmount: number) => {
+    if (previousAmount === 0) return 0
+    return Math.floor(((amount - previousAmount) / previousAmount) * 100)
+  }
+  // 直近の増減率
+  const rate = calcRate(acount.Asset[0].amount, acount.Asset[1].amount) 
+
+  // 増減額を計算
+  const calcDifference = (amount: number, previousAmount: number) => {
+    return amount - previousAmount
+  }
+  // 直近の増減額
+  const difference = calcDifference(acount.Asset[0].amount, acount.Asset[1].amount)
+
   return (
     <Card>
       <CardBody className='w-full h-fit'>
         <div className='flex gap-4 items-center'>
-          <CreditCardIcon fill='#00bcd4' className='w-10 h-10'></CreditCardIcon>
+          <CreditCardIcon
+            fill={COLORS[colorIndex]}
+            className='w-10 h-10'
+          ></CreditCardIcon>
           <Typography variant='h5' color='blue-gray' className=''>
             {acount.name}
           </Typography>
         </div>
 
-        <Typography>{acount.role}</Typography>
+        <Typography>{acount.usage}</Typography>
         <div className='flex justify-center items-center'>
-          {acount.rate > 0 ? (
+          {rate > 0 ? (
             <>
               <ArrowLongUpIcon
                 fill='#1e88e5'
@@ -36,10 +52,10 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
                 variant='lead'
                 className='text-blue-600 font-bold flex justify-center items-center'
               >
-                {acount.rate}%
+                {rate} %
               </Typography>
             </>
-          ) : acount.rate < 0 ? (
+          ) : rate < 0 ? (
             <>
               <ArrowLongDownIcon
                 fill='#e53834'
@@ -49,7 +65,7 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
                 variant='lead'
                 className='text-red-600 font-bold flex justify-center items-center'
               >
-                {acount.rate * -1}%
+                {rate * -1} %
               </Typography>
             </>
           ) : (
@@ -58,7 +74,7 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
                 variant='lead'
                 className='font-bold flex justify-center items-center'
               >
-                ±{acount.rate}%
+                ±0 %
               </Typography>
             </>
           )}
@@ -66,9 +82,11 @@ const AcountCard = ({ acount }: { acount: Acount }) => {
         <Typography variant='small'>Since last month</Typography>
       </CardBody>
       <CardFooter className='pt-0 pb-2 text-end'>
-        <Button color='cyan' variant='text'>
-          view all →
-        </Button>
+        <Link href="dashboard/matrix/finance">
+          <Button color='cyan' variant='text'>
+            view all →
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   )
