@@ -105,7 +105,7 @@ const AssetDashboard = async () => {
         <AssetCumulativeRateCard cumulative={cumulative} />
       </div>
       <div className='col-span-3'>
-        <AssetActualVsTarget record={totalAmountParDate[0]} goal={goal} />
+        <AssetActualVsTarget record={totalAmountParDate[0]} goal={goal} userId={ session?.user.id} />
       </div>
       <Card className='col-span-2 bg-[url(/glass-bowl.jpg)] bg-cover bg-center justify-center'>
         <CardBody className='h-fit flex justify-center items-center'>

@@ -3,10 +3,19 @@ import { PencilSquareIcon } from '@heroicons/react/24/solid'
 import { Button } from '../../common'
 import { useState } from 'react'
 import GoalEditForm from './goal-edit-form'
+import { Database } from '../../../../lib/database.types'
 
-export default function GoalEditButton({ goal }: any) {
+export default function GoalEditButton({
+  goal,
+  userId,
+}: {
+  goal: any
+  userId: string
+}) {
   const [open, setOpen] = useState<boolean>(false)
 
+  console.log(goal)
+  console.log(userId)
   // 金額入力ボタンを押したら、金額入力モーダルウィンドウを表示する
   const handleClick = () => {
     setOpen(true)
@@ -21,11 +30,7 @@ export default function GoalEditButton({ goal }: any) {
       >
         <PencilSquareIcon fill='#035f64' className='w-6 h-6'></PencilSquareIcon>
       </Button>
-      <GoalEditForm
-        open={open}
-        setOpen={setOpen}
-        goal={goal}
-      ></GoalEditForm>
+      <GoalEditForm open={open} setOpen={setOpen} goal={goal} userId={userId}></GoalEditForm>
     </>
   )
 }

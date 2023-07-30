@@ -16,15 +16,21 @@ import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 type Schema = z.infer<typeof schema>
+type GoalType = Database['public']['Tables']['Goal']['Row']
 
 // 入力データの検証ルールを定義
 const schema = z.object({
-  financeInstitution: z.string().min(1, {
-    message: '金融機関を入力してください。',
+  goal: z.string().min(1, {
+    message: '目標を入力してください。',
   }),
-  usage: z.number().min(1, {
-    message: '使い方を入力してください。',
-  }),
+  amount: z
+    .number({
+      required_error: '金額を入力してください。',
+      invalid_type_error: '金額は数値で入力してください。',
+    })
+    .min(1, {
+      message: '金額を入力してください。',
+    }),
 })
 
 type Goal = {
@@ -39,15 +45,19 @@ export default function GoalEditForm({
   open,
   setOpen,
   goal,
+  userId,
 }: {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   goal: Goal | null
+  userId: string
 }) {
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
+  console.log('A' + goal)
+    console.log('A' + userId)
   // 入力フォームの設定
   const {
     register,
@@ -57,7 +67,6 @@ export default function GoalEditForm({
   } = useForm({
     // 初期値
     defaultValues: {
-      user_id: goal?.user_id,
       goal: goal ? goal.goal : '',
       amount: goal ? goal.amount : 0,
     },
@@ -74,7 +83,7 @@ export default function GoalEditForm({
       const { data: Goal, error: errorGoal } = await supabase
         .from('Goal')
         .select('id')
-        .eq('goal', data.goal)
+        .eq('user_id', userId)
         .single()
 
       // 目標が登録済みの場合
@@ -99,13 +108,11 @@ export default function GoalEditForm({
         // 目標を登録
         const { data: createGoal, error: errorCreateGoal } = await supabase
           .from('Goal')
-          .insert([
-            {
-              user_id: data.user_id,
-              goal: data.goal,
-              amount: data.amount,
-            },
-          ])
+          .insert({
+            user_id: userId,
+            goal: data.goal,
+            amount: data.amount,
+          })
           .single()
 
         // 登録に失敗した場合

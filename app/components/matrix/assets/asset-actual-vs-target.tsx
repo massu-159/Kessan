@@ -12,9 +12,11 @@ type Record = {
 const AssetActualVsTarget = ({
   goal,
   record,
+  userId,
 }: {
   goal: GoalType | null
   record: Record | null
+  userId: string
 }) => {
   let difference = 0
   let rate = 0
@@ -33,10 +35,10 @@ const AssetActualVsTarget = ({
               actual vs target
             </Typography>
             {goal && goal.amount ? (
-                <Typography variant='lead' className='text-2xl font-bold'>
-                  あと {difference.toLocaleString()} 円
-                </Typography>
-          ) : (
+              <Typography variant='lead' className='text-2xl font-bold'>
+                あと {difference.toLocaleString()} 円
+              </Typography>
+            ) : (
               <Typography variant='lead' className='text-2xl font-bold'>
                 目標が未設定です
               </Typography>
@@ -46,7 +48,7 @@ const AssetActualVsTarget = ({
             fill='#00C49F'
             className='w-10 h-10'
           ></CurrencyYenIcon>
-          <GoalEditButton goal={goal}></GoalEditButton>
+          <GoalEditButton goal={goal} userId={userId}></GoalEditButton>
         </div>
 
         <div className='flex justify-center items-center gap-6'>
