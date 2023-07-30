@@ -61,17 +61,17 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "Asset_financial_institution_id_fkey"
-            columns: ["financial_institution_id"]
-            referencedRelation: "FinancialInstitution"
-            referencedColumns: ["id"]
+            foreignKeyName: 'Asset_financial_institution_id_fkey'
+            columns: ['financial_institution_id']
+            referencedRelation: 'FinancialInstitution'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "Asset_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
+            foreignKeyName: 'Asset_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
         ]
       }
       FinancialInstitution: {
@@ -79,27 +79,30 @@ export interface Database {
           created_at: string | null
           id: string
           name: string | null
+          usage: string | null
           user_id: string | null
         }
         Insert: {
           created_at?: string | null
           id?: string
           name?: string | null
+          usage: string | null
           user_id?: string | null
         }
         Update: {
           created_at?: string | null
           id?: string
           name?: string | null
+          usage: string | null
           user_id?: string | null
         }
         Relationships: [
           {
-            foreignKeyName: "FinancialInstitution_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
+            foreignKeyName: 'FinancialInstitution_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
         ]
       }
       Goal: {
@@ -126,11 +129,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "Goal_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
+            foreignKeyName: 'Goal_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
         ]
       }
       Memo: {
@@ -157,11 +160,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "Memo_user_id_fkey"
-            columns: ["user_id"]
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          }
+            foreignKeyName: 'Memo_user_id_fkey'
+            columns: ['user_id']
+            referencedRelation: 'profiles'
+            referencedColumns: ['id']
+          },
         ]
       }
       profiles: {
@@ -188,11 +191,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_id_fkey"
-            columns: ["id"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
+            foreignKeyName: 'profiles_id_fkey'
+            columns: ['id']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
         ]
       }
     }
@@ -247,11 +250,11 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "buckets_owner_fkey"
-            columns: ["owner"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
+            foreignKeyName: 'buckets_owner_fkey'
+            columns: ['owner']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
         ]
       }
       migrations: {
@@ -314,17 +317,17 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "objects_bucketId_fkey"
-            columns: ["bucket_id"]
-            referencedRelation: "buckets"
-            referencedColumns: ["id"]
+            foreignKeyName: 'objects_bucketId_fkey'
+            columns: ['bucket_id']
+            referencedRelation: 'buckets'
+            referencedColumns: ['id']
           },
           {
-            foreignKeyName: "objects_owner_fkey"
-            columns: ["owner"]
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
+            foreignKeyName: 'objects_owner_fkey'
+            columns: ['owner']
+            referencedRelation: 'users'
+            referencedColumns: ['id']
+          },
         ]
       }
     }

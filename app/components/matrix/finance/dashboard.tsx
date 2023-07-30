@@ -6,6 +6,7 @@ import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import AcountTable from './acount-table'
 import { PlusCircleIcon } from '@heroicons/react/24/solid'
+import AcountAddButton from './acount-add-button'
 
 type Acount = {
   id: number
@@ -28,14 +29,15 @@ const FinanceDashboard = async () => {
 
   if (session) {
     // 金融機関・資産を取得
-    const { data: AssetParFinancialInstitution }:{data: Acount[]|null} = await supabase
-      .from('FinancialInstitution')
-      .select(`name, usage, Asset!inner(date, amount)`)
-      .eq('user_id', session.user.id)
-      .order('date', {
-        foreignTable: 'Asset',
-        ascending: false,
-      })
+    const { data: AssetParFinancialInstitution }: { data: Acount[] | null } =
+      await supabase
+        .from('FinancialInstitution')
+        .select(`name, usage, Asset!inner(date, amount)`)
+        .eq('user_id', session.user.id)
+        .order('date', {
+          foreignTable: 'Asset',
+          ascending: false,
+        })
 
     Assets = AssetParFinancialInstitution
   }
@@ -65,13 +67,7 @@ const FinanceDashboard = async () => {
       ))}
       <div className='col-span-8'>
         <Card>
-          <Button
-            variant='outlined'
-            color='cyan'
-            className='flex items-center justify-center'
-          >
-            <PlusCircleIcon fill='#035f64' className='h-8 w-8'></PlusCircleIcon>
-          </Button>
+          <AcountAddButton userId={session?.user.id}></AcountAddButton>
         </Card>
       </div>
     </div>
