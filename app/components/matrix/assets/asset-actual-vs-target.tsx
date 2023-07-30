@@ -1,10 +1,7 @@
 import { Database } from '../../../../lib/database.types'
 import { Button, Card, CardBody, CardFooter, Typography } from '../../common'
-import {
-  ArrowLongUpIcon,
-  ArrowLongDownIcon,
-  CurrencyYenIcon,
-} from '@heroicons/react/24/solid'
+import { CurrencyYenIcon } from '@heroicons/react/24/solid'
+import GoalEditButton from './goal-edit-button'
 type GoalType = Database['public']['Tables']['Goal']['Row']
 
 type Record = {
@@ -15,9 +12,11 @@ type Record = {
 const AssetActualVsTarget = ({
   goal,
   record,
+  userId,
 }: {
   goal: GoalType | null
   record: Record | null
+  userId: string
 }) => {
   let difference = 0
   let rate = 0
@@ -30,7 +29,7 @@ const AssetActualVsTarget = ({
   return (
     <Card>
       <CardBody className='w-full h-fit'>
-        <div className='flex gap-4 items-center'>
+        <div className='flex gap-4 items-center justify-between'>
           <div>
             <Typography variant='h5' className='text-sm font-normal'>
               actual vs target
@@ -49,6 +48,7 @@ const AssetActualVsTarget = ({
             fill='#00C49F'
             className='w-10 h-10'
           ></CurrencyYenIcon>
+          <GoalEditButton goal={goal} userId={userId}></GoalEditButton>
         </div>
 
         <div className='flex justify-center items-center gap-6'>
@@ -63,7 +63,9 @@ const AssetActualVsTarget = ({
         <Typography variant='small'>Target achievement rate</Typography>
       </CardBody>
       <CardFooter className='pt-0 pb-2'>
-        <Typography className='text-base font-bold'>目標金額 {goal?.amount?.toLocaleString()}円</Typography>
+        <Typography className='text-base font-bold'>
+          目標金額 {goal?.amount?.toLocaleString()}円
+        </Typography>
         <Typography className='text-2xl font-bold'>{goal?.goal}</Typography>
       </CardFooter>
     </Card>
