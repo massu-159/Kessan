@@ -16,7 +16,7 @@ const AssetActualVsTarget = ({
 }: {
   goal: GoalType | null
   record: Record | null
-  userId: string
+  userId: string | undefined
 }) => {
   let difference = 0
   let rate = 0

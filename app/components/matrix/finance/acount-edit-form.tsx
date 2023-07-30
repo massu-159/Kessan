@@ -24,10 +24,6 @@ type Acount = {
   id: number
   name: string
   usage: string
-  Asset: {
-    date: string
-    amount: number
-  }
 }
 
 export default function AcountEditForm({
@@ -39,7 +35,7 @@ export default function AcountEditForm({
   show: boolean
   setShow: Dispatch<SetStateAction<boolean>>
   acount: Acount
-  id: string
+  id: string | undefined
 }) {
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)

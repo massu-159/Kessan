@@ -10,12 +10,10 @@ export default function GoalEditButton({
   userId,
 }: {
   goal: any
-  userId: string
+  userId: string | undefined
 }) {
   const [open, setOpen] = useState<boolean>(false)
 
-  console.log(goal)
-  console.log(userId)
   // 金額入力ボタンを押したら、金額入力モーダルウィンドウを表示する
   const handleClick = () => {
     setOpen(true)

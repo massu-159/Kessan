@@ -6,6 +6,9 @@ export const metadata = {
   title: 'Kessan',
   description:
     'Kessan is a web application for managing your personal finances.',
+  icons: {
+    icon: '/favicon.ico',
+  }
 }
 
 export default async function RootLayout({

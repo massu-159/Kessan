@@ -50,14 +50,12 @@ export default function GoalEditForm({
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   goal: Goal | null
-  userId: string
+  userId: string | undefined
 }) {
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  console.log('A' + goal)
-    console.log('A' + userId)
   // 入力フォームの設定
   const {
     register,
