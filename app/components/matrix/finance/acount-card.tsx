@@ -5,11 +5,6 @@ import { useState } from 'react'
 import PopUpForm from './finance-form'
 import AcountEditForm from './acount-edit-form'
 
-type Acount = {
-  id: string
-  name: string
-  usage: string
-}
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
@@ -18,8 +13,8 @@ const AcountCard = ({
   userId,
   index,
 }: {
-  acount: Acount
-  userId: string
+  acount: any
+  userId: string | undefined
   index: number
 }) => {
   const [open, setOpen] = useState(false)

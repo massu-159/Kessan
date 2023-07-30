@@ -8,33 +8,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../lib/database.types'
 import Link from 'next/link'
-
-const acountData = [
-  {
-    id: 1,
-    name: 'ゆうちょ銀行',
-    role: '生活防衛',
-    rate: 12,
-  },
-  {
-    id: 2,
-    name: '三菱UFJ銀行',
-    role: '給与受取',
-    rate: 0,
-  },
-  {
-    id: 3,
-    name: '楽天銀行',
-    role: '普段使い',
-    rate: -3,
-  },
-  {
-    id: 4,
-    name: '楽天証券',
-    role: '資産運用',
-    rate: 15,
-  },
-]
+import { Key } from 'react'
 
 type Assets = {
   date: string | null
@@ -43,16 +17,6 @@ type Assets = {
     name: string | null
     usage: string | null
   }
-}
-
-type Acount = {
-  id: number
-  name: string
-  usage: string
-  Asset: {
-    date: string
-    amount: number
-  }[]
 }
 
 const Dashboard = async () => {
@@ -82,15 +46,14 @@ const Dashboard = async () => {
       .single()
 
     // 金融機関・資産を取得
-    const { data: AssetParFinancialInstitution }: { data: Acount[] | null } =
-      await supabase
-        .from('FinancialInstitution')
-        .select(`name, usage, Asset!inner(date, amount)`)
-        .eq('user_id', session.user.id)
-        .order('date', {
-          foreignTable: 'Asset',
-          ascending: false,
-        })
+    const { data: AssetParFinancialInstitution }: any = await supabase
+      .from('FinancialInstitution')
+      .select(`name, usage, Asset!inner(date, amount)`)
+      .eq('user_id', session.user.id)
+      .order('date', {
+        foreignTable: 'Asset',
+        ascending: false,
+      })
 
     goal = currentGoal
     Assets = AssetParDate
@@ -98,7 +61,7 @@ const Dashboard = async () => {
   }
 
   // 資産を日付ごとに整理
-  const processData = (data: Assets[]) => {
+  const processData = (data: any) => {
     const processedData: any = {}
     data.forEach((item: Assets) => {
       const { date, amount, FinancialInstitution } = item
@@ -116,7 +79,7 @@ const Dashboard = async () => {
   const acountData = processData(Assets)
 
   // 各日付ごとの資産合計を計算する関数
-  const calcTotalAmountParDate = (Assets: Assets[]) => {
+  const calcTotalAmountParDate = (Assets: any) => {
     const totalAmountParDate: {
       date: string
       amount: number
@@ -178,9 +141,9 @@ const Dashboard = async () => {
           </CardBody>
           <CardFooter className='pt-0 text-end'>
             <Link href='dashboard/matrix/assets'>
-            <Button color='cyan' variant='text'>
-              overview →
-            </Button>
+              <Button color='cyan' variant='text'>
+                overview →
+              </Button>
             </Link>
           </CardFooter>
         </Card>
@@ -192,18 +155,20 @@ const Dashboard = async () => {
           </CardBody>
           <CardFooter className='pt-0 text-end'>
             <Link href='dashboard/matrix/assets'>
-            <Button color='cyan' variant='text'>
-              overview →
-            </Button>
+              <Button color='cyan' variant='text'>
+                overview →
+              </Button>
             </Link>
           </CardFooter>
         </Card>
       </div>
-      {assetsParAcount?.map((acount, i) => (
-        <div className='col-span-2' key={acount.id}>
-          <AcountCard acount={acount} index={i} />
-        </div>
-      ))}
+      {assetsParAcount?.map(
+        (acount: { id: Key | null | undefined }, i: any) => (
+          <div className='col-span-2' key={acount.id}>
+            <AcountCard acount={acount} index={i} />
+          </div>
+        )
+      )}
     </div>
   )
 }

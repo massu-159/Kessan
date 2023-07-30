@@ -38,7 +38,7 @@ export default function PopUpEditForm({
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   name: string
-  id: string
+  id: string | undefined
   amount: number
   date: string
 }) {

@@ -34,14 +34,14 @@ export default function PopUpForm({
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   name: string
-  id: string
+  id: string | undefined
 }) {
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
   // 現在の日付を取得
-  const today = new Date()
+  const today = new Date().toISOString().slice(0, 10)
   // 入力フォームの設定
   const {
     register,

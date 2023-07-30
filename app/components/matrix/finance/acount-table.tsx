@@ -11,7 +11,7 @@ type TableRows = {
   amount: string
 }
 
-export default function AcountTable({ tableRows, name, userId }: { tableRows: TableRows[], name: string, userId: string }) {
+export default function AcountTable({ tableRows, name, userId }: { tableRows: TableRows[], name: string, userId: string | undefined }) {
   const [open, setOpen] = useState(false)
   const [pickAmount, setPickAmount] = useState(0)
   const [pickDate, setPickDate] = useState('')

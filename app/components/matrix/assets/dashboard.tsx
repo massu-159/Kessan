@@ -45,7 +45,7 @@ const AssetDashboard = async () => {
     Assets = AssetParDate
   }
 
-  const processData = (data: Assets[]) => {
+  const processData = (data: any) => {
     const processedData:any = {}
     data.forEach((item: Assets) => {
       const { date, amount, FinancialInstitution } = item
@@ -63,7 +63,7 @@ const AssetDashboard = async () => {
   const acountData = processData(Assets)
 
   // 各日付ごとの資産合計を計算する関数
-  const calcTotalAmountParDate = (Assets: Assets[]) => {
+  const calcTotalAmountParDate = (Assets: any) => {
     const totalAmountParDate: {
       date: string
       amount: number

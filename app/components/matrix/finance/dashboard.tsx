@@ -5,18 +5,8 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import AcountTable from './acount-table'
-import { PlusCircleIcon } from '@heroicons/react/24/solid'
 import AcountAddButton from './acount-add-button'
 
-type Acount = {
-  id: number
-  name: string
-  usage: string
-  Asset: {
-    date: string
-    amount: number
-  }[]
-}
 
 const FinanceDashboard = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -29,7 +19,7 @@ const FinanceDashboard = async () => {
 
   if (session) {
     // 金融機関・資産を取得
-    const { data: AssetParFinancialInstitution }: { data: Acount[] | null } =
+    const { data: AssetParFinancialInstitution }: { data: any | null } =
       await supabase
         .from('FinancialInstitution')
         .select(`name, usage, Asset!inner(date, amount)`)
@@ -43,7 +33,7 @@ const FinanceDashboard = async () => {
   }
   return (
     <div className='grid grid-cols-8 gap-4'>
-      {Assets?.map((acount: Acount, i: number) => (
+      {Assets?.map((acount:any, i: number) => (
         <>
           <div className='col-span-4 pb-2' key={acount.id}>
             <AcountCard acount={acount} userId={session?.user.id} index={i} />
