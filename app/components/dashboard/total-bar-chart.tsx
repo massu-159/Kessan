@@ -16,7 +16,16 @@ import {
 // 配色
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
-const TotalBarChart = ({data}:any) => {
+const TotalBarChart = ({ data }: any) => {
+  // dataを日付昇順にソート
+  data.sort((a: any, b: any) => {
+    if (a.date < b.date) {
+      return -1
+    } else {
+      return 1
+    }
+  })
+
   // 金融機関の配列を取得
   const set = new Set(
     data.flatMap((item: {}) =>
