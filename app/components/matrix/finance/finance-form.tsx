@@ -16,10 +16,12 @@ const schema = z.object({
   financeInstitution: z.string({
     required_error: '金融機関を入力してください。',
   }),
-  date: z.date({
-    required_error: '日付を入力してください。',
-    invalid_type_error: "日付は'yyyy/mm/dd'の形式で入力してください。",
-  }).transform((val) => val.toISOString().slice(0, 10)),
+  date: z
+    .date({
+      required_error: '日付を入力してください。',
+      invalid_type_error: "日付は'yyyy/mm/dd'の形式で入力してください。",
+    })
+    .transform((val) => val.toISOString().slice(0, 10)),
   amount: z.number({
     required_error: '金額を入力してください。',
     invalid_type_error: '金額は数値で入力してください。',
@@ -36,7 +38,7 @@ export default function PopUpForm({
   setOpen: Dispatch<SetStateAction<boolean>>
   name: string
   id: string | undefined
-  }) {
+}) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
@@ -63,12 +65,11 @@ export default function PopUpForm({
 
     try {
       // 金融機関ID取得
-      const { data: FinancialInstitution } =
-        await supabase
-          .from('FinancialInstitution')
-          .select('id')
-          .eq('name', data.financeInstitution)
-          .single()
+      const { data: FinancialInstitution } = await supabase
+        .from('FinancialInstitution')
+        .select('id')
+        .eq('name', data.financeInstitution)
+        .single()
       if (FinancialInstitution === null) {
         setMessage('入力した金融機関が見つかりません。')
         return
@@ -89,30 +90,31 @@ export default function PopUpForm({
           .eq('user_id', id)
           .eq('financial_institution_id', FinancialInstitution.id)
           .eq('date', data.date)
-        
+
         // エラーチェック
         if (errorUpdateAmount) {
           setMessage('エラーが発生しました。' + errorUpdateAmount.message)
           return
         }
-      }
-      // 金額登録
-      const { error: errorInputAmount } = await supabase
-        .from('Asset')
-        .insert([
-          {
-            user_id: id,
-            financial_institution_id: FinancialInstitution.id,
-            date: data.date,
-            amount: data.amount,
-          },
-        ])
-        .eq('user_id', id)
+      } else if (Asset === null) {
+        // 金額登録
+        const { error: errorInputAmount } = await supabase
+          .from('Asset')
+          .insert([
+            {
+              user_id: id,
+              financial_institution_id: FinancialInstitution.id,
+              date: data.date,
+              amount: data.amount,
+            },
+          ])
+          .eq('user_id', id)
 
-      // エラーチェック
-      if (errorInputAmount) {
-        setMessage('エラーが発生しました。' + errorInputAmount.message)
-        return
+        // エラーチェック
+        if (errorInputAmount) {
+          setMessage('エラーが発生しました。' + errorInputAmount.message)
+          return
+        }
       }
 
       // 入力フォームクリア
