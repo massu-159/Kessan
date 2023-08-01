@@ -26,10 +26,11 @@ const AssetTotalBarChart = ({ data }: any) => {
       return 1
     }
   })
+
   // 金融機関の配列を取得
   const set = new Set(
     data.flatMap((item: {}) =>
-      Object.keys(item).filter((key) => key !== 'date')
+      Object.keys(item).filter((key) => key !== 'date' && key !== 'total')
     )
   )
   const financeInstitutions = Array.from(set)
@@ -62,6 +63,7 @@ const AssetTotalBarChart = ({ data }: any) => {
             key={item}
           />
         ))}
+        <Line type='monotone' dataKey='total' stroke='#8884d8' unit='円'></Line>
       </ComposedChart>
     </ResponsiveContainer>
   )
