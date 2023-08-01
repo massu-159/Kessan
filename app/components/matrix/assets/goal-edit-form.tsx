@@ -15,6 +15,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 type Schema = z.infer<typeof schema>
 type GoalType = Database['public']['Tables']['Goal']['Row']
 
@@ -51,10 +52,16 @@ export default function GoalEditForm({
   setOpen: Dispatch<SetStateAction<boolean>>
   goal: Goal | null
   userId: string | undefined
-}) {
+  }) {
+  const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
+
+  const handleClose = () => {
+    setOpen(false)
+    router.refresh()
+  }
 
   // 入力フォームの設定
   const {
@@ -123,6 +130,7 @@ export default function GoalEditForm({
       // 入力フォームクリア
       reset()
       setMessage('登録が完了しました。')
+      handleClose()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -152,6 +160,7 @@ export default function GoalEditForm({
       // 入力フォームクリア
       reset()
       setMessage('削除が完了しました。')
+      handleClose()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -175,7 +184,7 @@ export default function GoalEditForm({
                 variant='text'
                 className='rounded-full'
                 color='cyan'
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
               >
                 <XMarkIcon className='h-8 w-8'></XMarkIcon>
               </Button>

@@ -8,6 +8,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -36,11 +37,16 @@ export default function AcountEditForm({
   setShow: Dispatch<SetStateAction<boolean>>
   acount: Acount
   id: string | undefined
-}) {
+  }) {
+  const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
+  const handleClose = () => {
+    setShow(false)
+    router.refresh()
+  }
 
   // 入力フォームの設定
   const {
@@ -98,6 +104,7 @@ export default function AcountEditForm({
       // 入力フォームクリア
       reset()
       setMessage('登録が完了しました。')
+      handleClose()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -128,6 +135,7 @@ export default function AcountEditForm({
       // 入力フォームクリア
       reset()
       setMessage('削除が完了しました。')
+      handleClose()
     }
     catch (error) {
       setMessage('エラーが発生しました。' + error)
@@ -153,13 +161,13 @@ export default function AcountEditForm({
                 variant='text'
                 className='rounded-full'
                 color='cyan'
-                onClick={() => setShow(false)}
+                onClick={handleClose}
               >
                 <XMarkIcon className='h-8 w-8'></XMarkIcon>
               </Button>
             </div>
             <Typography variant='h4' color='blue-gray'>
-              金額変更
+              金融機関変更
             </Typography>
             <Typography color='gray' className='mt-1 font-normal'>
               Enter your amounts to update or delete

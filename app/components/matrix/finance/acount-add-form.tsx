@@ -8,6 +8,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -28,7 +29,8 @@ export default function AcountAddForm({
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   id: string
-}) {
+  }) {
+  const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -94,6 +96,11 @@ export default function AcountAddForm({
     }
   }
 
+  const handleClose = () => {
+    setOpen(false)
+    router.refresh()
+  }
+
   // 金額入力モーダルウィンドウを閉じる
   if (!open) {
     return null
@@ -109,7 +116,7 @@ export default function AcountAddForm({
                 variant='text'
                 className='rounded-full'
                 color='cyan'
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
               >
                 <XMarkIcon className='h-8 w-8'></XMarkIcon>
               </Button>
