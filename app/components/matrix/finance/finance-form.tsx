@@ -8,6 +8,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -35,7 +36,8 @@ export default function PopUpForm({
   setOpen: Dispatch<SetStateAction<boolean>>
   name: string
   id: string | undefined
-}) {
+  }) {
+  const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -124,6 +126,10 @@ export default function PopUpForm({
     }
   }
 
+  const handleClose = () => {
+    setOpen(false)
+    router.refresh()
+  }
   // 金額入力モーダルウィンドウを閉じる
   if (!open) {
     return null
@@ -139,7 +145,7 @@ export default function PopUpForm({
                 variant='text'
                 className='rounded-full'
                 color='cyan'
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
               >
                 <XMarkIcon className='h-8 w-8'></XMarkIcon>
               </Button>
@@ -176,7 +182,10 @@ export default function PopUpForm({
                   type='number'
                   size='lg'
                   label='金額 : 円'
-                  {...register('amount', { required: true, valueAsNumber: true })}
+                  {...register('amount', {
+                    required: true,
+                    valueAsNumber: true,
+                  })}
                 />
                 <div className='text-center text-sm text-red-500'>
                   {errors.amount?.message}

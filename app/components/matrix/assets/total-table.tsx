@@ -45,7 +45,7 @@ export default function AssetsTable(data: any) {
             const previousAmount = totalAmountParDate[index + 1]?.amount
             return (
               <tr key={date} className='even:bg-blue-gray-50/50'>
-                <td className='p-4'>
+                <td className='pl-4 py-1 pr-1'>
                   <Typography
                     variant='small'
                     color='blue-gray'
@@ -54,7 +54,7 @@ export default function AssetsTable(data: any) {
                     {date}
                   </Typography>
                 </td>
-                <td className='p-4'>
+                <td className='p-1'>
                   <Typography
                     variant='small'
                     color='blue-gray'
@@ -63,7 +63,7 @@ export default function AssetsTable(data: any) {
                     {amount.toLocaleString()}円
                   </Typography>
                 </td>
-                <td className='p-4'>
+                <td className='p-1'>
                   {rate(amount, previousAmount) > 0 ? (
                     <div className='flex items-center'>
                       <ArrowLongUpIcon
@@ -102,7 +102,7 @@ export default function AssetsTable(data: any) {
                     </Typography>
                   )}
                 </td>
-                <td className='p-4'>
+                <td className='p-1'>
                   {difference(amount, previousAmount) > 0 ? (
                     <div className='flex items-center'>
                       <ArrowLongUpIcon

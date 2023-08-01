@@ -11,11 +11,11 @@ import {
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
 const AssetTotalPieChart = ({ data }:any) => {
-  // 直近のデータを取得
+  // 直近のデータを取得(date,total以外)
   const record = Object.entries(data)
-    .slice(1)
+    .slice(2)
     .map(([name, value]) => ({ name, value }))
-  
+
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <PieChart width={400} height={400}>

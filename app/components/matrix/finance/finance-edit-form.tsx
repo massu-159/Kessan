@@ -1,6 +1,13 @@
 'use client'
 import { TrashIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { Card, CardBody, CardFooter, Input, Button, Typography } from '../../common'
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Input,
+  Button,
+  Typography,
+} from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
 import Loading from '../../../loading'
@@ -8,6 +15,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -42,10 +50,15 @@ export default function PopUpEditForm({
   amount: number
   date: string
 }) {
+  const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
+    const handleClose = () => {
+      setOpen(false)
+      router.refresh()
+    }
 
   // 入力フォームの設定
   const {
@@ -103,7 +116,7 @@ export default function PopUpEditForm({
       }
 
       setMessage('登録が完了しました。')
-      setOpen(false)
+      handleClose()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -143,7 +156,7 @@ export default function PopUpEditForm({
       }
 
       setMessage('削除が完了しました。')
-      setOpen(false)
+      handleClose()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -152,13 +165,14 @@ export default function PopUpEditForm({
     }
   }
 
+
   // 金額入力モーダルウィンドウを閉じる
   if (!open) {
     return null
   }
 
   return (
-    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-100 bg-opacity-25'>
+    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-50 bg-opacity-25'>
       <div className='flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center'>
         <Card>
           <CardBody className='pb-1'>
@@ -167,7 +181,7 @@ export default function PopUpEditForm({
                 variant='text'
                 className='rounded-full'
                 color='cyan'
-                onClick={() => setOpen(false)}
+                onClick={handleClose}
               >
                 <XMarkIcon className='h-8 w-8'></XMarkIcon>
               </Button>
@@ -229,7 +243,12 @@ export default function PopUpEditForm({
             </form>
           </CardBody>
           <CardFooter className='pt-0'>
-            <Button onClick={handleDelete} color='red' className='flex items-center justify-center gap-3' fullWidth>
+            <Button
+              onClick={handleDelete}
+              color='red'
+              className='flex items-center justify-center gap-3'
+              fullWidth
+            >
               <TrashIcon fill='white' className='h-5 w-5'></TrashIcon>
               Delete
             </Button>

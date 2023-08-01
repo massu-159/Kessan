@@ -64,7 +64,7 @@ export default function AcountTable({ tableRows, name, userId }: { tableRows: Ta
               const previousAmount = tableRows[i + 1]?.amount
               return (
                 <tr key={date} className='even:bg-blue-gray-50/50'>
-                  <td className='p-4'>
+                  <td className='pl-4 pr-1 py-1'>
                     <Typography
                       variant='small'
                       color='blue-gray'
@@ -73,7 +73,7 @@ export default function AcountTable({ tableRows, name, userId }: { tableRows: Ta
                       {date}
                     </Typography>
                   </td>
-                  <td className='p-4'>
+                  <td className='p-1'>
                     <Typography
                       variant='small'
                       color='blue-gray'
@@ -82,7 +82,7 @@ export default function AcountTable({ tableRows, name, userId }: { tableRows: Ta
                       {Number(amount).toLocaleString()}円
                     </Typography>
                   </td>
-                  <td className='p-4'>
+                  <td className='p-1'>
                     {rate(amount, previousAmount) > 0 ? (
                       <div className='flex items-center'>
                         <ArrowLongUpIcon
@@ -121,7 +121,7 @@ export default function AcountTable({ tableRows, name, userId }: { tableRows: Ta
                       </Typography>
                     )}
                   </td>
-                  <td className='p-4'>
+                  <td className='p-1'>
                     {difference(amount, previousAmount) > 0 ? (
                       <div className='flex items-center'>
                         <ArrowLongUpIcon
@@ -162,7 +162,7 @@ export default function AcountTable({ tableRows, name, userId }: { tableRows: Ta
                       </Typography>
                     )}
                   </td>
-                  <td className='py-4 '>
+                  <td className='py-1 '>
                     <Button
                       onClick={()=>handleClick(Number(amount), date)}
                       variant='text'

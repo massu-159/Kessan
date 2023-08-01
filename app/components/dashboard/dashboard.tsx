@@ -71,6 +71,7 @@ const Dashboard = async () => {
       if (!processedData[date]) {
         processedData[date] = { date }
       }
+      processedData[date].total = (processedData[date].total || 0) + amount
       processedData[date][FinancialInstitution.name] = amount
     })
     return Object.values(processedData)
