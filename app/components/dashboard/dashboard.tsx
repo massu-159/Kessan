@@ -112,12 +112,22 @@ const Dashboard = async () => {
 
   // 直近の合計額と増減率を取得
   const cumulative = {
-    amount: totalAmountParDate[0].amount - totalAmountParDate[1].amount,
-    rate: Math.floor(
-      ((totalAmountParDate[0].amount - totalAmountParDate[1].amount) /
-        totalAmountParDate[1].amount) *
-        100
-    ),
+    amount:
+      Assets && totalAmountParDate.length > 1
+        ? totalAmountParDate[0]?.amount - totalAmountParDate[1]?.amount
+        : Assets && totalAmountParDate.length === 1
+        ? totalAmountParDate[0]?.amount
+        : null,
+    rate:
+      Assets && totalAmountParDate.length > 1
+        ? Math.floor(
+            ((totalAmountParDate[0]?.amount - totalAmountParDate[1]?.amount) /
+              totalAmountParDate[1]?.amount) *
+              100
+          )
+        : Assets && totalAmountParDate.length === 1
+        ? 0
+        : null,
   }
 
   return (
@@ -136,32 +146,72 @@ const Dashboard = async () => {
         </CardBody>
       </Card>
       <div className='col-span-5 pb-2'>
-        <Card className=''>
-          <CardBody className='w-11/12 h-96'>
-            <TotalBarChart data={acountData}></TotalBarChart>
-          </CardBody>
-          <CardFooter className='pt-0 text-end'>
-            <Link href='dashboard/matrix/assets'>
-              <Button color='cyan' variant='text'>
-                overview →
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
+        {Assets && acountData.length > 1 ? (
+          <Card className=''>
+            <CardBody className='w-11/12 h-96'>
+              <TotalBarChart data={acountData}></TotalBarChart>
+            </CardBody>
+            <CardFooter className='pt-0 text-end'>
+              <Link href='dashboard/matrix/assets'>
+                <Button color='cyan' variant='text'>
+                  overview →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        ) : (
+          <Card className=''>
+            <CardBody className='h-96 flex justify-center items-center bg-[url(/total-bar-chart-blur.png)] bg-center bg-cover'>
+              <Typography
+                variant='h5'
+                className='text-blue-gray-800 font-bold text-7xl'
+              >
+                No Data
+              </Typography>
+            </CardBody>
+            <CardFooter className='pt-0 text-center'>
+              <Link href='/dashboard/matrix/finance'>
+                <Button color='cyan' variant='gradient'>
+                  登録する →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
       </div>
       <div className='col-span-3 pb-2'>
-        <Card>
-          <CardBody className='w-full h-96 flex justify-center items-center'>
-            <TotalPieChart data={acountData[0]}></TotalPieChart>
-          </CardBody>
-          <CardFooter className='pt-0 text-end'>
-            <Link href='dashboard/matrix/assets'>
-              <Button color='cyan' variant='text'>
-                overview →
-              </Button>
-            </Link>
-          </CardFooter>
-        </Card>
+        {Assets && acountData.length > 1 ? (
+          <Card>
+            <CardBody className='w-full h-96 flex justify-center items-center'>
+              <TotalPieChart data={acountData[0]}></TotalPieChart>
+            </CardBody>
+            <CardFooter className='pt-0 text-end'>
+              <Link href='dashboard/matrix/assets'>
+                <Button color='cyan' variant='text'>
+                  overview →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        ) : (
+          <Card className=''>
+            <CardBody className='h-96 flex justify-center items-center bg-[url(/pie-chart-blur.png)] bg-center bg-cover'>
+              <Typography
+                variant='h5'
+                className='text-blue-gray-800 font-bold text-7xl'
+              >
+                No Data
+              </Typography>
+            </CardBody>
+            <CardFooter className='pt-0 text-center'>
+              <Link href='/dashboard/matrix/finance'>
+                <Button color='cyan' variant='gradient'>
+                  登録する →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
       </div>
       {assetsParAcount?.map(
         (acount: { id: Key | null | undefined }, i: any) => (

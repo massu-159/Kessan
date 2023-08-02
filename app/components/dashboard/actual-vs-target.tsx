@@ -1,11 +1,7 @@
 import Link from 'next/link'
 import { Database } from '../../../lib/database.types'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
-import {
-  ArrowLongUpIcon,
-  ArrowLongDownIcon,
-  CurrencyYenIcon,
-} from '@heroicons/react/24/solid'
+import { CurrencyYenIcon } from '@heroicons/react/24/solid'
 type GoalType = Database['public']['Tables']['Goal']['Row']
 
 type Record = {
@@ -63,13 +59,23 @@ const ActualVsTarget = ({
         </div>
         <Typography variant='small'>Target achievement rate</Typography>
       </CardBody>
-      <CardFooter className='pt-0 pb-2 text-end'>
-        <Link href='dashboard/matrix/assets'>
-          <Button color='cyan' variant='text'>
-            view all →
-          </Button>
-        </Link>
-      </CardFooter>
+      {goal && goal.amount ? (
+        <CardFooter className='pt-0 pb-2 text-end'>
+          <Link href='dashboard/matrix/assets'>
+            <Button color='cyan' variant='text'>
+              view all →
+            </Button>
+          </Link>
+        </CardFooter>
+      ) : (
+        <CardFooter className='pt-0 pb-2 text-center'>
+          <Link href='dashboard/matrix/assets'>
+            <Button color='cyan' variant='gradient'>
+              登録する →
+            </Button>
+          </Link>
+        </CardFooter>
+      )}
     </Card>
   )
 }
