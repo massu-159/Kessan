@@ -7,6 +7,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import AssetActualVsTarget from './asset-actual-vs-target'
+import Link from 'next/link'
 
 type Assets = {
   date: string | null
@@ -46,7 +47,7 @@ const AssetDashboard = async () => {
   }
 
   const processData = (data: any) => {
-    const processedData:any = {}
+    const processedData: any = {}
     data.forEach((item: Assets) => {
       const { date, amount, FinancialInstitution } = item
       if (date === null || FinancialInstitution.name === null) {
@@ -86,7 +87,7 @@ const AssetDashboard = async () => {
       } else {
         totalAmountParDate.push({
           date: as.date,
-          amount: validAmount
+          amount: validAmount,
         })
       }
     })
@@ -96,8 +97,22 @@ const AssetDashboard = async () => {
 
   // 直近の合計額と増減率を取得
   const cumulative = {
-    amount: totalAmountParDate[0].amount - totalAmountParDate[1].amount,
-    rate: Math.floor((totalAmountParDate[0].amount - totalAmountParDate[1].amount) / totalAmountParDate[1].amount * 100)
+    amount:
+      Assets && totalAmountParDate.length > 1
+        ? totalAmountParDate[0]?.amount - totalAmountParDate[1]?.amount
+        : Assets && totalAmountParDate.length === 1
+        ? totalAmountParDate[0]?.amount
+        : null,
+    rate:
+      Assets && totalAmountParDate.length > 1
+        ? Math.floor(
+            ((totalAmountParDate[0]?.amount - totalAmountParDate[1]?.amount) /
+              totalAmountParDate[1]?.amount) *
+              100
+          )
+        : Assets && totalAmountParDate.length === 1
+        ? 0
+        : null,
   }
 
   return (
@@ -106,7 +121,11 @@ const AssetDashboard = async () => {
         <AssetCumulativeRateCard cumulative={cumulative} />
       </div>
       <div className='col-span-3'>
-        <AssetActualVsTarget record={totalAmountParDate[0]} goal={goal} userId={ session?.user.id} />
+        <AssetActualVsTarget
+          record={totalAmountParDate[0]}
+          goal={goal}
+          userId={session?.user.id}
+        />
       </div>
       <Card className='col-span-2 bg-[url(/glass-bowl.jpg)] bg-cover bg-center justify-center'>
         <CardBody className='h-fit flex justify-center items-center'>
@@ -116,18 +135,58 @@ const AssetDashboard = async () => {
         </CardBody>
       </Card>
       <div className='col-span-5 pb-2'>
-        <Card className=''>
-          <CardBody className='w-11/12 h-96'>
-            <AssetTotalBarChart data={acountData}></AssetTotalBarChart>
-          </CardBody>
-        </Card>
+        {Assets && acountData.length > 1 ? (
+          <Card className=''>
+            <CardBody className='w-11/12 h-96'>
+              <AssetTotalBarChart data={acountData}></AssetTotalBarChart>
+            </CardBody>
+          </Card>
+        ) : (
+          <Card className=''>
+            <CardBody className='h-96 flex justify-center items-center bg-[url(/total-bar-chart-blur.png)] bg-center bg-cover'>
+              <Typography
+                variant='h5'
+                className='text-blue-gray-800 font-bold text-7xl'
+              >
+                No Data
+              </Typography>
+            </CardBody>
+            <CardFooter className='pt-0 text-center'>
+              <Link href='/dashboard/matrix/finance'>
+                <Button color='cyan' variant='gradient'>
+                  登録する →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
       </div>
       <div className='col-span-3 pb-2'>
-        <Card>
-          <CardBody className='w-full h-96 flex justify-center items-center'>
-            <AssetTotalPieChart data={acountData[0]}></AssetTotalPieChart>
-          </CardBody>
-        </Card>
+        {Assets && acountData.length > 1 ? (
+          <Card>
+            <CardBody className='w-full h-96 flex justify-center items-center'>
+              <AssetTotalPieChart data={acountData[0]}></AssetTotalPieChart>
+            </CardBody>
+          </Card>
+        ) : (
+          <Card className=''>
+            <CardBody className='h-96 flex justify-center items-center bg-[url(/pie-chart-blur.png)] bg-center bg-cover'>
+              <Typography
+                variant='h5'
+                className='text-blue-gray-800 font-bold text-7xl'
+              >
+                No Data
+              </Typography>
+            </CardBody>
+            <CardFooter className='pt-0 text-center'>
+              <Link href='/dashboard/matrix/finance'>
+                <Button color='cyan' variant='gradient'>
+                  登録する →
+                </Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
       </div>
       <div className='col-span-8'>
         <AssetsTable totalAmountParDate={totalAmountParDate}></AssetsTable>
