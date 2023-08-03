@@ -64,7 +64,7 @@ const AssetActualVsTarget = ({
       </CardBody>
       <CardFooter className='pt-0 pb-2'>
         <Typography className='text-base font-bold'>
-          目標金額 {goal?.amount?.toLocaleString()}円
+          目標金額 {goal?.amount ? goal?.amount?.toLocaleString(): 0}円
         </Typography>
         <Typography className='text-2xl font-bold'>{goal?.goal}</Typography>
       </CardFooter>

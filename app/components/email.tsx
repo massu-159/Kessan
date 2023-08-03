@@ -107,7 +107,7 @@ const Email = ({ email }: { email: string }) => {
             {loading ? (
               <Loading />
             ) : (
-                <Button type='submit' variant='gradient' color='cyan' fullWidth>
+                <Button type='submit' variant='gradient' color='cyan' fullWidth disabled>
                   変更
                 </Button>
             )}

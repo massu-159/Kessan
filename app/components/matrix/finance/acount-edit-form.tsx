@@ -122,7 +122,8 @@ export default function AcountEditForm({
       const { error: errorDeleteFinancialInstitution } = await supabase
         .from('FinancialInstitution')
         .delete()
-        .eq('id', acount.id)
+        .eq('user_id', id)
+        .eq('name', acount.name)
 
       // エラーチェック
       if (errorDeleteFinancialInstitution) {

@@ -21,7 +21,7 @@ export default function AcountAddButton({ userId }: any) {
       >
         <PlusCircleIcon fill='white' className='h-8 w-8'></PlusCircleIcon>
       </Button>
-      <AcountAddForm open={open} setOpen={setOpen} id={userId.userId}></AcountAddForm>
+      <AcountAddForm open={open} setOpen={setOpen} id={userId}></AcountAddForm>
     </>
   )
 }

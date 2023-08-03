@@ -41,109 +41,125 @@ export default function AssetsTable(data: any) {
           </tr>
         </thead>
         <tbody>
-          {totalAmountParDate.map(({ date, amount }: any, index: number) => {
-            const previousAmount = totalAmountParDate[index + 1]?.amount
-            return (
-              <tr key={date} className='even:bg-blue-gray-50/50'>
-                <td className='pl-4 py-1 pr-1'>
-                  <Typography
-                    variant='small'
-                    color='blue-gray'
-                    className='font-normal'
-                  >
-                    {date}
-                  </Typography>
-                </td>
-                <td className='p-1'>
-                  <Typography
-                    variant='small'
-                    color='blue-gray'
-                    className='font-normal'
-                  >
-                    {amount.toLocaleString()}円
-                  </Typography>
-                </td>
-                <td className='p-1'>
-                  {rate(amount, previousAmount) > 0 ? (
-                    <div className='flex items-center'>
-                      <ArrowLongUpIcon
-                        fill='#1e88e5'
-                        className='w-6 h-6'
-                      ></ArrowLongUpIcon>
-                      <Typography
-                        variant='small'
-                        color='blue'
-                        className='font-normal'
-                      >
-                        {Math.floor(rate(amount, previousAmount))}%
-                      </Typography>
-                    </div>
-                  ) : rate(amount, previousAmount) < 0 ? (
-                    <div className='flex items-center'>
-                      <ArrowLongDownIcon
-                        fill='#e53834'
-                        className='w-6 h-6'
-                      ></ArrowLongDownIcon>
-                      <Typography
-                        variant='small'
-                        color='red'
-                        className='font-normal'
-                      >
-                        {Math.floor(rate(amount, previousAmount))}%
-                      </Typography>
-                    </div>
-                  ) : (
+          {totalAmountParDate.length < 1 && (
+            <tr>
+              <td colSpan={4} className='py-6 text-center'>
+                <Typography
+                  variant='small'
+                  color='blue-gray'
+                  className='font-normal'
+                >
+                  No Data
+                </Typography>
+              </td>
+            </tr>
+          )}
+          {totalAmountParDate.length > 1 &&
+            totalAmountParDate.map(({ date, amount }: any, index: number) => {
+              const previousAmount = totalAmountParDate[index + 1]?.amount
+              return (
+                <tr key={date} className='even:bg-blue-gray-50/50'>
+                  <td className='pl-4 py-1 pr-1'>
                     <Typography
                       variant='small'
                       color='blue-gray'
                       className='font-normal'
                     >
-                      0%
+                      {date}
                     </Typography>
-                  )}
-                </td>
-                <td className='p-1'>
-                  {difference(amount, previousAmount) > 0 ? (
-                    <div className='flex items-center'>
-                      <ArrowLongUpIcon
-                        fill='#1e88e5'
-                        className='w-6 h-6'
-                      ></ArrowLongUpIcon>
-                      <Typography
-                        variant='small'
-                        color='blue'
-                        className='font-normal'
-                      >
-                        {difference(amount, previousAmount).toLocaleString()}円
-                      </Typography>
-                    </div>
-                  ) : difference(amount, previousAmount) < 0 ? (
-                    <div className='flex items-center'>
-                      <ArrowLongDownIcon
-                        fill='#e53834'
-                        className='w-6 h-6'
-                      ></ArrowLongDownIcon>
-                      <Typography
-                        variant='small'
-                        color='red'
-                        className='font-normal'
-                      >
-                        {difference(amount, previousAmount).toLocaleString()}円
-                      </Typography>
-                    </div>
-                  ) : (
+                  </td>
+                  <td className='p-1'>
                     <Typography
                       variant='small'
                       color='blue-gray'
                       className='font-normal'
                     >
-                      0円
+                      {amount.toLocaleString()}円
                     </Typography>
-                  )}
-                </td>
-              </tr>
-            )
-          })}
+                  </td>
+                  <td className='p-1'>
+                    {rate(amount, previousAmount) > 0 ? (
+                      <div className='flex items-center'>
+                        <ArrowLongUpIcon
+                          fill='#1e88e5'
+                          className='w-6 h-6'
+                        ></ArrowLongUpIcon>
+                        <Typography
+                          variant='small'
+                          color='blue'
+                          className='font-normal'
+                        >
+                          {Math.floor(rate(amount, previousAmount))}%
+                        </Typography>
+                      </div>
+                    ) : rate(amount, previousAmount) < 0 ? (
+                      <div className='flex items-center'>
+                        <ArrowLongDownIcon
+                          fill='#e53834'
+                          className='w-6 h-6'
+                        ></ArrowLongDownIcon>
+                        <Typography
+                          variant='small'
+                          color='red'
+                          className='font-normal'
+                        >
+                          {Math.floor(rate(amount, previousAmount))}%
+                        </Typography>
+                      </div>
+                    ) : (
+                      <Typography
+                        variant='small'
+                        color='blue-gray'
+                        className='font-normal'
+                      >
+                        0%
+                      </Typography>
+                    )}
+                  </td>
+                  <td className='p-1'>
+                    {difference(amount, previousAmount) > 0 ? (
+                      <div className='flex items-center'>
+                        <ArrowLongUpIcon
+                          fill='#1e88e5'
+                          className='w-6 h-6'
+                        ></ArrowLongUpIcon>
+                        <Typography
+                          variant='small'
+                          color='blue'
+                          className='font-normal'
+                        >
+                          {difference(amount, previousAmount).toLocaleString()}
+                          円
+                        </Typography>
+                      </div>
+                    ) : difference(amount, previousAmount) < 0 ? (
+                      <div className='flex items-center'>
+                        <ArrowLongDownIcon
+                          fill='#e53834'
+                          className='w-6 h-6'
+                        ></ArrowLongDownIcon>
+                        <Typography
+                          variant='small'
+                          color='red'
+                          className='font-normal'
+                        >
+                          {difference(amount, previousAmount).toLocaleString()}
+                          円
+                        </Typography>
+                      </div>
+                    ) : (
+                      <Typography
+                        variant='small'
+                        color='blue-gray'
+                        className='font-normal'
+                      >
+                        0円
+                      </Typography>
+                    )}
+                  </td>
+                </tr>
+              )
+            })}
         </tbody>
       </table>
     </Card>
