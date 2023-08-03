@@ -9,6 +9,13 @@ DBには Supabase を使用しています。
 urlはこちら
 https://kessan-mu.vercel.app/
 
+テストユーザーを用意しているので、触ってみてください。
+
+```
+メールアドレス： test_user@testsample.com
+パスワード： testuser02
+```
+
 ## 目次
 1. 環境構築
 2. アプリケーションの仕様
