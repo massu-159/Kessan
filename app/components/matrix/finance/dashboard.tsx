@@ -65,6 +65,7 @@ const FinanceDashboard = async () => {
                 tableRows={asset.Asset}
                 name={asset.name}
                 userId={session?.user.id}
+                key={i}
               ></AcountTable>
             ))}
           </div>
@@ -115,7 +116,10 @@ const FinanceDashboard = async () => {
                       />
                       {result.length > 0 ? (
                         result.map((asset: any) => (
-                          <Card className='bg-opacity-0 shadow-none'>
+                          <Card
+                            className='bg-opacity-0 shadow-none'
+                            key={asset.name}
+                          >
                             <CardBody className='w-full h-60'>
                               <FinanceBarChart
                                 data={asset.Asset}
@@ -144,6 +148,7 @@ const FinanceDashboard = async () => {
                               tableRows={asset.Asset}
                               name={asset.name}
                               userId={session?.user.id}
+                              key={asset.name}
                             ></AcountTable>
                           ))
                         : null}
