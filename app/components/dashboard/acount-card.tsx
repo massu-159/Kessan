@@ -2,7 +2,6 @@ import {
   CreditCardIcon,
   ArrowLongDownIcon,
   ArrowLongUpIcon,
-  ArrowLongRightIcon,
 } from '@heroicons/react/24/solid'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import Link from 'next/link'
@@ -12,20 +11,22 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 const AcountCard = ({ acount, index }: any) => {
   // 配色
   const colorIndex = Math.floor(index % COLORS.length)
+  // 前月の資産残高
+  const previousAmount = acount.Asset[1]?.amount ? acount.Asset[1].amount : 0
   // 増減率を計算
   const calcRate = (amount: number, previousAmount: number) => {
     if (previousAmount === 0) return 0
     return Math.floor(((amount - previousAmount) / previousAmount) * 100)
   }
   // 直近の増減率
-  const rate = calcRate(acount.Asset[0].amount, acount.Asset[1].amount) 
+  const rate = calcRate(acount.Asset[0].amount, previousAmount) 
 
   // 増減額を計算
   const calcDifference = (amount: number, previousAmount: number) => {
     return amount - previousAmount
   }
   // 直近の増減額
-  const difference = calcDifference(acount.Asset[0].amount, acount.Asset[1].amount)
+  const difference = calcDifference(acount.Asset[0].amount, previousAmount)
 
   return (
     <Card>
