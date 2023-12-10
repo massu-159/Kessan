@@ -1,10 +1,17 @@
 'use client'
 
+import { Button } from '@material-tailwind/react'
+import Link from 'next/link'
+
 const Error = () => {
   return (
-    <div>
-      <div>500</div>
+    <div className='italic h-screen flex flex-col justify-center items-center'>
+      <div className='text-6xl text-cyan-600'>500</div>
       <div>Server Error</div>
+      <div className='mb-4'>サーバーエラーが発生しました。</div>
+      <Button type='submit' variant='gradient' color='cyan'>
+        <Link href={'/auth/login'}>トップページ へ</Link>
+      </Button>
     </div>
   )
 }
