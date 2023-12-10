@@ -19,14 +19,9 @@ export default async function RootLayout({
   return (
     <html>
       <body className={`${inter.className}`}>
-        <div className='flex'>
-          <div className='flex-[1_1_22%] max-w-[16rem]'>
-            <SupabaseListener />
-          </div>
-          <main className='flex-[1_1_78%] bg-[#f4fcfc] h-screen'>
-            {children}
-          </main>
-        </div>
+        <main>
+          {children}
+        </main>
       </body>
     </html>
   )
