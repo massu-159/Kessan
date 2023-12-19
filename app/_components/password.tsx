@@ -5,7 +5,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import Loading from '../loading'
+import Loading from '../(routes)/loading'
 import * as z from 'zod'
 import type { Database } from '../../lib/database.types'
 import { Card, CardBody, Button } from './common'
@@ -115,7 +115,13 @@ const Password = () => {
             {loading ? (
               <Loading />
             ) : (
-              <Button type='submit' variant='gradient' color='cyan' fullWidth disabled>
+              <Button
+                type='submit'
+                variant='gradient'
+                color='cyan'
+                fullWidth
+                disabled
+              >
                 変更
               </Button>
             )}

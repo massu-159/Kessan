@@ -1,12 +1,12 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
-import Password from '../../../_components/password'
-import type { Database } from '../../../../lib/database.types'
-import { loginPath } from '../../../_common/constants/path'
+import Logout from '../../../../_components/logout'
+import type { Database } from '../../../../../lib/database.types'
+import { loginPath } from '../../../../_common/constants/path'
 
-// パスワード変更ページ
-const PasswordPage = async () => {
+// ログアウトページ
+const LogoutPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -21,7 +21,7 @@ const PasswordPage = async () => {
     redirect(loginPath)
   }
 
-  return <Password />
+  return <Logout />
 }
 
-export default PasswordPage
+export default LogoutPage

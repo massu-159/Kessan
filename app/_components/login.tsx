@@ -6,7 +6,7 @@ import { useState } from 'react'
 import * as z from 'zod'
 import type { Database } from '../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Loading from '../loading'
+import Loading from '../(routes)/loading'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import {

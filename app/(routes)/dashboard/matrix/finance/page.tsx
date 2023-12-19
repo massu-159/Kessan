@@ -1,12 +1,11 @@
-import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '../../../../../lib/database.types'
+import { cookies } from 'next/headers'
+import FinanceDashboard from '../../../../_components/matrix/finance/dashboard'
 import { redirect } from 'next/navigation'
-import Logout from '../../../_components/logout'
-import type { Database } from '../../../../lib/database.types'
-import { loginPath } from '../../../_common/constants/path'
+import { loginPath } from '../../../../_common/constants/path'
 
-// ログアウトページ
-const LogoutPage = async () => {
+const FinancePage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -21,7 +20,7 @@ const LogoutPage = async () => {
     redirect(loginPath)
   }
 
-  return <Logout />
+  return <FinanceDashboard></FinanceDashboard>
 }
 
-export default LogoutPage
+export default FinancePage

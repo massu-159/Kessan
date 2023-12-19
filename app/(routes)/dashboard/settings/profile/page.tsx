@@ -1,12 +1,12 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
-import Email from '../../../_components/email'
-import type { Database } from '../../../../lib/database.types'
-import { loginPath } from '../../../_common/constants/path'
+import Profile from '../../../../_components/profile'
 
-// メールアドレス変更ページ
-const EmailPage = async () => {
+import type { Database } from '../../../../../lib/database.types'
+import { loginPath } from '../../../../_common/constants/path'
+
+const ProfilePage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -21,7 +21,7 @@ const EmailPage = async () => {
     redirect(loginPath)
   }
 
-  return <Email email={session.user.email!} />
+  return <Profile />
 }
 
-export default EmailPage
+export default ProfilePage

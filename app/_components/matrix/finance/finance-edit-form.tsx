@@ -10,7 +10,7 @@ import {
 } from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../../loading'
+import Loading from '../../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -55,10 +55,10 @@ export default function PopUpEditForm({
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-    const handleClose = () => {
-      setOpen(false)
-      router.refresh()
-    }
+  const handleClose = () => {
+    setOpen(false)
+    router.refresh()
+  }
 
   // 入力フォームの設定
   const {
@@ -164,7 +164,6 @@ export default function PopUpEditForm({
       setLoading(false)
     }
   }
-
 
   // 金額入力モーダルウィンドウを閉じる
   if (!open) {

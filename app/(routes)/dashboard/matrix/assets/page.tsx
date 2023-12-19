@@ -1,11 +1,11 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
+import { Database } from '../../../../../lib/database.types'
 import { cookies } from 'next/headers'
+import AssetDashboard from '../../../../_components/matrix/assets/dashboard'
 import { redirect } from 'next/navigation'
-import Dashboard from '../_components/dashboard/dashboard'
-import { Database } from '../../lib/database.types'
-import { loginPath } from '../_common/constants/path'
+import { loginPath } from '../../../../_common/constants/path'
 
-const DashboardPage = async () => {
+const AssetsPage = async () => {
   const supabase = createServerComponentClient<Database>({
     cookies,
   })
@@ -20,7 +20,7 @@ const DashboardPage = async () => {
     redirect(loginPath)
   }
 
-  return <Dashboard />
+  return <AssetDashboard></AssetDashboard>
 }
 
-export default DashboardPage
+export default AssetsPage

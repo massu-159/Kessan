@@ -2,7 +2,7 @@
 
 import { Button } from '@material-tailwind/react'
 import Link from 'next/link'
-import { loginPath } from './_common/constants/path'
+import { loginPath } from '../_common/constants/path'
 
 const Error = () => {
   return (

@@ -3,7 +3,7 @@ import { XMarkIcon } from '@heroicons/react/24/solid'
 import { Card, CardBody, Input, Button, Typography } from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../../loading'
+import Loading from '../../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -29,7 +29,7 @@ export default function AcountAddForm({
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   id: string
-  }) {
+}) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)

@@ -4,7 +4,6 @@ import {
   UserCircleIcon,
   EnvelopeIcon,
   KeyIcon,
-  ArrowLeftOnRectangleIcon,
 } from '@heroicons/react/24/outline'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
@@ -13,7 +12,8 @@ import {
   ListItem,
   ListItemPrefix,
   Typography,
-} from '../../_components/common'
+} from '../../../_components/common'
+import { PowerIcon } from '@heroicons/react/24/solid'
 
 // ナビゲーション
 const subNavigation = [
@@ -34,7 +34,7 @@ const subNavigation = [
   },
   {
     name: 'ログアウト',
-    icon: ArrowLeftOnRectangleIcon,
+    icon: PowerIcon,
     href: '/dashboard/settings/logout',
   },
 ]

@@ -1,9 +1,16 @@
 'use client'
 import { TrashIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import { Card, CardBody, CardFooter, Input, Button, Typography } from '../../common'
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Input,
+  Button,
+  Typography,
+} from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../../loading'
+import Loading from '../../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
@@ -13,7 +20,7 @@ type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
 const schema = z.object({
-  financeInstitution: z.string().min(1,{
+  financeInstitution: z.string().min(1, {
     message: '金融機関を入力してください。',
   }),
   usage: z.string().min(1, {
@@ -37,7 +44,7 @@ export default function AcountEditForm({
   setShow: Dispatch<SetStateAction<boolean>>
   acount: Acount
   id: string | undefined
-  }) {
+}) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
@@ -89,15 +96,13 @@ export default function AcountEditForm({
           .insert({
             user_id: id,
             name: data.financeInstitution,
-            usage: data.usage
+            usage: data.usage,
           })
       }
 
       // エラーチェック
       if (errorFinancialInstitution) {
-        setMessage(
-          'エラーが発生しました。' + errorFinancialInstitution.message
-        )
+        setMessage('エラーが発生しました。' + errorFinancialInstitution.message)
         return
       }
 
@@ -137,12 +142,10 @@ export default function AcountEditForm({
       reset()
       setMessage('削除が完了しました。')
       handleClose()
-    }
-    catch (error) {
+    } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
-    }
-    finally {
+    } finally {
       setLoading(false)
     }
   }
