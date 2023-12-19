@@ -1,14 +1,14 @@
 import AssetTotalBarChart from './asset-total-bar-chart'
-import { Card, CardBody, CardFooter, Button, Typography } from '../../common'
+import { Card, CardBody, CardFooter, Button, Typography } from '../common'
 import AssetTotalPieChart from './asset-total-pie-chart'
 import AssetsTable from './total-table'
 import AssetCumulativeRateCard from './asset-cumulative-rate-card'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
-import { Database } from '../../../../lib/database.types'
+import { Database } from '../../../lib/database.types'
 import AssetActualVsTarget from './asset-actual-vs-target'
 import Link from 'next/link'
-import { financePath } from '../../../_common/constants/path'
+import { financePath } from '../../_common/constants/path'
 
 type Assets = {
   date: string | null

@@ -3,9 +3,9 @@
 import { FormEvent, useState } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
-import Loading from '../(routes)/loading'
-import type { Database } from '../../lib/database.types'
-import { Card, CardBody, Button } from './common'
+import Loading from '../../(routes)/loading'
+import type { Database } from '../../../lib/database.types'
+import { Card, CardBody, Button } from '../common'
 
 // ログアウト
 const Logout = () => {

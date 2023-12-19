@@ -1,18 +1,11 @@
 'use client'
-import { TrashIcon, XMarkIcon } from '@heroicons/react/24/solid'
-import {
-  Card,
-  CardBody,
-  CardFooter,
-  Input,
-  Button,
-  Typography,
-} from '../../common'
+import { XMarkIcon } from '@heroicons/react/24/solid'
+import { Card, CardBody, Input, Button, Typography } from '../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../../(routes)/loading'
+import Loading from '../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../../../../lib/database.types'
+import { Database } from '../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -28,32 +21,19 @@ const schema = z.object({
   }),
 })
 
-type Acount = {
-  id: number
-  name: string
-  usage: string
-}
-
-export default function AcountEditForm({
-  show,
-  setShow,
-  acount,
+export default function AcountAddForm({
+  open,
+  setOpen,
   id,
 }: {
-  show: boolean
-  setShow: Dispatch<SetStateAction<boolean>>
-  acount: Acount
-  id: string | undefined
+  open: boolean
+  setOpen: Dispatch<SetStateAction<boolean>>
+  id: string
 }) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-
-  const handleClose = () => {
-    setShow(false)
-    router.refresh()
-  }
 
   // 入力フォームの設定
   const {
@@ -63,15 +43,12 @@ export default function AcountEditForm({
     reset,
   } = useForm({
     // 初期値
-    defaultValues: {
-      financeInstitution: acount.name,
-      usage: acount.usage,
-    },
+    defaultValues: { financeInstitution: '', usage: '' },
     // 入力値の検証
     resolver: zodResolver(schema),
   })
 
-  // 更新データを送信
+  // 送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true)
 
@@ -83,14 +60,13 @@ export default function AcountEditForm({
           .select('id')
           .eq('name', data.financeInstitution)
           .single()
-      // 登録済みの場合、金融機関更新
-      if (FinancialInstitution) {
-        const { error: errorUpdateFinancialInstitution } = await supabase
-          .from('FinancialInstitution')
-          .update({ usage: data.usage })
-          .eq('id', FinancialInstitution.id)
-        // 未登録の場合、金融機関登録
-      } else {
+      // 登録済みの場合、メッセージ表示
+      if (FinancialInstitution !== null) {
+        setMessage('既に登録されています。')
+        return
+      }
+      if (FinancialInstitution === null) {
+        // 金融機関登録
         const { error: errorInputFinancialInstitution } = await supabase
           .from('FinancialInstitution')
           .insert({
@@ -98,18 +74,20 @@ export default function AcountEditForm({
             name: data.financeInstitution,
             usage: data.usage,
           })
-      }
+          .eq('user_id', id)
 
-      // エラーチェック
-      if (errorFinancialInstitution) {
-        setMessage('エラーが発生しました。' + errorFinancialInstitution.message)
-        return
+        // エラーチェック
+        if (errorInputFinancialInstitution) {
+          setMessage(
+            'エラーが発生しました。' + errorInputFinancialInstitution.message
+          )
+          return
+        }
       }
 
       // 入力フォームクリア
       reset()
       setMessage('登録が完了しました。')
-      handleClose()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -118,40 +96,13 @@ export default function AcountEditForm({
     }
   }
 
-  // 金額削除
-  const handleDelete = async () => {
-    setLoading(true)
-
-    try {
-      // 金融機関削除
-      const { error: errorDeleteFinancialInstitution } = await supabase
-        .from('FinancialInstitution')
-        .delete()
-        .eq('user_id', id)
-        .eq('name', acount.name)
-
-      // エラーチェック
-      if (errorDeleteFinancialInstitution) {
-        setMessage(
-          'エラーが発生しました。' + errorDeleteFinancialInstitution.message
-        )
-        return
-      }
-
-      // 入力フォームクリア
-      reset()
-      setMessage('削除が完了しました。')
-      handleClose()
-    } catch (error) {
-      setMessage('エラーが発生しました。' + error)
-      return
-    } finally {
-      setLoading(false)
-    }
+  const handleClose = () => {
+    setOpen(false)
+    router.refresh()
   }
 
   // 金額入力モーダルウィンドウを閉じる
-  if (!show) {
+  if (!open) {
     return null
   }
 
@@ -159,7 +110,7 @@ export default function AcountEditForm({
     <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-100 bg-opacity-25'>
       <div className='flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center'>
         <Card>
-          <CardBody className='pb-1'>
+          <CardBody>
             <div className='text-end'>
               <Button
                 variant='text'
@@ -171,10 +122,10 @@ export default function AcountEditForm({
               </Button>
             </div>
             <Typography variant='h4' color='blue-gray'>
-              金融機関変更
+              金融機関登録
             </Typography>
             <Typography color='gray' className='mt-1 font-normal'>
-              Enter your amounts to update or delete
+              Enter your financial institution to register
             </Typography>
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -182,19 +133,18 @@ export default function AcountEditForm({
             >
               <div className='mb-4 flex flex-col gap-6'>
                 <Input
-                  type='text'
                   size='lg'
                   label='金融機関'
+                  type='text'
                   {...register('financeInstitution', { required: true })}
-                  readOnly
                 />
                 <div className='text-center text-sm text-red-500'>
                   {errors.financeInstitution?.message}
                 </div>
                 <Input
-                  type='text'
                   size='lg'
                   label='使い方'
+                  type='text'
                   {...register('usage', { required: true })}
                 />
                 <div className='text-center text-sm text-red-500'>
@@ -205,7 +155,7 @@ export default function AcountEditForm({
                 <Loading />
               ) : (
                 <Button type='submit' color='cyan' className='mt-6' fullWidth>
-                  Update
+                  Register
                 </Button>
               )}
               {message && (
@@ -215,17 +165,6 @@ export default function AcountEditForm({
               )}
             </form>
           </CardBody>
-          <CardFooter className='pt-0'>
-            <Button
-              onClick={handleDelete}
-              color='red'
-              className='flex items-center justify-center gap-3'
-              fullWidth
-            >
-              <TrashIcon fill='white' className='h-5 w-5'></TrashIcon>
-              Delete
-            </Button>
-          </CardFooter>
         </Card>
       </div>
     </div>

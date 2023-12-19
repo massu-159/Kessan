@@ -1,13 +1,12 @@
 import { ArrowLongDownIcon, ArrowLongUpIcon } from '@heroicons/react/24/solid'
-import { Card, Typography } from '../../common'
+import { Card, Typography } from '../common'
 
 const TABLE_HEAD = ['日付', '資産残高', '増減率', '増減額']
-
 
 export default function AssetsTable(data: any) {
   const totalAmountParDate = data.totalAmountParDate
   // 増減率を計算
-  const rate = (amount: number, previousAmount: number) => { 
+  const rate = (amount: number, previousAmount: number) => {
     if (data.length < 2) return 0
     return Math.floor(
       ((Number(amount) - Number(previousAmount)) / Number(previousAmount)) * 100

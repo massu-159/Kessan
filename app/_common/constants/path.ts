@@ -10,7 +10,7 @@ export const resetPasswordConfirmPath = '/reset-password/confirm'
 // コールバック
 export const callbackPath = '/callback'
 
-// --- アプリ ---
+// --- ダッシュボード ---
 // ダッシュボード
 export const dashboardPath = '/dashboard'
 // 資産合計

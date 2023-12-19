@@ -7,48 +7,51 @@ import {
   Input,
   Button,
   Typography,
-} from '../../common'
+} from '../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../../(routes)/loading'
+import Loading from '../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../../../../lib/database.types'
+import { Database } from '../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 type Schema = z.infer<typeof schema>
+type GoalType = Database['public']['Tables']['Goal']['Row']
 
 // 入力データの検証ルールを定義
 const schema = z.object({
-  financeInstitution: z.string({
-    required_error: '金融機関を入力してください。',
+  goal: z.string().min(1, {
+    message: '目標を入力してください。',
   }),
-  date: z
-    .date({
-      required_error: '日付を入力してください。',
-      invalid_type_error: "日付は'yyyy/mm/dd'の形式で入力してください。",
+  amount: z
+    .number({
+      required_error: '金額を入力してください。',
+      invalid_type_error: '金額は数値で入力してください。',
     })
-    .transform((val) => val.toISOString().slice(0, 10)),
-  amount: z.number({
-    required_error: '金額を入力してください。',
-    invalid_type_error: '金額は数値で入力してください。',
-  }),
+    .min(1, {
+      message: '金額を入力してください。',
+    }),
 })
 
-export default function PopUpEditForm({
+type Goal = {
+  amount: number
+  created_at: string
+  goal: string
+  id: string
+  user_id: string
+}
+
+export default function GoalEditForm({
   open,
   setOpen,
-  name,
-  id,
-  amount,
-  date,
+  goal,
+  userId,
 }: {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
-  name: string
-  id: string | undefined
-  amount: number
-  date: string
+  goal: Goal | null
+  userId: string | undefined
 }) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
@@ -65,12 +68,12 @@ export default function PopUpEditForm({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     // 初期値
     defaultValues: {
-      financeInstitution: name,
-      date: date,
-      amount: amount,
+      goal: goal ? goal.goal : '',
+      amount: goal ? goal.amount : 0,
     },
     // 入力値の検証
     resolver: zodResolver(schema),
@@ -81,40 +84,51 @@ export default function PopUpEditForm({
     setLoading(true)
 
     try {
-      // 金融機関ID取得
-      const { data: FinancialInstitution } = await supabase
-        .from('FinancialInstitution')
+      // 目標が登録済みチェック
+      const { data: Goal, error: errorGoal } = await supabase
+        .from('Goal')
         .select('id')
-        .eq('name', data.financeInstitution)
+        .eq('user_id', userId)
         .single()
-      if (FinancialInstitution === null) {
-        setMessage('入力した金融機関が見つかりません。')
-        return
-      }
-      // 金額登録済みチェック
-      const { data: Asset } = await supabase
-        .from('Asset')
-        .select('date')
-        .eq('user_id', id)
-        .eq('financial_institution_id', FinancialInstitution.id)
-        .eq('date', data.date)
-        .single()
-      if (Asset !== null) {
-        // 金額更新
-        const { error: errorUpdateAmount } = await supabase
-          .from('Asset')
-          .update({ amount: data.amount })
-          .eq('user_id', id)
-          .eq('financial_institution_id', FinancialInstitution.id)
-          .eq('date', data.date)
 
-        // エラーチェック
-        if (errorUpdateAmount) {
-          setMessage('エラーが発生しました。' + errorUpdateAmount.message)
+      // 目標が登録済みの場合
+      if (Goal) {
+        // 登録済みの目標を更新
+        const { data: updateGoal, error: errorUpdateGoal } = await supabase
+          .from('Goal')
+          .update({
+            goal: data.goal,
+            amount: data.amount,
+          })
+          .eq('id', goal?.id)
+          .single()
+
+        // 更新に失敗した場合
+        if (errorUpdateGoal) {
+          setMessage('エラーが発生しました。' + errorUpdateGoal)
+          return
+        }
+      } else {
+        // 目標が未登録の場合
+        // 目標を登録
+        const { data: createGoal, error: errorCreateGoal } = await supabase
+          .from('Goal')
+          .insert({
+            user_id: userId,
+            goal: data.goal,
+            amount: data.amount,
+          })
+          .single()
+
+        // 登録に失敗した場合
+        if (errorCreateGoal) {
+          setMessage('エラーが発生しました。' + errorCreateGoal)
           return
         }
       }
 
+      // 入力フォームクリア
+      reset()
       setMessage('登録が完了しました。')
       handleClose()
     } catch (error) {
@@ -125,36 +139,26 @@ export default function PopUpEditForm({
     }
   }
 
-  // 金額削除
+  // 目標を削除
   const handleDelete = async () => {
     setLoading(true)
 
     try {
-      // 金融機関ID取得
-      const { data: FinancialInstitution } = await supabase
-        .from('FinancialInstitution')
-        .select('id')
-        .eq('name', name)
-        .single()
-      if (FinancialInstitution === null) {
-        setMessage('入力した金融機関が見つかりません。')
-        return
-      }
-
-      // 金額削除
-      const { error: errorDeleteAmount } = await supabase
-        .from('Asset')
+      // 目標を削除
+      const { data: deleteGoal, error: errorDeleteGoal } = await supabase
+        .from('Goal')
         .delete()
-        .eq('user_id', id)
-        .eq('financial_institution_id', FinancialInstitution.id)
-        .eq('date', date)
+        .eq('id', goal?.id)
+        .single()
 
-      // エラーチェック
-      if (errorDeleteAmount) {
-        setMessage('エラーが発生しました。' + errorDeleteAmount.message)
+      // 削除に失敗した場合
+      if (errorDeleteGoal) {
+        setMessage('エラーが発生しました。' + errorDeleteGoal)
         return
       }
 
+      // 入力フォームクリア
+      reset()
       setMessage('削除が完了しました。')
       handleClose()
     } catch (error) {
@@ -171,7 +175,7 @@ export default function PopUpEditForm({
   }
 
   return (
-    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-50 bg-opacity-25'>
+    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-100 bg-opacity-25'>
       <div className='flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center'>
         <Card>
           <CardBody className='pb-1'>
@@ -186,10 +190,10 @@ export default function PopUpEditForm({
               </Button>
             </div>
             <Typography variant='h4' color='blue-gray'>
-              金額変更
+              目標入力
             </Typography>
             <Typography color='gray' className='mt-1 font-normal'>
-              Enter your amounts to update or delete
+              Enter your goal to edit
             </Typography>
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -197,27 +201,18 @@ export default function PopUpEditForm({
             >
               <div className='mb-4 flex flex-col gap-6'>
                 <Input
+                  type='text'
                   size='lg'
-                  label='金融機関'
-                  {...register('financeInstitution', { required: true })}
-                  readOnly
+                  label='目標'
+                  {...register('goal', { required: true })}
                 />
                 <div className='text-center text-sm text-red-500'>
-                  {errors.financeInstitution?.message}
-                </div>
-                <Input
-                  type='date'
-                  size='lg'
-                  label='日付'
-                  {...register('date', { required: true, valueAsDate: true })}
-                />
-                <div className='text-center text-sm text-red-500'>
-                  {errors.date?.message}
+                  {errors.goal?.message}
                 </div>
                 <Input
                   type='number'
                   size='lg'
-                  label='金額 : 円'
+                  label='金額'
                   {...register('amount', {
                     required: true,
                     valueAsNumber: true,

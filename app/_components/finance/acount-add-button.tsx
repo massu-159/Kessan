@@ -1,8 +1,8 @@
 'use client'
-import { PlusCircleIcon } from "@heroicons/react/24/solid";
-import { Button } from "../../common";
-import AcountAddForm from "./acount-add-form";
-import { useState } from "react";
+import { PlusCircleIcon } from '@heroicons/react/24/solid'
+import { Button } from '../common'
+import AcountAddForm from './acount-add-form'
+import { useState } from 'react'
 
 export default function AcountAddButton({ userId }: any) {
   const [open, setOpen] = useState<boolean>(false)

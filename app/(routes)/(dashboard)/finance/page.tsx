@@ -1,7 +1,7 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { cookies } from 'next/headers'
-import FinanceDashboard from '../../../_components/matrix/finance/dashboard'
+import FinanceDashboard from '../../../_components/finance/dashboard'
 import { redirect } from 'next/navigation'
 import { loginPath } from '../../../_common/constants/path'
 

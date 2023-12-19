@@ -7,11 +7,11 @@ import { v4 as uuidv4 } from 'uuid'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
-import Loading from '../(routes)/loading'
+import Loading from '../../(routes)/loading'
 import * as z from 'zod'
-import type { Database } from '../../lib/database.types'
-import useStore from '../../store'
-import { Card, CardBody, Button } from './common'
+import type { Database } from '../../../lib/database.types'
+import useStore from '../../../store'
+import { Card, CardBody, Button } from '../common'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義

@@ -2,7 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import { redirect } from 'next/navigation'
-import Login from '../../../_components/login'
+import Login from '../../../_components/auth/login'
 import { dashboardPath } from '../../../_common/constants/path'
 
 const LoginPage = async () => {

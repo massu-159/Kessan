@@ -1,11 +1,11 @@
 import Link from 'next/link'
-import { Button, Card, CardBody, CardFooter, Typography } from '../../common'
+import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import {
   ArrowLongUpIcon,
   ArrowLongDownIcon,
   CurrencyYenIcon,
 } from '@heroicons/react/24/solid'
-import { financePath } from '../../../_common/constants/path'
+import { financePath } from '../../_common/constants/path'
 
 interface Cumulative {
   amount: number | null

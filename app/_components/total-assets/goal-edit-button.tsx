@@ -1,9 +1,9 @@
 'use client'
 import { PencilSquareIcon } from '@heroicons/react/24/solid'
-import { Button } from '../../common'
+import { Button } from '../common'
 import { useState } from 'react'
 import GoalEditForm from './goal-edit-form'
-import { Database } from '../../../../lib/database.types'
+import { Database } from '../../../lib/database.types'
 
 export default function GoalEditButton({
   goal,
@@ -28,7 +28,12 @@ export default function GoalEditButton({
       >
         <PencilSquareIcon fill='#035f64' className='w-6 h-6'></PencilSquareIcon>
       </Button>
-      <GoalEditForm open={open} setOpen={setOpen} goal={goal} userId={userId}></GoalEditForm>
+      <GoalEditForm
+        open={open}
+        setOpen={setOpen}
+        goal={goal}
+        userId={userId}
+      ></GoalEditForm>
     </>
   )
 }

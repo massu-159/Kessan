@@ -4,9 +4,9 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import * as z from 'zod'
-import type { Database } from '../../lib/database.types'
+import type { Database } from '../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import Loading from '../(routes)/loading'
+import Loading from '../../(routes)/loading'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import {
@@ -17,8 +17,8 @@ import {
   Typography,
   Input,
   Button,
-} from './common'
-import { signupPath } from '../_common/constants/path'
+} from '../common'
+import { signupPath } from '../../_common/constants/path'
 type Schema = z.infer<typeof schema>
 
 const schema = z.object({

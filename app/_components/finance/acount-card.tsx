@@ -1,10 +1,9 @@
 'use client'
 import { CreditCardIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
-import { Card, CardBody, CardFooter, Typography, Button } from '../../common'
+import { Card, CardBody, CardFooter, Typography, Button } from '../common'
 import { useState } from 'react'
 import PopUpForm from './finance-form'
 import AcountEditForm from './acount-edit-form'
-
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
