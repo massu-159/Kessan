@@ -2,6 +2,7 @@
 
 import { Button } from '@material-tailwind/react'
 import Link from 'next/link'
+import { loginPath } from './_common/constants/path'
 
 const Error = () => {
   return (
@@ -10,7 +11,7 @@ const Error = () => {
       <div>Server Error</div>
       <div className='mb-4'>サーバーエラーが発生しました。</div>
       <Button type='submit' variant='gradient' color='cyan'>
-        <Link href={'/auth/login'}>トップページ へ</Link>
+        <Link href={loginPath}>トップページ へ</Link>
       </Button>
     </div>
   )

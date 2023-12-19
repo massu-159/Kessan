@@ -18,6 +18,7 @@ import {
   Input,
   Button,
 } from './common'
+import { signupPath } from '../_common/constants/path'
 type Schema = z.infer<typeof schema>
 
 const schema = z.object({
@@ -119,7 +120,7 @@ const Login = () => {
                 アカウントをお持ちではないですか？
                 <Typography
                   as='a'
-                  href='/auth/signup'
+                  href={signupPath}
                   variant='small'
                   color='blue'
                   className='ml-1 font-bold'
@@ -131,7 +132,7 @@ const Login = () => {
                 パスワードを忘れた方は
                 <Typography
                   as='a'
-                  href='/auth/signup'
+                  href={signupPath}
                   variant='small'
                   color='blue'
                   className='ml-1 font-bold'

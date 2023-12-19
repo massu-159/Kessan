@@ -2,8 +2,9 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../lib/database.types'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
-import LoginPage from './auth/login/page'
+import LoginPage from './(routes)/(auth)/login/page'
 import DashboardPage from './dashboard/page'
+import { dashboardPath } from './_common/constants/path'
 
 const Home = async () => {
   const supabase = createServerComponentClient<Database>({
@@ -17,7 +18,7 @@ const Home = async () => {
 
   // 認証している場合、リダイレクト
   if (session) {
-    redirect('/dashboard')
+    redirect(dashboardPath)
   }
 
   return <div>{session ? <DashboardPage /> : <LoginPage />}</div>

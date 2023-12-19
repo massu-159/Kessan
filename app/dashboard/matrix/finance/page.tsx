@@ -1,8 +1,9 @@
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../../lib/database.types'
 import { cookies } from 'next/headers'
-import FinanceDashboard from '../../../components/matrix/finance/dashboard'
+import FinanceDashboard from '../../../_components/matrix/finance/dashboard'
 import { redirect } from 'next/navigation'
+import { loginPath } from '../../../_common/constants/path'
 
 const FinancePage = async () => {
   const supabase = createServerComponentClient<Database>({
@@ -16,7 +17,7 @@ const FinancePage = async () => {
 
   // 未認証の場合、リダイレクト
   if (!session) {
-    redirect('/auth/login')
+    redirect(loginPath)
   }
 
   return <FinanceDashboard></FinanceDashboard>

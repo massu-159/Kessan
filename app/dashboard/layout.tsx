@@ -2,9 +2,9 @@ import { ReactNode } from 'react'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../lib/database.types'
 import { cookies } from 'next/headers'
-import Navigation from '../components/navigation'
-import Content from '../components/content'
-import SupabaseListener from '../components/supabase-listener'
+import Navigation from '../_components/navigation'
+import Content from '../_components/content'
+import SupabaseListener from '../_components/supabase-listener'
 
 export default async function Dashboardlayout({
   children,

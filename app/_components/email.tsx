@@ -9,6 +9,7 @@ import Loading from '../loading'
 import * as z from 'zod'
 import type { Database } from '../../lib/database.types'
 import { Card, CardBody, Button } from './common'
+import { loginPath } from '../_common/constants/path'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -43,7 +44,7 @@ const Email = ({ email }: { email: string }) => {
       // メールアドレス変更メールを送信
       const { error: updateUserError } = await supabase.auth.updateUser(
         { email: data.email },
-        { emailRedirectTo: `${location.origin}/auth/login` }
+        { emailRedirectTo: `${location.origin}${loginPath}` }
       )
 
       // エラーチェック

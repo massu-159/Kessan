@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
-import Email from '../../../components/email'
+import Email from '../../../_components/email'
 import type { Database } from '../../../../lib/database.types'
+import { loginPath } from '../../../_common/constants/path'
 
 // メールアドレス変更ページ
 const EmailPage = async () => {
@@ -17,7 +18,7 @@ const EmailPage = async () => {
 
   // 未認証の場合、リダイレクト
   if (!session) {
-    redirect('/auth/login')
+    redirect(loginPath)
   }
 
   return <Email email={session.user.email!} />

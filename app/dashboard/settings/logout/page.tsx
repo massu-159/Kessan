@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
-import Logout from '../../../components/logout'
+import Logout from '../../../_components/logout'
 import type { Database } from '../../../../lib/database.types'
+import { loginPath } from '../../../_common/constants/path'
 
 // ログアウトページ
 const LogoutPage = async () => {
@@ -17,7 +18,7 @@ const LogoutPage = async () => {
 
   // 未認証の場合、リダイレクト
   if (!session) {
-    redirect('/auth/login')
+    redirect(loginPath)
   }
 
   return <Logout />

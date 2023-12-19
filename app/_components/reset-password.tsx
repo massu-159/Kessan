@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Loading from '../loading'
 import * as z from 'zod'
 import type { Database } from '../../lib/database.types'
+import { resetPasswordConfirmPath } from '../_common/constants/path'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -41,7 +42,7 @@ const ResetPassword = () => {
     try {
       // パスワードリセットメールを送信
       const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-        redirectTo: `${location.origin}/auth/reset-password/confirm`,
+        redirectTo: `${location.origin}${resetPasswordConfirmPath}`,
       })
 
       // エラーチェック

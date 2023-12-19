@@ -8,7 +8,12 @@ import {
 } from '@heroicons/react/24/outline'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
-import { List, ListItem, ListItemPrefix, Typography } from '../../components/common'
+import {
+  List,
+  ListItem,
+  ListItemPrefix,
+  Typography,
+} from '../../_components/common'
 
 // ナビゲーション
 const subNavigation = [

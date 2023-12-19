@@ -19,6 +19,7 @@ import {
   Input,
   Button,
 } from './common'
+import { callbackPath, loginPath } from '../_common/constants/path'
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -56,7 +57,7 @@ const Signup = () => {
         email: data.email,
         password: data.password,
         options: {
-          emailRedirectTo: `${location.origin}/auth/callback`,
+          emailRedirectTo: `${location.origin}${callbackPath}`,
         },
       })
 
@@ -158,7 +159,7 @@ const Signup = () => {
                 すでにアカウントをお持ちですか？
                 <Typography
                   as='a'
-                  href=loginPath
+                  href={loginPath}
                   variant='small'
                   color='blue'
                   className='ml-1 font-bold'

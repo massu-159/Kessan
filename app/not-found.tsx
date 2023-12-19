@@ -1,7 +1,8 @@
 'use client'
 
-import { Button } from "@material-tailwind/react"
-import Link from "next/link"
+import { Button } from '@material-tailwind/react'
+import Link from 'next/link'
+import { loginPath } from './_common/constants/path'
 
 const NotFound = () => {
   return (
@@ -10,7 +11,7 @@ const NotFound = () => {
       <div>Not Found</div>
       <div className='mb-4'>ページが見つかりません。</div>
       <Button type='submit' variant='gradient' color='cyan'>
-        <Link href={'/auth/login'}>トップページ へ</Link>
+        <Link href={loginPath}>トップページ へ</Link>
       </Button>
     </div>
   )
