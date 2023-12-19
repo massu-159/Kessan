@@ -23,11 +23,14 @@ import {
   ChartBarIcon,
   UserCircleIcon,
   Cog6ToothIcon,
-  InboxIcon,
   PowerIcon,
   AdjustmentsHorizontalIcon,
+  ChatBubbleLeftEllipsisIcon,
+  KeyIcon,
+  Square3Stack3DIcon,
 } from '@heroicons/react/24/solid'
-import { ChevronRightIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon, ChevronDownIcon, TableCellsIcon, CircleStackIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
+import { dashboardPath } from '../_common/constants/path'
 
 export default function SideBar({
   session,
@@ -58,6 +61,7 @@ export default function SideBar({
     <>
       {session && (
         <Card className='fixed min-h-screen bg-cyan-900 rounded-none w-full max-w-[16rem] p-4 shadow-xl'>
+          {/* タイトル */}
           <div className='mb-2 flex items-center gap-4 p-4'>
             <div className='relative w-10 h-10'>
               <Image
@@ -73,11 +77,11 @@ export default function SideBar({
             </Typography>
           </div>
           <List>
-            <Link href='/dashboard'>
+            {/* ダッシュボード */}
+            <Link href={dashboardPath}>
               <ListItem
                 className='p-3 hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'
                 ripple
-                selected={open === 1}
               >
                 <ListItemPrefix>
                   <ChartBarIcon className='h-5 w-5' fill='cyan' />
@@ -87,39 +91,76 @@ export default function SideBar({
                 </Typography>
               </ListItem>
             </Link>
+
+            {/* 資産合計テーブル */}
+            <Link href='/dashboard/matrix/assets'>
+              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                <ListItemPrefix>
+                  <AdjustmentsHorizontalIcon className='h-5 w-5' fill='cyan' />
+                </ListItemPrefix>
+                <Typography color='white'>Total Assets</Typography>
+              </ListItem>
+            </Link>
+
+            {/* 各資産テーブル */}
+            <Link href='/dashboard/matrix/finance'>
+              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                <ListItemPrefix>
+                  <Square3Stack3DIcon className='h-5 w-5' fill='cyan' />
+                </ListItemPrefix>
+                <Typography color='white'>Finance</Typography>
+              </ListItem>
+            </Link>
+
+            <hr className='my-2 border-blue-gray-50' />
+
+            {/* AIチャット */}
+            <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+              <ListItemPrefix>
+                <ChatBubbleLeftEllipsisIcon className='h-5 w-5' fill='cyan' />
+              </ListItemPrefix>
+              <Typography color='white'>AI Chat</Typography>
+              <ListItemSuffix>
+                <Chip
+                  value='Beta'
+                  size='sm'
+                  className='rounded-full'
+                />
+              </ListItemSuffix>
+            </ListItem>
+
+            {/* セッティング */}
             <Accordion
-              open={open === 2}
+              open={open === 1}
               icon={
                 <ChevronDownIcon
                   strokeWidth={2.5}
                   className={`text-white mx-auto h-4 w-4 transition-transform ${
-                    open === 2 ? 'rotate-180' : ''
+                    open === 1 ? 'rotate-180' : ''
                   }`}
                 />
               }
             >
               <ListItem
                 className='p-0 hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'
-                selected={open === 2}
+                selected={open === 1}
               >
                 <AccordionHeader
-                  onClick={() => handleOpen(2)}
+                  onClick={() => handleOpen(1)}
                   className='border-b-0 p-3 hover:bg-transparent focus:bg-transparent active:bg-transparent'
                 >
                   <ListItemPrefix>
-                    <AdjustmentsHorizontalIcon
-                      className='h-5 w-5'
-                      fill='cyan'
-                    />
+                    <Cog6ToothIcon className='h-5 w-5' fill='cyan' />
                   </ListItemPrefix>
                   <Typography color='white' className='mr-auto font-normal'>
-                    Matrix
+                    Settings
                   </Typography>
                 </AccordionHeader>
               </ListItem>
               <AccordionBody className='py-1'>
                 <List className='p-0'>
-                  <Link href='/dashboard/matrix/assets'>
+                  {/* プロフィール */}
+                  <Link href='/dashboard/settings/profile'>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
@@ -127,10 +168,15 @@ export default function SideBar({
                           className='text-white h-3 w-5'
                         />
                       </ListItemPrefix>
-                      <Typography color='white'>Assets</Typography>
+                      <ListItemPrefix>
+                        <UserCircleIcon className='h-5 w-5' fill='cyan' />
+                      </ListItemPrefix>
+                      <Typography color='white'>Profile</Typography>
                     </ListItem>
                   </Link>
-                  <Link href='/dashboard/matrix/finance'>
+
+                  {/* メールアドレス */}
+                  <Link href='/dashboard/settings/email'>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
@@ -138,52 +184,47 @@ export default function SideBar({
                           className='text-white h-3 w-5'
                         />
                       </ListItemPrefix>
-                      <Typography color='white'>Finance</Typography>
+                      <ListItemPrefix>
+                        <EnvelopeIcon className='h-5 w-5' fill='cyan' />
+                      </ListItemPrefix>
+                      <Typography color='white'>Email</Typography>
+                    </ListItem>
+                  </Link>
+
+                  {/* パスワード */}
+                  <Link href='/dashboard/settings/password'>
+                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                      <ListItemPrefix>
+                        <ChevronRightIcon
+                          strokeWidth={3}
+                          className='text-white h-3 w-5'
+                        />
+                      </ListItemPrefix>
+                      <ListItemPrefix>
+                        <KeyIcon className='h-5 w-5' fill='cyan' />
+                      </ListItemPrefix>
+                      <Typography color='white'>Password</Typography>
+                    </ListItem>
+                  </Link>
+
+                  {/* ログアウト */}
+                  <Link href='/dashboard/settings/logout'>
+                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                      <ListItemPrefix>
+                        <ChevronRightIcon
+                          strokeWidth={3}
+                          className='text-white h-3 w-5'
+                        />
+                      </ListItemPrefix>
+                      <ListItemPrefix>
+                        <PowerIcon className='h-5 w-5' fill='cyan' />
+                      </ListItemPrefix>
+                      <Typography color='white'>Log Out</Typography>
                     </ListItem>
                   </Link>
                 </List>
               </AccordionBody>
             </Accordion>
-            <hr className='my-2 border-blue-gray-50' />
-            <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
-              <ListItemPrefix>
-                <InboxIcon className='h-5 w-5' fill='cyan' />
-              </ListItemPrefix>
-              <Typography color='white'>AI Chat</Typography>
-
-              <ListItemSuffix>
-                <Chip
-                  value='Beta'
-                  size='sm'
-                  variant='gradient'
-                  className='rounded-full'
-                />
-              </ListItemSuffix>
-            </ListItem>
-            <Link href='/dashboard/settings/email'>
-              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
-                <ListItemPrefix>
-                  <UserCircleIcon className='h-5 w-5' fill='cyan' />
-                </ListItemPrefix>
-                <Typography color='white'>Profile</Typography>
-              </ListItem>
-            </Link>
-            <Link href='/dashboard/settings/email'>
-              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
-                <ListItemPrefix>
-                  <Cog6ToothIcon className='h-5 w-5' fill='cyan' />
-                </ListItemPrefix>
-                <Typography color='white'>Settings</Typography>
-              </ListItem>
-            </Link>
-            <Link href='/dashboard/settings/logout'>
-              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
-                <ListItemPrefix>
-                  <PowerIcon className='h-5 w-5' fill='cyan' />
-                </ListItemPrefix>
-                <Typography color='white'>Log Out</Typography>
-              </ListItem>
-            </Link>
           </List>
         </Card>
       )}
