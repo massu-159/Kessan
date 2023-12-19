@@ -3,6 +3,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { redirect } from 'next/navigation'
 import ResetPassword from '../../../_components/reset-password'
 import type { Database } from '../../../../lib/database.types'
+import { dashboardPath } from '../../../_common/constants/path'
 
 // パスワードリセットページ
 const ResetPasswordPage = async () => {
@@ -17,7 +18,7 @@ const ResetPasswordPage = async () => {
 
   // 認証している場合、リダイレクト
   if (session) {
-    redirect('/dashboard')
+    redirect(dashboardPath)
   }
 
   return <ResetPassword />

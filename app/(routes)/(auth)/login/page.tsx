@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import { redirect } from 'next/navigation'
 import Login from '../../../_components/login'
+import { dashboardPath } from '../../../_common/constants/path'
 
 const LoginPage = async () => {
   const supabase = createServerComponentClient<Database>({
@@ -16,7 +17,7 @@ const LoginPage = async () => {
 
   // 認証している場合、リダイレクト
   if (session) {
-    redirect('/dashboard')
+    redirect(dashboardPath)
   }
   return <Login />
 }

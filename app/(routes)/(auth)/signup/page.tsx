@@ -3,6 +3,7 @@ import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import { redirect } from 'next/navigation'
 import Signup from '../../../_components/signup'
+import { dashboardPath } from '../../../_common/constants/path'
 
 const SignupPage = async () => {
   const supabase = createServerComponentClient<Database>({
@@ -14,7 +15,7 @@ const SignupPage = async () => {
   } = await supabase.auth.getSession()
 
   if (session) {
-    redirect('/dashboard')
+    redirect(dashboardPath)
   }
   return <Signup />
 }
