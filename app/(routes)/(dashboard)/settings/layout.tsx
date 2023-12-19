@@ -1,10 +1,5 @@
 'use client'
 
-import {
-  UserCircleIcon,
-  EnvelopeIcon,
-  KeyIcon,
-} from '@heroicons/react/24/outline'
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -13,31 +8,8 @@ import {
   ListItemPrefix,
   Typography,
 } from '../../../_components/common'
-import { PowerIcon } from '@heroicons/react/24/solid'
+import { subNavigation } from '../../../_common/constants/subNavigation'
 
-// ナビゲーション
-const subNavigation = [
-  {
-    name: 'プロフィール',
-    icon: UserCircleIcon,
-    href: '/dashboard/settings/profile',
-  },
-  {
-    name: 'メールアドレス',
-    icon: EnvelopeIcon,
-    href: '/dashboard/settings/email',
-  },
-  {
-    name: 'パスワード',
-    icon: KeyIcon,
-    href: '/dashboard/settings/password',
-  },
-  {
-    name: 'ログアウト',
-    icon: PowerIcon,
-    href: '/dashboard/settings/logout',
-  },
-]
 
 // レイアウト
 const SettingsLayout = ({ children }: { children: React.ReactNode }) => {

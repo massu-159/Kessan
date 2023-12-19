@@ -9,6 +9,7 @@ import {
 import Link from 'next/link'
 import Image from 'next/image'
 import { Database } from '../../lib/database.types'
+import { emailPath, profilePath } from '../_common/constants/path'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
@@ -34,7 +35,7 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
           </Button>
         </div>
         <div className='ml-auto flex gap-3 md:mr-4'>
-          <Link href='/dashboard/settings/email'>
+          <Link href={emailPath}>
             <IconButton variant='text' color='blue-gray'>
               <Cog6ToothIcon className='h-6 w-6' />
             </IconButton>
@@ -42,7 +43,7 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
           <IconButton variant='text' color='blue-gray'>
             <BellIcon className='h-6 w-6' />
           </IconButton>
-          <Link href='/dashboard/settings/profile'>
+          <Link href={profilePath}>
             <div className='relative w-10 h-10'>
               <Image
                 src={

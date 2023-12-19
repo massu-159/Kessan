@@ -30,7 +30,7 @@ import {
   Square3Stack3DIcon,
 } from '@heroicons/react/24/solid'
 import { ChevronRightIcon, ChevronDownIcon, TableCellsIcon, CircleStackIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
-import { dashboardPath } from '../_common/constants/path'
+import { dashboardPath, emailPath, logoutPath, passwordPath, profilePath } from '../_common/constants/path'
 
 export default function SideBar({
   session,
@@ -160,7 +160,7 @@ export default function SideBar({
               <AccordionBody className='py-1'>
                 <List className='p-0'>
                   {/* プロフィール */}
-                  <Link href='/dashboard/settings/profile'>
+                  <Link href={profilePath}>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
@@ -176,7 +176,7 @@ export default function SideBar({
                   </Link>
 
                   {/* メールアドレス */}
-                  <Link href='/dashboard/settings/email'>
+                  <Link href={emailPath}>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
@@ -192,7 +192,7 @@ export default function SideBar({
                   </Link>
 
                   {/* パスワード */}
-                  <Link href='/dashboard/settings/password'>
+                  <Link href={passwordPath}>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
@@ -208,7 +208,7 @@ export default function SideBar({
                   </Link>
 
                   {/* ログアウト */}
-                  <Link href='/dashboard/settings/logout'>
+                  <Link href={logoutPath}>
                     <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                       <ListItemPrefix>
                         <ChevronRightIcon
