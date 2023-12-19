@@ -9,6 +9,7 @@ import { cookies } from 'next/headers'
 import { Database } from '../../../lib/database.types'
 import Link from 'next/link'
 import { Key } from 'react'
+import { financePath, totalAssetsPath } from '../../_common/constants/path'
 
 type Assets = {
   date: string | null
@@ -152,7 +153,7 @@ const Dashboard = async () => {
               <TotalBarChart data={acountData}></TotalBarChart>
             </CardBody>
             <CardFooter className='pt-0 text-end'>
-              <Link href='dashboard/matrix/assets'>
+              <Link href={totalAssetsPath}>
                 <Button color='cyan' variant='text'>
                   overview →
                 </Button>
@@ -170,7 +171,7 @@ const Dashboard = async () => {
               </Typography>
             </CardBody>
             <CardFooter className='pt-0 text-center'>
-              <Link href='/dashboard/matrix/finance'>
+              <Link href={financePath}>
                 <Button color='cyan' variant='gradient'>
                   登録する →
                 </Button>
@@ -186,7 +187,7 @@ const Dashboard = async () => {
               <TotalPieChart data={acountData[0]}></TotalPieChart>
             </CardBody>
             <CardFooter className='pt-0 text-end'>
-              <Link href='dashboard/matrix/assets'>
+              <Link href={totalAssetsPath}>
                 <Button color='cyan' variant='text'>
                   overview →
                 </Button>
@@ -204,7 +205,7 @@ const Dashboard = async () => {
               </Typography>
             </CardBody>
             <CardFooter className='pt-0 text-center'>
-              <Link href='/dashboard/matrix/finance'>
+              <Link href={financePath}>
                 <Button color='cyan' variant='gradient'>
                   登録する →
                 </Button>

@@ -30,7 +30,7 @@ import {
   Square3Stack3DIcon,
 } from '@heroicons/react/24/solid'
 import { ChevronRightIcon, ChevronDownIcon, TableCellsIcon, CircleStackIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
-import { dashboardPath, emailPath, logoutPath, passwordPath, profilePath } from '../_common/constants/path'
+import { dashboardPath, emailPath, financePath, logoutPath, passwordPath, profilePath, totalAssetsPath } from '../_common/constants/path'
 
 export default function SideBar({
   session,
@@ -93,7 +93,7 @@ export default function SideBar({
             </Link>
 
             {/* 資産合計テーブル */}
-            <Link href='/dashboard/matrix/assets'>
+            <Link href={totalAssetsPath}>
               <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                 <ListItemPrefix>
                   <AdjustmentsHorizontalIcon className='h-5 w-5' fill='cyan' />
@@ -103,7 +103,7 @@ export default function SideBar({
             </Link>
 
             {/* 各資産テーブル */}
-            <Link href='/dashboard/matrix/finance'>
+            <Link href={financePath}>
               <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
                 <ListItemPrefix>
                   <Square3Stack3DIcon className='h-5 w-5' fill='cyan' />

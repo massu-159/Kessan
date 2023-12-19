@@ -5,6 +5,7 @@ import {
 } from '@heroicons/react/24/solid'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import Link from 'next/link'
+import { financePath } from '../../_common/constants/path'
 
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
 
@@ -83,7 +84,7 @@ const AcountCard = ({ acount, index }: any) => {
         <Typography variant='small'>Since last month</Typography>
       </CardBody>
       <CardFooter className='pt-0 pb-2 text-end'>
-        <Link href="dashboard/matrix/finance">
+        <Link href={financePath}>
           <Button color='cyan' variant='text'>
             view all →
           </Button>

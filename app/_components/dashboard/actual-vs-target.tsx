@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { Database } from '../../../lib/database.types'
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
+import { totalAssetsPath } from '../../_common/constants/path'
 type GoalType = Database['public']['Tables']['Goal']['Row']
 
 type Record = {
@@ -61,7 +62,7 @@ const ActualVsTarget = ({
       </CardBody>
       {goal && goal.amount ? (
         <CardFooter className='pt-0 pb-2 text-end'>
-          <Link href='dashboard/matrix/assets'>
+          <Link href={totalAssetsPath}>
             <Button color='cyan' variant='text'>
               view all →
             </Button>
@@ -69,7 +70,7 @@ const ActualVsTarget = ({
         </CardFooter>
       ) : (
         <CardFooter className='pt-0 pb-2 text-center'>
-          <Link href='dashboard/matrix/assets'>
+          <Link href={totalAssetsPath}>
             <Button color='cyan' variant='gradient'>
               登録する →
             </Button>

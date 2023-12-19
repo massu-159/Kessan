@@ -5,6 +5,7 @@ import {
   ArrowLongDownIcon,
   CurrencyYenIcon,
 } from '@heroicons/react/24/solid'
+import { financePath } from '../../../_common/constants/path'
 
 interface Cumulative {
   amount: number | null
@@ -34,7 +35,7 @@ const AssetCumulativeRateCard = ({
             </Typography>
           </CardBody>
           <CardFooter className='pb-2 text-center'>
-            <Link href='/dashboard/matrix/finance'>
+            <Link href={financePath}>
               <Button color='cyan' variant='gradient'>
                 登録する →
               </Button>

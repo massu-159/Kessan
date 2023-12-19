@@ -8,6 +8,7 @@ import { cookies } from 'next/headers'
 import { Database } from '../../../../lib/database.types'
 import AssetActualVsTarget from './asset-actual-vs-target'
 import Link from 'next/link'
+import { financePath } from '../../../_common/constants/path'
 
 type Assets = {
   date: string | null
@@ -152,7 +153,7 @@ const AssetDashboard = async () => {
               </Typography>
             </CardBody>
             <CardFooter className='pt-0 text-center'>
-              <Link href='/dashboard/matrix/finance'>
+              <Link href={financePath}>
                 <Button color='cyan' variant='gradient'>
                   登録する →
                 </Button>
@@ -179,7 +180,7 @@ const AssetDashboard = async () => {
               </Typography>
             </CardBody>
             <CardFooter className='pt-0 text-center'>
-              <Link href='/dashboard/matrix/finance'>
+              <Link href={financePath}>
                 <Button color='cyan' variant='gradient'>
                   登録する →
                 </Button>
