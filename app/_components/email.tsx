@@ -64,7 +64,7 @@ const Email = ({ email }: { email: string }) => {
         return
       }
 
-      router.push('/auth/login')
+      router.push(loginPath)
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -107,9 +107,15 @@ const Email = ({ email }: { email: string }) => {
             {loading ? (
               <Loading />
             ) : (
-                <Button type='submit' variant='gradient' color='cyan' fullWidth disabled>
-                  変更
-                </Button>
+              <Button
+                type='submit'
+                variant='gradient'
+                color='cyan'
+                fullWidth
+                disabled
+              >
+                変更
+              </Button>
             )}
           </div>
         </form>

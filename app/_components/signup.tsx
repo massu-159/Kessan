@@ -158,7 +158,7 @@ const Signup = () => {
                 すでにアカウントをお持ちですか？
                 <Typography
                   as='a'
-                  href='/auth/login'
+                  href=loginPath
                   variant='small'
                   color='blue'
                   className='ml-1 font-bold'
