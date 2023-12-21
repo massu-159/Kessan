@@ -1,13 +1,13 @@
 import Link from 'next/link'
-import { Button, CardBody, CardFooter, Typography } from '../common'
-import { CustomCard } from '../ui/custom-card'
+import { Button, CardBody, CardFooter, Typography } from '../../common'
+import { CustomCard } from '../../ui/custom-card'
 import {
   ArrowLongUpIcon,
   ArrowLongDownIcon,
   CurrencyYenIcon,
 } from '@heroicons/react/24/solid'
-import { financePath, totalAssetsPath } from '../../_common/constants/path'
-import { Cumulative } from '../../_common/types/Cumulative'
+import { financePath, totalAssetsPath } from '../../../_common/constants/path'
+import { Cumulative } from '../../../_common/types/Cumulative'
 
 type Props = {
   cumulative: Cumulative

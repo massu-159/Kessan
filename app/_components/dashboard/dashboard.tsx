@@ -1,17 +1,16 @@
-import TotalBarChart from './total-bar-chart'
-import { CardBody, CardFooter, Button, Typography } from '../common'
-import { CustomCard } from '../ui/custom-card'
-import TotalPieChart from './total-pie-chart'
-import AccountCard from './account-card'
-import CumulativeRateCard from './cumulative-rate-card'
-import ActualVsTarget from './actual-vs-target'
+import AccountCard from './sections/account-card'
+import CumulativeRateCard from './sections/cumulative-rate-card'
+import ActualVsTargetCard from './sections/actual-vs-target-card'
+import TotalBarChartCard from './sections/total-bar-chart-card'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../lib/database.types'
-import Link from 'next/link'
-import { financePath, totalAssetsPath } from '../../_common/constants/path'
 import { Assets } from '../../_common/types/Assets'
 import { ProcessedData } from '../../_common/types/ProcessedData'
+import BarChartNoDataCard from './sections/bar-chart-no-data-card'
+import PieChartNoDataCard from './sections/pie-chart-no-data-card'
+import BannerCard from './sections/banner-card'
+import TotalPieChartCard from './sections/total-pie-chart-card'
 
 /**
  * ダッシュボード
@@ -82,7 +81,7 @@ const Dashboard = async () => {
     return Object.values(processedData)
   }
 
-  const acountData = processData(Assets)
+  const accountData = processData(Assets)
 
   // 各日付ごとの資産合計を計算する関数
   const calcTotalAmountParDate = (Assets: Assets[] | null) => {
@@ -144,91 +143,23 @@ const Dashboard = async () => {
         <CumulativeRateCard cumulative={cumulative} />
       </div>
       <div className='col-span-3'>
-        <ActualVsTarget goal={goal} record={totalAmountParDate[0]} />
+        <ActualVsTargetCard goal={goal} record={totalAmountParDate[0]} />
       </div>
       <div className='col-span-2 relative'>
-        <video
-          src='/bg.webm'
-          className='absolute inset-x-0 px-1 top-5 -z-10 rounded-3xl'
-          loop
-          autoPlay
-          muted
-        ></video>
-        <CardBody className='h-full flex justify-center items-center'>
-          <Typography
-            variant='h5'
-            className='text-white font-bold text-2xl italic'
-          >
-            JUST DO IT
-          </Typography>
-        </CardBody>
+        <BannerCard />
       </div>
       <div className='col-span-5 pb-2'>
-        {Assets && acountData.length > 1 ? (
-          <CustomCard>
-            <CardBody className='w-11/12 h-96'>
-              <TotalBarChart data={acountData}></TotalBarChart>
-            </CardBody>
-            <CardFooter className='pt-0 text-end'>
-              <Link href={totalAssetsPath}>
-                <Button color='cyan' variant='text'>
-                  overview →
-                </Button>
-              </Link>
-            </CardFooter>
-          </CustomCard>
+        {Assets && accountData.length > 1 ? (
+          <TotalBarChartCard accountData={accountData} />
         ) : (
-          <CustomCard>
-            <CardBody className='h-96 flex justify-center items-center bg-[url(/total-bar-chart-blur.png)] bg-center bg-cover'>
-              <Typography
-                variant='h5'
-                className='text-blue-gray-800 font-bold text-7xl'
-              >
-                No Data
-              </Typography>
-            </CardBody>
-            <CardFooter className='pt-0 text-center'>
-              <Link href={financePath}>
-                <Button color='cyan' variant='gradient'>
-                  登録する →
-                </Button>
-              </Link>
-            </CardFooter>
-          </CustomCard>
+          <BarChartNoDataCard />
         )}
       </div>
       <div className='col-span-3 pb-2'>
-        {Assets && acountData.length > 1 ? (
-          <CustomCard className='bg-opacity-0 shadow-none'>
-            <CardBody className='w-full h-96 flex justify-center items-center'>
-              <TotalPieChart data={acountData[0]}></TotalPieChart>
-            </CardBody>
-            <CardFooter className='pt-0 text-end'>
-              <Link href={totalAssetsPath}>
-                <Button color='white' variant='text'>
-                  overview →
-                </Button>
-              </Link>
-            </CardFooter>
-          </CustomCard>
+        {Assets && accountData.length > 1 ? (
+          <TotalPieChartCard accountData={accountData} />
         ) : (
-          <CustomCard className='bg-opacity-10'>
-            <CardBody className='h-96 flex justify-center items-center bg-[url(/pie-chart-blur.png)] bg-center bg-cover'>
-              <Typography
-                variant='h5'
-                className='text-blue-gray-800 font-bold text-7xl'
-              >
-                No Data
-              </Typography>
-            </CardBody>
-            <CardFooter className='pt-0 text-center'>
-              <Link href={financePath}>
-                <Button color='cyan' variant='gradient'>
-                  登録する →
-                </Button>
-              </Link>
-            </CardFooter>
-          </CustomCard>
+          <PieChartNoDataCard />
         )}
       </div>
       {assetsParAcount?.map((account, i) => (

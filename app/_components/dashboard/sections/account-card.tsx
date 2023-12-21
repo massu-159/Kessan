@@ -3,12 +3,12 @@ import {
   ArrowLongDownIcon,
   ArrowLongUpIcon,
 } from '@heroicons/react/24/solid'
-import { Button, CardBody, CardFooter, Typography } from '../common'
-import { CustomCard } from '../ui/custom-card'
+import { Button, CardBody, CardFooter, Typography } from '../../common'
+import { CustomCard } from '../../ui/custom-card'
 import Link from 'next/link'
-import { financePath } from '../../_common/constants/path'
-import { Colors } from '../../_common/constants/Colors'
-import { AccountAssets } from '../../_common/types/AccountAssets'
+import { financePath } from '../../../_common/constants/path'
+import { Colors } from '../../../_common/constants/Colors'
+import { AccountAssets } from '../../../_common/types/AccountAssets'
 
 type Props = {
   account: AccountAssets

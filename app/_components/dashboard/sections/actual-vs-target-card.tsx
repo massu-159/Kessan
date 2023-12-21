@@ -1,10 +1,10 @@
 import Link from 'next/link'
-import { Database } from '../../../lib/database.types'
-import { Button, CardBody, CardFooter, Typography } from '../common'
-import { CustomCard } from '../ui/custom-card'
+import { Database } from '../../../../lib/database.types'
+import { Button, CardBody, CardFooter, Typography } from '../../common'
+import { CustomCard } from '../../ui/custom-card'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
-import { totalAssetsPath } from '../../_common/constants/path'
-import { Record } from '../../_common/types/Record'
+import { totalAssetsPath } from '../../../_common/constants/path'
+import { Record } from '../../../_common/types/Record'
 type GoalType = Database['public']['Tables']['Goal']['Row']
 
 type Props = {
@@ -17,7 +17,7 @@ type Props = {
  * @param goal 目標
  * @param record 直近の資産残高
  */
-const ActualVsTarget = ({ goal, record }: Props) => {
+const ActualVsTargetCard = ({ goal, record }: Props) => {
   let difference = 0
   let rate = 0
   if (goal && goal.amount) {
@@ -82,4 +82,4 @@ const ActualVsTarget = ({ goal, record }: Props) => {
   )
 }
 
-export default ActualVsTarget
+export default ActualVsTargetCard
