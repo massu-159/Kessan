@@ -1,24 +1,16 @@
 import TotalBarChart from './total-bar-chart'
 import { Card, CardBody, CardFooter, Button, Typography } from '../common'
 import TotalPieChart from './total-pie-chart'
-import AcountCard from './acount-card'
+import AccountCard from './account-card'
 import CumulativeRateCard from './cumulative-rate-card'
 import ActualVsTarget from './actual-vs-target'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../lib/database.types'
 import Link from 'next/link'
-import { Key } from 'react'
 import { financePath, totalAssetsPath } from '../../_common/constants/path'
-
-type Assets = {
-  date: string | null
-  amount: number | null
-  FinancialInstitution: {
-    name: string | null
-    usage: string | null
-  }
-}
+import { Assets } from '../../_common/types/Assets'
+import { ProcessedData } from '../../_common/types/ProcessedData'
 
 const Dashboard = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
@@ -47,7 +39,7 @@ const Dashboard = async () => {
       .single()
 
     // 金融機関・資産を取得
-    const { data: AssetParFinancialInstitution }: any = await supabase
+    const { data: AssetParFinancialInstitution } = await supabase
       .from('FinancialInstitution')
       .select(`name, usage, Asset!inner(date, amount)`)
       .eq('user_id', session.user.id)
@@ -62,15 +54,23 @@ const Dashboard = async () => {
   }
 
   // 資産を日付ごとに整理
-  const processData = (data: any) => {
-    const processedData: any = {}
+  const processData = (data: Assets[] | null) => {
+    if (!data) {
+      return []
+    }
+    const processedData: Record<string, ProcessedData> = {}
     data.forEach((item: Assets) => {
       const { date, amount, FinancialInstitution } = item
-      if (date === null || FinancialInstitution.name === null) {
+      if (
+        date === null ||
+        amount === null ||
+        FinancialInstitution === null ||
+        FinancialInstitution.name === null
+      ) {
         return
       }
       if (!processedData[date]) {
-        processedData[date] = { date }
+        processedData[date] = { date, total: 0 }
       }
       processedData[date].total = (processedData[date].total || 0) + amount
       processedData[date][FinancialInstitution.name] = amount
@@ -81,7 +81,10 @@ const Dashboard = async () => {
   const acountData = processData(Assets)
 
   // 各日付ごとの資産合計を計算する関数
-  const calcTotalAmountParDate = (Assets: any) => {
+  const calcTotalAmountParDate = (Assets: Assets[] | null) => {
+    if (!Assets) {
+      return []
+    }
     const totalAmountParDate: {
       date: string
       amount: number
@@ -139,9 +142,10 @@ const Dashboard = async () => {
       <div className='col-span-3'>
         <ActualVsTarget goal={goal} record={totalAmountParDate[0]} />
       </div>
-      <Card className='col-span-2 bg-[url(/sneaker.jpg)] bg-cover'>
-        <CardBody className='h-fit flex justify-center items-center'>
-          <Typography variant='h5' className='text-cyan-500 font-bold text-7xl'>
+      <Card className='col-span-2 bg-gradient-to-r from-cyan-500 via-purple-600 to-cyan-500 -z-20'>
+        <video src="/bg.webm" className='absolute inset-x-0 px-1 top-5 -z-10 blur-sm' loop autoPlay muted ></video>
+        <CardBody className='h-full flex justify-center items-center'>
+          <Typography variant='h5' className='text-white font-bold text-7xl italic'>
             JUST DO IT
           </Typography>
         </CardBody>
@@ -214,13 +218,11 @@ const Dashboard = async () => {
           </Card>
         )}
       </div>
-      {assetsParAcount?.map(
-        (acount: { id: Key | null | undefined }, i: any) => (
-          <div className='col-span-2' key={acount.id}>
-            <AcountCard acount={acount} index={i} />
-          </div>
-        )
-      )}
+      {assetsParAcount?.map((account, i) => (
+        <div className='col-span-2' key={account.name}>
+          <AccountCard account={account} index={i} />
+        </div>
+      ))}
     </div>
   )
 }

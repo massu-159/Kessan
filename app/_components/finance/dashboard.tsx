@@ -41,7 +41,6 @@ const FinanceDashboard = async () => {
     financialAcounts = FinancialInstitution
   }
 
-  console.log('financialAcounts', financialAcounts)
   return (
     <div className='grid grid-cols-8 gap-4'>
       {financialAcounts?.length === 0 && Assets.length === 0 ? (
@@ -104,7 +103,6 @@ const FinanceDashboard = async () => {
                 const result = Assets?.filter(
                   (item: any) => item.name === acount.name
                 )
-                console.log('result', result)
 
                 return (
                   <>

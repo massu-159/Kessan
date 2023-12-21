@@ -6,43 +6,56 @@ import {
 import { Button, Card, CardBody, CardFooter, Typography } from '../common'
 import Link from 'next/link'
 import { financePath } from '../../_common/constants/path'
+import { Colors } from '../../_common/constants/Colors'
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+type Props = {
+  account: {
+    name: string | null
+    usage: string | null
+    Asset: {
+      date: string | null
+      amount: number | null
+    }[]
+  }
+  index: number
+}
 
-const AcountCard = ({ acount, index }: any) => {
+/**
+ * アカウントカード
+ * @param account
+ * @param index
+ */
+const AccountCard = ({ account, index }: Props) => {
+  // 直近の資産残高
+  const currentAmount = account.Asset[0].amount
+  if (!currentAmount) return null
+
   // 配色
-  const colorIndex = Math.floor(index % COLORS.length)
+  const colorIndex = Math.floor(index % Colors.length)
   // 前月の資産残高
-  const previousAmount = acount.Asset[1]?.amount ? acount.Asset[1].amount : 0
+  const previousAmount = account.Asset[1]?.amount ? account.Asset[1].amount : 0
   // 増減率を計算
   const calcRate = (amount: number, previousAmount: number) => {
     if (previousAmount === 0) return 0
     return Math.floor(((amount - previousAmount) / previousAmount) * 100)
   }
   // 直近の増減率
-  const rate = calcRate(acount.Asset[0].amount, previousAmount) 
-
-  // 増減額を計算
-  const calcDifference = (amount: number, previousAmount: number) => {
-    return amount - previousAmount
-  }
-  // 直近の増減額
-  const difference = calcDifference(acount.Asset[0].amount, previousAmount)
+  const rate = calcRate(currentAmount, previousAmount)
 
   return (
     <Card>
       <CardBody className='w-full h-fit'>
         <div className='flex gap-4 items-center'>
           <CreditCardIcon
-            fill={COLORS[colorIndex]}
+            fill={Colors[colorIndex]}
             className='w-10 h-10'
           ></CreditCardIcon>
           <Typography variant='h5' color='blue-gray' className=''>
-            {acount.name}
+            {account.name}
           </Typography>
         </div>
 
-        <Typography>{acount.usage}</Typography>
+        <Typography>{account.usage}</Typography>
         <div className='flex justify-center items-center'>
           {rate > 0 ? (
             <>
@@ -94,4 +107,4 @@ const AcountCard = ({ acount, index }: any) => {
   )
 }
 
-export default AcountCard
+export default AccountCard
