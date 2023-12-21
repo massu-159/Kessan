@@ -28,6 +28,9 @@ const schema = z.object({
   password: z.string().min(8, { message: '8文字以上で入力してください。' }),
 })
 
+/**
+ * ログイン
+ */
 const Login = () => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()

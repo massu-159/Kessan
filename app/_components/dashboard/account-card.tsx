@@ -3,20 +3,15 @@ import {
   ArrowLongDownIcon,
   ArrowLongUpIcon,
 } from '@heroicons/react/24/solid'
-import { Button, Card, CardBody, CardFooter, Typography } from '../common'
+import { Button, CardBody, CardFooter, Typography } from '../common'
+import { CustomCard } from '../ui/custom-card'
 import Link from 'next/link'
 import { financePath } from '../../_common/constants/path'
 import { Colors } from '../../_common/constants/Colors'
+import { AccountAssets } from '../../_common/types/AccountAssets'
 
 type Props = {
-  account: {
-    name: string | null
-    usage: string | null
-    Asset: {
-      date: string | null
-      amount: number | null
-    }[]
-  }
+  account: AccountAssets
   index: number
 }
 
@@ -43,7 +38,7 @@ const AccountCard = ({ account, index }: Props) => {
   const rate = calcRate(currentAmount, previousAmount)
 
   return (
-    <Card>
+    <CustomCard>
       <CardBody className='w-full h-fit'>
         <div className='flex gap-4 items-center'>
           <CreditCardIcon
@@ -103,7 +98,7 @@ const AccountCard = ({ account, index }: Props) => {
           </Button>
         </Link>
       </CardFooter>
-    </Card>
+    </CustomCard>
   )
 }
 

@@ -1,9 +1,8 @@
 'use client'
+
 import {
-  BarChart,
   Bar,
   Line,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -12,13 +11,20 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
+import { Colors } from '../../_common/constants/Colors'
+import { ProcessedData } from '../../_common/types/ProcessedData'
 
-// 配色
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+type Props = {
+  data: ProcessedData[]
+}
 
-const TotalBarChart = ({ data }: any) => {
+/**
+ * 直近の資産棒グラフ
+ * @param data 直近の資産
+ */
+const TotalBarChart = ({ data }: Props) => {
   // dataを日付昇順にソート
-  data.sort((a: any, b: any) => {
+  data.sort((a, b) => {
     if (a.date < b.date) {
       return -1
     } else {
@@ -52,11 +58,11 @@ const TotalBarChart = ({ data }: any) => {
         <YAxis />
         <Tooltip />
         <Legend />
-        {financeInstitutions.map((item: any, index) => (
+        {financeInstitutions.map((item, index) => (
           <Bar
             dataKey={item}
             stackId='a'
-            fill={COLORS[Math.floor(index % COLORS.length)]}
+            fill={Colors[Math.floor(index % Colors.length)]}
             unit='円'
             barSize={28}
             key={item}

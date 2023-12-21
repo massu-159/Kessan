@@ -1,5 +1,6 @@
 import TotalBarChart from './total-bar-chart'
-import { Card, CardBody, CardFooter, Button, Typography } from '../common'
+import { CardBody, CardFooter, Button, Typography } from '../common'
+import { CustomCard } from '../ui/custom-card'
 import TotalPieChart from './total-pie-chart'
 import AccountCard from './account-card'
 import CumulativeRateCard from './cumulative-rate-card'
@@ -12,6 +13,9 @@ import { financePath, totalAssetsPath } from '../../_common/constants/path'
 import { Assets } from '../../_common/types/Assets'
 import { ProcessedData } from '../../_common/types/ProcessedData'
 
+/**
+ * ダッシュボード
+ */
 const Dashboard = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
 
@@ -142,17 +146,26 @@ const Dashboard = async () => {
       <div className='col-span-3'>
         <ActualVsTarget goal={goal} record={totalAmountParDate[0]} />
       </div>
-      <Card className='col-span-2 bg-gradient-to-r from-cyan-500 via-purple-600 to-cyan-500 -z-20'>
-        <video src="/bg.webm" className='absolute inset-x-0 px-1 top-5 -z-10 blur-sm' loop autoPlay muted ></video>
+      <div className='col-span-2 relative'>
+        <video
+          src='/bg.webm'
+          className='absolute inset-x-0 px-1 top-5 -z-10 rounded-3xl'
+          loop
+          autoPlay
+          muted
+        ></video>
         <CardBody className='h-full flex justify-center items-center'>
-          <Typography variant='h5' className='text-white font-bold text-7xl italic'>
+          <Typography
+            variant='h5'
+            className='text-white font-bold text-2xl italic'
+          >
             JUST DO IT
           </Typography>
         </CardBody>
-      </Card>
+      </div>
       <div className='col-span-5 pb-2'>
         {Assets && acountData.length > 1 ? (
-          <Card className=''>
+          <CustomCard>
             <CardBody className='w-11/12 h-96'>
               <TotalBarChart data={acountData}></TotalBarChart>
             </CardBody>
@@ -163,9 +176,9 @@ const Dashboard = async () => {
                 </Button>
               </Link>
             </CardFooter>
-          </Card>
+          </CustomCard>
         ) : (
-          <Card className=''>
+          <CustomCard>
             <CardBody className='h-96 flex justify-center items-center bg-[url(/total-bar-chart-blur.png)] bg-center bg-cover'>
               <Typography
                 variant='h5'
@@ -181,25 +194,25 @@ const Dashboard = async () => {
                 </Button>
               </Link>
             </CardFooter>
-          </Card>
+          </CustomCard>
         )}
       </div>
       <div className='col-span-3 pb-2'>
         {Assets && acountData.length > 1 ? (
-          <Card>
+          <CustomCard className='bg-opacity-0 shadow-none'>
             <CardBody className='w-full h-96 flex justify-center items-center'>
               <TotalPieChart data={acountData[0]}></TotalPieChart>
             </CardBody>
             <CardFooter className='pt-0 text-end'>
               <Link href={totalAssetsPath}>
-                <Button color='cyan' variant='text'>
+                <Button color='white' variant='text'>
                   overview →
                 </Button>
               </Link>
             </CardFooter>
-          </Card>
+          </CustomCard>
         ) : (
-          <Card className=''>
+          <CustomCard className='bg-opacity-10'>
             <CardBody className='h-96 flex justify-center items-center bg-[url(/pie-chart-blur.png)] bg-center bg-cover'>
               <Typography
                 variant='h5'
@@ -215,7 +228,7 @@ const Dashboard = async () => {
                 </Button>
               </Link>
             </CardFooter>
-          </Card>
+          </CustomCard>
         )}
       </div>
       {assetsParAcount?.map((account, i) => (

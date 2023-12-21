@@ -1,9 +1,18 @@
 'use client'
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+import { Colors } from '../../_common/constants/Colors'
+import { ProcessedData } from '../../_common/types/ProcessedData'
 
-const TotalPieChart = ({ data }: any) => {
+type Props = {
+  data: ProcessedData
+}
+
+/**
+ * 直近の資産円グラフ
+ * @param data 直近の資産
+ */
+const TotalPieChart = ({ data }: Props) => {
   // 直近のデータを取得(date,total以外)
   const record = Object.entries(data)
     .slice(2)
@@ -23,8 +32,8 @@ const TotalPieChart = ({ data }: any) => {
           dataKey='value'
           label
         >
-          {record.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          {record.map((_, index) => (
+            <Cell key={`cell-${index}`} fill={Colors[index % Colors.length]} />
           ))}
         </Pie>
         <Tooltip></Tooltip>

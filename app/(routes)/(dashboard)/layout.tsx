@@ -50,7 +50,14 @@ export default async function Dashboardlayout({
       <div className='flex-[1_1_22%] max-w-[16rem]'>
         <SupabaseListener />
       </div>
-      <div className='flex-[1_1_78%] bg-[#f4fcfc] h-screen'>
+      <div className='flex-[1_1_78%] bg-opacity-0 w-screen'>
+        <video
+          src='/bg.mp4'
+          className='fixed inset-0 -z-10 w-screen'
+          loop
+          autoPlay
+          muted
+        ></video>
         <div className='flex flex-col h-full'>
           <Navigation profile={profile}></Navigation>
           <Content>{children}</Content>

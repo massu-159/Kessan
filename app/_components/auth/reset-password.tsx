@@ -16,7 +16,9 @@ const schema = z.object({
   email: z.string().email({ message: 'メールアドレスの形式ではありません。' }),
 })
 
-// パスワードリセットページ
+/**
+ * パスワードリセット
+ */
 const ResetPassword = () => {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()

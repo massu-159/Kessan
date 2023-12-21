@@ -1,22 +1,27 @@
 import Link from 'next/link'
-import { Button, Card, CardBody, CardFooter, Typography } from '../common'
+import { Button, CardBody, CardFooter, Typography } from '../common'
+import { CustomCard } from '../ui/custom-card'
 import {
   ArrowLongUpIcon,
   ArrowLongDownIcon,
   CurrencyYenIcon,
 } from '@heroicons/react/24/solid'
 import { financePath, totalAssetsPath } from '../../_common/constants/path'
+import { Cumulative } from '../../_common/types/Cumulative'
 
-interface Cumulative {
-  amount: number | null
-  rate: number | null
+type Props = {
+  cumulative: Cumulative
 }
 
-const CumulativeRateCard = ({ cumulative }: { cumulative: Cumulative }) => {
+/**
+ * 累積比較カード
+ * @param cumulative 累積比較
+ */
+const CumulativeRateCard = ({ cumulative }: Props) => {
   return (
     <>
       {cumulative.amount === null && cumulative.rate === null ? (
-        <Card className=''>
+        <CustomCard>
           <CardBody className='flex flex-col justify-center pb-4'>
             <Typography variant='h5' className='text-sm font-normal mb-4'>
               cumulative rate
@@ -37,9 +42,9 @@ const CumulativeRateCard = ({ cumulative }: { cumulative: Cumulative }) => {
               </Button>
             </Link>
           </CardFooter>
-        </Card>
+        </CustomCard>
       ) : (
-        <Card>
+        <CustomCard>
           <CardBody className='w-full h-fit'>
             <div className='flex gap-4 items-center'>
               <div>
@@ -103,7 +108,7 @@ const CumulativeRateCard = ({ cumulative }: { cumulative: Cumulative }) => {
               </Button>
             </Link>
           </CardFooter>
-        </Card>
+        </CustomCard>
       )}
     </>
   )

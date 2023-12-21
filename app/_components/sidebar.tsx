@@ -60,7 +60,7 @@ export default function SideBar({
   return (
     <>
       {session && (
-        <Card className='fixed min-h-screen bg-cyan-900 rounded-none w-full max-w-[16rem] p-4 shadow-xl'>
+        <Card className='fixed min-h-screen bg-cyan-900 bg-opacity-80 rounded-none w-full max-w-[16rem] p-4 shadow-xl'>
           {/* タイトル */}
           <div className='mb-2 flex items-center gap-4 p-4'>
             <div className='relative w-10 h-10'>

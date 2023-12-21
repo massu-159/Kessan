@@ -15,7 +15,7 @@ type ProfileType = Database['public']['Tables']['profiles']['Row']
 // ナビゲーション
 const Navigation = ({ profile }: { profile: ProfileType | null }) => {
   return (
-    <nav className='block fixed max-w-[calc(100vw-16rem)] bg-[#f4fcfc] bg-opacity-30 text-white mx-auto w-screen px-4 py-3 rounded-none shadow-none backdrop-blur-sm z-30'>
+    <nav className='block fixed max-w-[calc(100vw-16rem)] bg-[#f4fcfc] bg-opacity-5 text-white mx-auto w-screen px-4 py-3 rounded-none shadow-none backdrop-blur-sm z-30'>
       <div className='flex flex-wrap items-center justify-between gap-y-4 text-blue-gray-900'>
         <div className='relative flex w-full gap-2 md:w-max'>
           <Input
@@ -36,12 +36,12 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
         </div>
         <div className='ml-auto flex gap-3 md:mr-4'>
           <Link href={emailPath}>
-            <IconButton variant='text' color='blue-gray'>
-              <Cog6ToothIcon className='h-6 w-6' />
+            <IconButton variant='text' color='cyan'>
+              <Cog6ToothIcon className='h-7 w-7' />
             </IconButton>
           </Link>
-          <IconButton variant='text' color='blue-gray'>
-            <BellIcon className='h-6 w-6' />
+          <IconButton variant='text' color='cyan'>
+            <BellIcon className='h-7 w-7' />
           </IconButton>
           <Link href={profilePath}>
             <div className='relative w-10 h-10'>

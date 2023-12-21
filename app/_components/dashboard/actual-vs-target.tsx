@@ -1,22 +1,23 @@
 import Link from 'next/link'
 import { Database } from '../../../lib/database.types'
-import { Button, Card, CardBody, CardFooter, Typography } from '../common'
+import { Button, CardBody, CardFooter, Typography } from '../common'
+import { CustomCard } from '../ui/custom-card'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
 import { totalAssetsPath } from '../../_common/constants/path'
+import { Record } from '../../_common/types/Record'
 type GoalType = Database['public']['Tables']['Goal']['Row']
 
-type Record = {
-  amount: number
-  date: string
-}
-
-const ActualVsTarget = ({
-  goal,
-  record,
-}: {
+type Props = {
   goal: GoalType | null
   record: Record
-}) => {
+}
+
+/**
+ * 目標達成率カード
+ * @param goal 目標
+ * @param record 直近の資産残高
+ */
+const ActualVsTarget = ({ goal, record }: Props) => {
   let difference = 0
   let rate = 0
   if (goal && goal.amount) {
@@ -26,7 +27,7 @@ const ActualVsTarget = ({
     rate = Math.round((record.amount / goal.amount) * 100)
   }
   return (
-    <Card>
+    <CustomCard>
       <CardBody className='w-full h-fit'>
         <div className='flex gap-4 items-center'>
           <div>
@@ -77,7 +78,7 @@ const ActualVsTarget = ({
           </Link>
         </CardFooter>
       )}
-    </Card>
+    </CustomCard>
   )
 }
 
