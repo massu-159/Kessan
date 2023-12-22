@@ -1,25 +1,28 @@
 'use client'
 import { CreditCardIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
-import { Card, CardBody, CardFooter, Typography, Button } from '../common'
+import { Card, CardBody, CardFooter, Typography, Button } from '../../common'
 import { useState } from 'react'
-import PopUpForm from './finance-form'
-import AcountEditForm from './acount-edit-form'
+import PopUpForm from '../parts/finance-form'
+import AccountEditForm from '../parts/account-edit-form'
+import { colors } from '../../../_common/constants/colors'
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
-
-const AcountCard = ({
-  acount,
-  userId,
-  index,
-}: {
-  acount: any
+type Props = {
+  account: any
   userId: string | undefined
   index: number
-}) => {
+}
+
+/**
+ * 金融機関カード
+ * @param account 金融機関
+ * @param userId ユーザーID
+ * @param index 金融機関のインデックス
+ */
+const AccountCard = ({ account, userId, index }: Props) => {
   const [open, setOpen] = useState(false)
   const [show, setShow] = useState(false)
   // 配色
-  const colorIndex = Math.floor(index % COLORS.length)
+  const colorIndex = Math.floor(index % colors.length)
   // 金額入力ボタンを押したら、金額入力モーダルウィンドウを表示する
   const handleClick = () => {
     setOpen(true)
@@ -29,17 +32,20 @@ const AcountCard = ({
     setShow(true)
   }
 
+  // 金融機関が登録されていない場合は、何も表示しない
+  if (!account.name || !account.usage) return <></>
+
   return (
     <Card className='bg-opacity-50'>
       <CardBody className='w-full h-fit pb-0'>
         <div className='flex gap-4 items-center justify-between'>
           <div className='flex gap-4 items-center'>
             <CreditCardIcon
-              fill={COLORS[colorIndex]}
+              fill={colors[colorIndex]}
               className='w-10 h-10'
             ></CreditCardIcon>
             <Typography variant='h5' color='blue-gray'>
-              {acount.name}
+              {account.name}
             </Typography>
           </div>
           <Button variant='text' color='cyan' onClick={handleClickEdit}>
@@ -48,14 +54,14 @@ const AcountCard = ({
               className='w-6 h-6'
             ></PencilSquareIcon>
           </Button>
-          <AcountEditForm
+          <AccountEditForm
             show={show}
             setShow={setShow}
-            acount={acount}
+            account={account}
             id={userId}
-          ></AcountEditForm>
+          ></AccountEditForm>
         </div>
-        <Typography>{acount.usage}</Typography>
+        <Typography>{account.usage}</Typography>
         <div className='text-end'>
           <Button color='cyan' onClick={handleClick}>
             金額入力
@@ -63,7 +69,7 @@ const AcountCard = ({
           <PopUpForm
             open={open}
             setOpen={setOpen}
-            name={acount.name}
+            name={account.name}
             id={userId}
           ></PopUpForm>
         </div>
@@ -75,4 +81,4 @@ const AcountCard = ({
   )
 }
 
-export default AcountCard
+export default AccountCard

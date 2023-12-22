@@ -1,11 +1,18 @@
 'use client'
-import { XMarkIcon } from '@heroicons/react/24/solid'
-import { Card, CardBody, Input, Button, Typography } from '../common'
+import { TrashIcon, XMarkIcon } from '@heroicons/react/24/solid'
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  Input,
+  Button,
+  Typography,
+} from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../(routes)/loading'
+import Loading from '../../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../../../lib/database.types'
+import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
@@ -28,38 +35,59 @@ const schema = z.object({
   }),
 })
 
-export default function PopUpForm({
-  open,
-  setOpen,
-  name,
-  id,
-}: {
+type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   name: string
   id: string | undefined
-}) {
+  amount: number
+  date: string
+}
+
+/**
+ * 金額編集フォーム
+ * @param open モーダルウィンドウの表示状態
+ * @param setOpen モーダルウィンドウの表示状態を変更する関数
+ * @param name 金融機関
+ * @param id ユーザーID
+ * @param amount 金額
+ * @param date 日付
+ */
+export default function PopUpEditForm({
+  open,
+  setOpen,
+  name,
+  id,
+  amount,
+  date,
+}: Props) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
-  // 現在の日付を取得
-  const today = new Date().toISOString().slice(0, 10)
+  const handleClose = () => {
+    setOpen(false)
+    router.refresh()
+  }
+
   // 入力フォームの設定
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm({
     // 初期値
-    defaultValues: { financeInstitution: name, date: today, amount: 0 },
+    defaultValues: {
+      financeInstitution: name,
+      date: date,
+      amount: amount,
+    },
     // 入力値の検証
     resolver: zodResolver(schema),
   })
 
-  // 送信
+  // 更新データを送信
   const onSubmit: SubmitHandler<Schema> = async (data) => {
     setLoading(true)
 
@@ -75,7 +103,7 @@ export default function PopUpForm({
         return
       }
       // 金額登録済みチェック
-      const { data: Asset, error: errorAsset } = await supabase
+      const { data: Asset } = await supabase
         .from('Asset')
         .select('date')
         .eq('user_id', id)
@@ -96,30 +124,10 @@ export default function PopUpForm({
           setMessage('エラーが発生しました。' + errorUpdateAmount.message)
           return
         }
-      } else if (Asset === null) {
-        // 金額登録
-        const { error: errorInputAmount } = await supabase
-          .from('Asset')
-          .insert([
-            {
-              user_id: id,
-              financial_institution_id: FinancialInstitution.id,
-              date: data.date,
-              amount: data.amount,
-            },
-          ])
-          .eq('user_id', id)
-
-        // エラーチェック
-        if (errorInputAmount) {
-          setMessage('エラーが発生しました。' + errorInputAmount.message)
-          return
-        }
       }
 
-      // 入力フォームクリア
-      reset()
       setMessage('登録が完了しました。')
+      handleClose()
     } catch (error) {
       setMessage('エラーが発生しました。' + error)
       return
@@ -128,20 +136,56 @@ export default function PopUpForm({
     }
   }
 
-  const handleClose = () => {
-    setOpen(false)
-    router.refresh()
+  // 金額削除
+  const handleDelete = async () => {
+    setLoading(true)
+
+    try {
+      // 金融機関ID取得
+      const { data: FinancialInstitution } = await supabase
+        .from('FinancialInstitution')
+        .select('id')
+        .eq('name', name)
+        .single()
+      if (FinancialInstitution === null) {
+        setMessage('入力した金融機関が見つかりません。')
+        return
+      }
+
+      // 金額削除
+      const { error: errorDeleteAmount } = await supabase
+        .from('Asset')
+        .delete()
+        .eq('user_id', id)
+        .eq('financial_institution_id', FinancialInstitution.id)
+        .eq('date', date)
+
+      // エラーチェック
+      if (errorDeleteAmount) {
+        setMessage('エラーが発生しました。' + errorDeleteAmount.message)
+        return
+      }
+
+      setMessage('削除が完了しました。')
+      handleClose()
+    } catch (error) {
+      setMessage('エラーが発生しました。' + error)
+      return
+    } finally {
+      setLoading(false)
+    }
   }
+
   // 金額入力モーダルウィンドウを閉じる
   if (!open) {
     return null
   }
 
   return (
-    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-100 bg-opacity-25'>
+    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-50 bg-opacity-25'>
       <div className='flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center'>
         <Card>
-          <CardBody>
+          <CardBody className='pb-1'>
             <div className='text-end'>
               <Button
                 variant='text'
@@ -153,10 +197,10 @@ export default function PopUpForm({
               </Button>
             </div>
             <Typography variant='h4' color='blue-gray'>
-              金額入力
+              金額変更
             </Typography>
             <Typography color='gray' className='mt-1 font-normal'>
-              Enter your amounts to register
+              Enter your amounts to update or delete
             </Typography>
             <form
               onSubmit={handleSubmit(onSubmit)}
@@ -167,6 +211,7 @@ export default function PopUpForm({
                   size='lg'
                   label='金融機関'
                   {...register('financeInstitution', { required: true })}
+                  readOnly
                 />
                 <div className='text-center text-sm text-red-500'>
                   {errors.financeInstitution?.message}
@@ -197,7 +242,7 @@ export default function PopUpForm({
                 <Loading />
               ) : (
                 <Button type='submit' color='cyan' className='mt-6' fullWidth>
-                  Register
+                  Update
                 </Button>
               )}
               {message && (
@@ -207,6 +252,17 @@ export default function PopUpForm({
               )}
             </form>
           </CardBody>
+          <CardFooter className='pt-0'>
+            <Button
+              onClick={handleDelete}
+              color='red'
+              className='flex items-center justify-center gap-3'
+              fullWidth
+            >
+              <TrashIcon fill='white' className='h-5 w-5'></TrashIcon>
+              Delete
+            </Button>
+          </CardFooter>
         </Card>
       </div>
     </div>

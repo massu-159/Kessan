@@ -1,7 +1,7 @@
 'use client'
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import { Colors } from '../../../_common/constants/Colors'
+import { colors } from '../../../_common/constants/colors'
 import { ProcessedData } from '../../../_common/types/ProcessedData'
 
 type Props = {
@@ -33,7 +33,7 @@ const TotalPieChart = ({ data }: Props) => {
           label
         >
           {record.map((_, index) => (
-            <Cell key={`cell-${index}`} fill={Colors[index % Colors.length]} />
+            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>
         <Tooltip></Tooltip>

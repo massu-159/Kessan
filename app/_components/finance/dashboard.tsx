@@ -1,13 +1,21 @@
-import FinanceBarChart from './bar-chart'
-import { Card, CardBody, CardFooter, Button, Typography } from '../common'
-import AcountCard from './acount-card'
+import FinanceBarChart from './parts/bar-chart'
+import { Card, CardBody, Typography } from '../common'
+import AccountCard from './sections/account-card'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { cookies } from 'next/headers'
 import { Database } from '../../../lib/database.types'
-import AcountTable from './acount-table'
-import AcountAddButton from './acount-add-button'
-import AcountCardDefault from './acount-card-default'
+import AccountTable from './sections/account-table'
+import AccountAddButton from './parts/account-add-button'
+import AccountCardDefault from './sections/account-card-default'
+import { FinancialInstitution } from '../../_common/types/FinancialInstitution'
+import { AssetParFinancialInstitution } from '../../_common/types/AssetParFinancialInstitution'
+import AccountCardNoDataDefault from './sections/account-card-no-data-default'
+import AccountNoDataBarChart from './sections/account-no-data-bar-chart'
+import FinanceBarChartCard from './sections/finance-bar-chart-card'
 
+/**
+ * ファイナンスダッシュボード
+ */
 const FinanceDashboard = async () => {
   const supabase = createServerComponentClient<Database>({ cookies })
 
@@ -15,23 +23,22 @@ const FinanceDashboard = async () => {
     data: { session },
   } = await supabase.auth.getSession()
 
-  let financialAcounts: any[] = []
-  let Assets: any[] = []
+  let financialAcounts: FinancialInstitution[] | null = []
+  let Assets: AssetParFinancialInstitution[] | null = []
 
   if (session) {
     // 金融機関・資産を取得
-    const { data: AssetParFinancialInstitution }: { data: any | null } =
-      await supabase
-        .from('FinancialInstitution')
-        .select(`name, usage, Asset!inner(date, amount)`)
-        .eq('user_id', session.user.id)
-        .order('date', {
-          foreignTable: 'Asset',
-          ascending: false,
-        })
+    const { data: AssetParFinancialInstitution } = await supabase
+      .from('FinancialInstitution')
+      .select(`name, usage, Asset!inner(date, amount)`)
+      .eq('user_id', session.user.id)
+      .order('date', {
+        foreignTable: 'Asset',
+        ascending: false,
+      })
 
     // 金融機関のみ取得
-    const { data: FinancialInstitution }: { data: any | null } = await supabase
+    const { data: FinancialInstitution } = await supabase
       .from('FinancialInstitution')
       .select(`name, usage`)
       .eq('user_id', session.user.id)
@@ -41,54 +48,39 @@ const FinanceDashboard = async () => {
     financialAcounts = FinancialInstitution
   }
 
+  // TODO null の時と空の時の処理を追加する
+
   return (
     <div className='grid grid-cols-8 gap-4'>
-      {financialAcounts?.length === 0 && Assets.length === 0 ? (
+      {(!financialAcounts || financialAcounts?.length < 0) &&
+      (!Assets || Assets?.length < 0) ? (
         <>
           <div className='col-span-4 pb-2'>
-            <AcountCardDefault />
-            <Card className='bg-opacity-0 shadow-none bg-[url(/acount-bar-chart-blur.png)] bg-center bg-cover'>
-              <CardBody className='w-full h-60 flex justify-center items-center'>
-                <Typography
-                  variant='h5'
-                  className='text-blue-gray-800 font-bold text-6xl'
-                >
-                  No Data
-                </Typography>
-              </CardBody>
-            </Card>
+            <AccountCardDefault />
+            <AccountCardNoDataDefault />
           </div>
           <div className='col-span-4 pb-2 max-h-96'>
-            {Assets.map((asset: any, i: number) => (
-              <AcountTable
+            {Assets?.map((asset, i: number) => (
+              <AccountTable
                 tableRows={asset.Asset}
                 name={asset.name}
                 userId={session?.user.id}
                 key={i}
-              ></AcountTable>
+              />
             ))}
           </div>
         </>
-      ) : financialAcounts?.length > 0 && Assets.length === 0 ? (
+      ) : financialAcounts?.length === 0 && Assets?.length === 0 ? (
         <>
-          {financialAcounts?.map((acount: any, i: number) => (
+          {financialAcounts?.map((account, i: number) => (
             <>
               <div className='col-span-4 pb-2' key={i}>
-                <AcountCard
-                  acount={acount}
+                <AccountCard
+                  account={account}
                   userId={session?.user.id}
                   index={i}
                 />
-                <Card className='bg-opacity-0 shadow-none bg-[url(/acount-bar-chart-blur.png)] bg-center bg-cover'>
-                  <CardBody className='w-full h-60 flex justify-center items-center'>
-                    <Typography
-                      variant='h5'
-                      className='text-blue-gray-800 font-bold text-6xl'
-                    >
-                      No Data
-                    </Typography>
-                  </CardBody>
-                </Card>
+                <AccountNoDataBarChart />
               </div>
               <div className='col-span-4 pb-2 max-h-96'></div>
             </>
@@ -96,71 +88,59 @@ const FinanceDashboard = async () => {
         </>
       ) : (
         <>
-          {financialAcounts?.length > 0 && Assets.length > 0 && (
-            <>
-              {financialAcounts?.map((acount: any, i: number) => {
-                // 金融機関名で絞り込み
-                const result = Assets?.filter(
-                  (item: any) => item.name === acount.name
-                )
+          {financialAcounts &&
+            financialAcounts.length > 0 &&
+            Assets &&
+            Assets.length > 0 && (
+              <>
+                {financialAcounts?.map((acount, i: number) => {
+                  // 金融機関名で絞り込み
+                  const result = Assets?.filter(
+                    (item) => item.name === acount.name
+                  )
 
-                return (
-                  <>
-                    <div className='col-span-4 pb-2' key={i}>
-                      <AcountCard
-                        acount={acount}
-                        userId={session?.user.id}
-                        index={i}
-                      />
-                      {result.length > 0 ? (
-                        result.map((asset: any) => (
-                          <Card
-                            className='bg-opacity-0 shadow-none'
-                            key={asset.name}
-                          >
-                            <CardBody className='w-full h-60'>
-                              <FinanceBarChart
-                                data={asset.Asset}
-                                index={i}
-                              ></FinanceBarChart>
-                            </CardBody>
-                          </Card>
-                        ))
-                      ) : (
-                        <Card className='bg-opacity-0 shadow-none bg-[url(/acount-bar-chart-blur.png)] bg-center bg-cover'>
-                          <CardBody className='w-full h-60 flex justify-center items-center'>
-                            <Typography
-                              variant='h5'
-                              className='text-blue-gray-800 font-bold text-6xl'
-                            >
-                              No Data
-                            </Typography>
-                          </CardBody>
-                        </Card>
-                      )}
-                    </div>
-                    <div className='col-span-4 pb-2 max-h-96'>
-                      {result.length > 0
-                        ? result.map((asset: any) => (
-                            <AcountTable
-                              tableRows={asset.Asset}
-                              name={asset.name}
-                              userId={session?.user.id}
+                  return (
+                    <>
+                      <div className='col-span-4 pb-2' key={i}>
+                        <AccountCard
+                          account={acount}
+                          userId={session?.user.id}
+                          index={i}
+                        />
+                        {result && result.length > 0 ? (
+                          result.map((asset) => (
+                            <FinanceBarChartCard
                               key={asset.name}
-                            ></AcountTable>
+                              data={asset.Asset}
+                              index={i}
+                            />
                           ))
-                        : null}
-                    </div>
-                  </>
-                )
-              })}
-            </>
-          )}
+                        ) : (
+                          <AccountNoDataBarChart />
+                        )}
+                      </div>
+                      <div className='col-span-4 pb-2 max-h-96'>
+                        {result && result.length > 0
+                          ? result.map((asset) => (
+                              <AccountTable
+                                tableRows={asset.Asset}
+                                name={asset.name}
+                                userId={session?.user.id}
+                                key={asset.name}
+                              />
+                            ))
+                          : null}
+                      </div>
+                    </>
+                  )
+                })}
+              </>
+            )}
         </>
       )}
       <div className='col-span-8'>
         <Card>
-          <AcountAddButton userId={session?.user.id}></AcountAddButton>
+          <AccountAddButton userId={session?.user.id} />
         </Card>
       </div>
     </div>

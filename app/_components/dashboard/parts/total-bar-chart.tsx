@@ -11,7 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
-import { Colors } from '../../../_common/constants/Colors'
+import { colors } from '../../../_common/constants/colors'
 import { ProcessedData } from '../../../_common/types/ProcessedData'
 
 type Props = {
@@ -62,7 +62,7 @@ const TotalBarChart = ({ data }: Props) => {
           <Bar
             dataKey={item}
             stackId='a'
-            fill={Colors[Math.floor(index % Colors.length)]}
+            fill={colors[Math.floor(index % colors.length)]}
             unit='円'
             barSize={28}
             key={item}

@@ -1,11 +1,10 @@
-'use client'
-import { CreditCardIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
-import { Card, CardBody, CardFooter, Typography, Button } from '../common'
-import { useState } from 'react'
-import PopUpForm from './finance-form'
-import AcountEditForm from './acount-edit-form'
+import { CreditCardIcon } from '@heroicons/react/24/solid'
+import { Card, CardBody, CardFooter, Typography, Button } from '../../common'
 
-const AcountCardDefault = () => {
+/**
+ * 金融機関カード
+ */
+const AccountCardDefault = () => {
   return (
     <Card className='bg-opacity-50'>
       <CardBody className='w-full h-fit pb-0'>
@@ -29,4 +28,4 @@ const AcountCardDefault = () => {
   )
 }
 
-export default AcountCardDefault
+export default AccountCardDefault

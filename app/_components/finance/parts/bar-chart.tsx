@@ -1,31 +1,31 @@
 'use client'
 import {
-  BarChart,
   Bar,
-  Line,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
   ComposedChart,
   Tooltip,
-  Legend,
   ResponsiveContainer,
 } from 'recharts'
+import { colors } from '../../../_common/constants/colors'
+import { ParFinancialInstitutionAsset } from '../../../_common/types/AssetParFinancialInstitution'
 
-type Data = {
-  sort(arg0: (a: Data, b: Data) => number): unknown
-  date: string
-  amount: number
+type Props = {
+  data: ParFinancialInstitutionAsset[]
+  index: number
 }
 
-const FinanceBarChart = ({ data, index }: { data: Data; index: number }) => {
-  // 配色
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
-  const colorIndex = Math.floor(index % COLORS.length)
+/**
+ * 金融機関別の残高推移グラフ
+ * @param data グラフデータ
+ * @param index グラフの色を決めるためのインデックス
+ */
+const FinanceBarChart = ({ data, index }: Props) => {
+  const colorIndex = Math.floor(index % colors.length)
   // チャートデータを日付でソート
-  const chartData: any = data.sort((a: Data, b: Data) =>
-    a.date.localeCompare(b.date)
+  const chartData = data.sort((a, b) =>
+    a.date && b.date ? a.date?.localeCompare(b.date) : 0
   )
 
   return (
@@ -42,13 +42,13 @@ const FinanceBarChart = ({ data, index }: { data: Data; index: number }) => {
         }}
       >
         <CartesianGrid strokeDasharray='3 3' />
-        <XAxis dataKey='date' />
-        <YAxis />
+        <XAxis dataKey='date' tick={{ fill: '#fff' }} />
+        <YAxis tick={{ fill: '#fff' }} />
         <Tooltip />
         <Bar
           dataKey='amount'
           stackId='a'
-          fill={COLORS[colorIndex]}
+          fill={colors[colorIndex]}
           unit='円'
           barSize={28}
         />

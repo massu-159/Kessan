@@ -7,56 +7,51 @@ import {
   Input,
   Button,
   Typography,
-} from '../common'
+} from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../(routes)/loading'
+import Loading from '../../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../../../lib/database.types'
+import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import { Account } from '../../../_common/types/Account'
+import { FinancialInstitution } from '../../../_common/types/FinancialInstitution'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
 const schema = z.object({
-  financeInstitution: z.string({
-    required_error: '金融機関を入力してください。',
+  financeInstitution: z.string().min(1, {
+    message: '金融機関を入力してください。',
   }),
-  date: z
-    .date({
-      required_error: '日付を入力してください。',
-      invalid_type_error: "日付は'yyyy/mm/dd'の形式で入力してください。",
-    })
-    .transform((val) => val.toISOString().slice(0, 10)),
-  amount: z.number({
-    required_error: '金額を入力してください。',
-    invalid_type_error: '金額は数値で入力してください。',
+  usage: z.string().min(1, {
+    message: '使い方を入力してください。',
   }),
 })
 
-export default function PopUpEditForm({
-  open,
-  setOpen,
-  name,
-  id,
-  amount,
-  date,
-}: {
-  open: boolean
-  setOpen: Dispatch<SetStateAction<boolean>>
-  name: string
+type Props = {
+  show: boolean
+  setShow: Dispatch<SetStateAction<boolean>>
+  account: Account
   id: string | undefined
-  amount: number
-  date: string
-}) {
+}
+
+/**
+ * 金融機関登録フォーム
+ * @param show モーダルウィンドウの表示状態
+ * @param setShow モーダルウィンドウの表示状態を変更する関数
+ * @param account 金融機関
+ * @param id ユーザーID
+ */
+export default function AccountEditForm({ show, setShow, account, id }: Props) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 
   const handleClose = () => {
-    setOpen(false)
+    setShow(false)
     router.refresh()
   }
 
@@ -65,12 +60,12 @@ export default function PopUpEditForm({
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     // 初期値
     defaultValues: {
-      financeInstitution: name,
-      date: date,
-      amount: amount,
+      financeInstitution: account.name,
+      usage: account.usage,
     },
     // 入力値の検証
     resolver: zodResolver(schema),
@@ -81,40 +76,38 @@ export default function PopUpEditForm({
     setLoading(true)
 
     try {
-      // 金融機関ID取得
-      const { data: FinancialInstitution } = await supabase
-        .from('FinancialInstitution')
-        .select('id')
-        .eq('name', data.financeInstitution)
-        .single()
-      if (FinancialInstitution === null) {
-        setMessage('入力した金融機関が見つかりません。')
+      // 金融機関登録済みチェック
+      const { data: FinancialInstitution, error: errorFinancialInstitution } =
+        await supabase
+          .from('FinancialInstitution')
+          .select('id')
+          .eq('name', data.financeInstitution)
+          .single()
+      // 登録済みの場合、金融機関更新
+      if (FinancialInstitution) {
+        const { error: errorUpdateFinancialInstitution } = await supabase
+          .from('FinancialInstitution')
+          .update({ usage: data.usage })
+          .eq('id', FinancialInstitution.id)
+        // 未登録の場合、金融機関登録
+      } else {
+        const { error: errorInputFinancialInstitution } = await supabase
+          .from('FinancialInstitution')
+          .insert({
+            user_id: id,
+            name: data.financeInstitution,
+            usage: data.usage,
+          })
+      }
+
+      // エラーチェック
+      if (errorFinancialInstitution) {
+        setMessage('エラーが発生しました。' + errorFinancialInstitution.message)
         return
       }
-      // 金額登録済みチェック
-      const { data: Asset } = await supabase
-        .from('Asset')
-        .select('date')
-        .eq('user_id', id)
-        .eq('financial_institution_id', FinancialInstitution.id)
-        .eq('date', data.date)
-        .single()
-      if (Asset !== null) {
-        // 金額更新
-        const { error: errorUpdateAmount } = await supabase
-          .from('Asset')
-          .update({ amount: data.amount })
-          .eq('user_id', id)
-          .eq('financial_institution_id', FinancialInstitution.id)
-          .eq('date', data.date)
 
-        // エラーチェック
-        if (errorUpdateAmount) {
-          setMessage('エラーが発生しました。' + errorUpdateAmount.message)
-          return
-        }
-      }
-
+      // 入力フォームクリア
+      reset()
       setMessage('登録が完了しました。')
       handleClose()
     } catch (error) {
@@ -130,31 +123,23 @@ export default function PopUpEditForm({
     setLoading(true)
 
     try {
-      // 金融機関ID取得
-      const { data: FinancialInstitution } = await supabase
+      // 金融機関削除
+      const { error: errorDeleteFinancialInstitution } = await supabase
         .from('FinancialInstitution')
-        .select('id')
-        .eq('name', name)
-        .single()
-      if (FinancialInstitution === null) {
-        setMessage('入力した金融機関が見つかりません。')
-        return
-      }
-
-      // 金額削除
-      const { error: errorDeleteAmount } = await supabase
-        .from('Asset')
         .delete()
         .eq('user_id', id)
-        .eq('financial_institution_id', FinancialInstitution.id)
-        .eq('date', date)
+        .eq('name', account.name)
 
       // エラーチェック
-      if (errorDeleteAmount) {
-        setMessage('エラーが発生しました。' + errorDeleteAmount.message)
+      if (errorDeleteFinancialInstitution) {
+        setMessage(
+          'エラーが発生しました。' + errorDeleteFinancialInstitution.message
+        )
         return
       }
 
+      // 入力フォームクリア
+      reset()
       setMessage('削除が完了しました。')
       handleClose()
     } catch (error) {
@@ -166,12 +151,12 @@ export default function PopUpEditForm({
   }
 
   // 金額入力モーダルウィンドウを閉じる
-  if (!open) {
+  if (!show) {
     return null
   }
 
   return (
-    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-50 bg-opacity-25'>
+    <div className='fixed inset-0 z-40 overflow-y-auto w-screen h-screen bg-cyan-100 bg-opacity-25'>
       <div className='flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center'>
         <Card>
           <CardBody className='pb-1'>
@@ -186,7 +171,7 @@ export default function PopUpEditForm({
               </Button>
             </div>
             <Typography variant='h4' color='blue-gray'>
-              金額変更
+              金融機関変更
             </Typography>
             <Typography color='gray' className='mt-1 font-normal'>
               Enter your amounts to update or delete
@@ -197,6 +182,7 @@ export default function PopUpEditForm({
             >
               <div className='mb-4 flex flex-col gap-6'>
                 <Input
+                  type='text'
                   size='lg'
                   label='金融機関'
                   {...register('financeInstitution', { required: true })}
@@ -206,25 +192,13 @@ export default function PopUpEditForm({
                   {errors.financeInstitution?.message}
                 </div>
                 <Input
-                  type='date'
+                  type='text'
                   size='lg'
-                  label='日付'
-                  {...register('date', { required: true, valueAsDate: true })}
+                  label='使い方'
+                  {...register('usage', { required: true })}
                 />
                 <div className='text-center text-sm text-red-500'>
-                  {errors.date?.message}
-                </div>
-                <Input
-                  type='number'
-                  size='lg'
-                  label='金額 : 円'
-                  {...register('amount', {
-                    required: true,
-                    valueAsNumber: true,
-                  })}
-                />
-                <div className='text-center text-sm text-red-500'>
-                  {errors.amount?.message}
+                  {errors.usage?.message}
                 </div>
               </div>
               {loading ? (

@@ -7,7 +7,7 @@ import { Button, CardBody, CardFooter, Typography } from '../../common'
 import { CustomCard } from '../../ui/custom-card'
 import Link from 'next/link'
 import { financePath } from '../../../_common/constants/path'
-import { Colors } from '../../../_common/constants/Colors'
+import { colors } from '../../../_common/constants/colors'
 import { AccountAssets } from '../../../_common/types/AccountAssets'
 
 type Props = {
@@ -26,7 +26,7 @@ const AccountCard = ({ account, index }: Props) => {
   if (!currentAmount) return null
 
   // 配色
-  const colorIndex = Math.floor(index % Colors.length)
+  const colorIndex = Math.floor(index % colors.length)
   // 前月の資産残高
   const previousAmount = account.Asset[1]?.amount ? account.Asset[1].amount : 0
   // 増減率を計算
@@ -42,7 +42,7 @@ const AccountCard = ({ account, index }: Props) => {
       <CardBody className='w-full h-fit'>
         <div className='flex gap-4 items-center'>
           <CreditCardIcon
-            fill={Colors[colorIndex]}
+            fill={colors[colorIndex]}
             className='w-10 h-10'
           ></CreditCardIcon>
           <Typography variant='h5' color='blue-gray' className=''>
