@@ -11,8 +11,9 @@ import Loading from '../../(routes)/loading'
 import * as z from 'zod'
 import type { Database } from '../../../lib/database.types'
 import useStore from '../../../store'
-import { Card, CardBody, Button } from '../common'
+import { CardBody, Button } from '../common'
 type Schema = z.infer<typeof schema>
+import { CustomCard } from '../ui/custom-card'
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -150,7 +151,7 @@ const Profile = () => {
   }
 
   return (
-    <Card>
+    <CustomCard>
       <CardBody>
         <div className='text-center font-bold text-xl mb-10'>プロフィール</div>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -220,7 +221,7 @@ const Profile = () => {
           <div className='my-5 text-center text-red-500 mb-5'>{message}</div>
         )}
       </CardBody>
-    </Card>
+    </CustomCard>
   )
 }
 

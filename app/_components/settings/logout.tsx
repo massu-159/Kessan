@@ -5,7 +5,8 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import Loading from '../../(routes)/loading'
 import type { Database } from '../../../lib/database.types'
-import { Card, CardBody, Button } from '../common'
+import { CardBody, Button } from '../common'
+import { CustomCard } from '../ui/custom-card'
 
 // ログアウト
 const Logout = () => {
@@ -40,7 +41,7 @@ const Logout = () => {
   }
 
   return (
-    <Card>
+    <CustomCard>
       <CardBody>
         <div className='text-center mb-5'>ログアウトしますか？</div>
         {/* ログアウトボタン */}
@@ -60,7 +61,7 @@ const Logout = () => {
           <div className='my-5 text-center text-sm text-red-500'>{message}</div>
         )}
       </CardBody>
-    </Card>
+    </CustomCard>
   )
 }
 

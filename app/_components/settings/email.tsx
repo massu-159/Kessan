@@ -8,8 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Loading from '../../(routes)/loading'
 import * as z from 'zod'
 import type { Database } from '../../../lib/database.types'
-import { Card, CardBody, Button } from '../common'
+import { CardBody, Button } from '../common'
 import { loginPath } from '../../_common/constants/path'
+import { CustomCard } from '../ui/custom-card'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -76,7 +77,7 @@ const Email = ({ email }: { email: string }) => {
   }
 
   return (
-    <Card>
+    <CustomCard>
       <CardBody>
         <div className='text-center font-bold text-xl mb-10'>
           メールアドレス変更
@@ -125,7 +126,7 @@ const Email = ({ email }: { email: string }) => {
           <div className='my-5 text-center text-sm text-red-500'>{message}</div>
         )}
       </CardBody>
-    </Card>
+    </CustomCard>
   )
 }
 

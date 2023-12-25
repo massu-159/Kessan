@@ -8,8 +8,9 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Loading from '../../(routes)/loading'
 import * as z from 'zod'
 import type { Database } from '../../../lib/database.types'
-import { Card, CardBody, Button } from '../common'
+import { CardBody, Button } from '../common'
 type Schema = z.infer<typeof schema>
+import { CustomCard } from '../ui/custom-card'
 
 // 入力データの検証ルールを定義
 const schema = z
@@ -73,7 +74,7 @@ const Password = () => {
   }
 
   return (
-    <Card>
+    <CustomCard>
       <CardBody>
         <div className='text-center font-bold text-xl mb-10'>
           パスワード変更
@@ -133,7 +134,7 @@ const Password = () => {
           )}
         </form>
       </CardBody>
-    </Card>
+    </CustomCard>
   )
 }
 
