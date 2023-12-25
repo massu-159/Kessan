@@ -1,4 +1,4 @@
-export type Record = {
+export type AmountRecord = {
   amount: number
   date: string
 }

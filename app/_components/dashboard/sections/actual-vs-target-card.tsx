@@ -4,12 +4,12 @@ import { Button, CardBody, CardFooter, Typography } from '../../common'
 import { CustomCard } from '../../ui/custom-card'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
 import { totalAssetsPath } from '../../../_common/constants/path'
-import { Record } from '../../../_common/types/Record'
+import { AmountRecord } from '../../../_common/types/AmountRecord'
 type GoalType = Database['public']['Tables']['Goal']['Row']
 
 type Props = {
   goal: GoalType | null
-  record: Record
+  record: AmountRecord
 }
 
 /**

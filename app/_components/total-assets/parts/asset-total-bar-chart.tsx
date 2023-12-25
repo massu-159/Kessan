@@ -1,9 +1,7 @@
 'use client'
 import {
-  BarChart,
   Bar,
   Line,
-  Cell,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -12,12 +10,18 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
+import { colors } from '../../../_common/constants/colors'
+import { ProcessedData } from '../../../_common/types/ProcessedData'
 
+type Props = {
+  data: ProcessedData[]
+}
 
-// 配色
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
-
-const AssetTotalBarChart = ({ data }: any) => {
+/**
+ * 資産推移の棒グラフ
+ * @param data 資産推移データ
+ */
+const AssetTotalBarChart = ({ data }: Props) => {
   // dataを日付昇順にソート
   data.sort((a: any, b: any) => {
     if (a.date < b.date) {
@@ -57,7 +61,7 @@ const AssetTotalBarChart = ({ data }: any) => {
           <Bar
             dataKey={item}
             stackId='a'
-            fill={COLORS[Math.floor(index % COLORS.length)]}
+            fill={colors[Math.floor(index % colors.length)]}
             unit='円'
             barSize={28}
             key={item}

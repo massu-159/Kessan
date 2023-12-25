@@ -7,17 +7,17 @@ import {
   Input,
   Button,
   Typography,
-} from '../common'
+} from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
-import Loading from '../../(routes)/loading'
+import Loading from '../../../(routes)/loading'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../../../lib/database.types'
+import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import { Goal } from '../../../_common/types/Goal'
 type Schema = z.infer<typeof schema>
-type GoalType = Database['public']['Tables']['Goal']['Row']
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -34,25 +34,21 @@ const schema = z.object({
     }),
 })
 
-type Goal = {
-  amount: number
-  created_at: string
-  goal: string
-  id: string
-  user_id: string
-}
-
-export default function GoalEditForm({
-  open,
-  setOpen,
-  goal,
-  userId,
-}: {
+type Props = {
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
   goal: Goal | null
   userId: string | undefined
-}) {
+}
+
+/**
+ * 目標入力フォーム
+ * @param open モーダルウィンドウの表示状態
+ * @param setOpen モーダルウィンドウの表示状態を変更する関数
+ * @param goal 目標
+ * @param userId ユーザーID
+ */
+export default function GoalEditForm({ open, setOpen, goal, userId }: Props) {
   const router = useRouter()
   const supabase = createClientComponentClient<Database>()
   const [loading, setLoading] = useState(false)

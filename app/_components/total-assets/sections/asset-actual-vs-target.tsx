@@ -1,23 +1,22 @@
-import { Database } from '../../../lib/database.types'
-import { Button, Card, CardBody, CardFooter, Typography } from '../common'
+import { CardBody, CardFooter, Typography } from '../../common'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
-import GoalEditButton from './goal-edit-button'
-type GoalType = Database['public']['Tables']['Goal']['Row']
+import GoalEditButton from '../parts/goal-edit-button'
+import { AmountRecord } from '../../../_common/types/AmountRecord'
+import { CustomCard } from '../../ui/custom-card'
 
-type Record = {
-  amount: number
-  date: string
+type Props = {
+  goal: any
+  record: AmountRecord | null
+  userId: string | undefined
 }
 
-const AssetActualVsTarget = ({
-  goal,
-  record,
-  userId,
-}: {
-  goal: GoalType | null
-  record: Record | null
-  userId: string | undefined
-}) => {
+/**
+ * 実績と目標の比較カード
+ * @param goal 目標
+ * @param record 実績
+ * @param userId ユーザーID
+ */
+const AssetActualVsTarget = ({ goal, record, userId }: Props) => {
   let difference = 0
   let rate = 0
   if (goal && record && goal.amount && record.amount) {
@@ -27,7 +26,7 @@ const AssetActualVsTarget = ({
     rate = Math.round((record.amount / goal.amount) * 100)
   }
   return (
-    <Card>
+    <CustomCard className='bg-opacity-0 text-white'>
       <CardBody className='w-full h-fit'>
         <div className='flex gap-4 items-center justify-between'>
           <div>
@@ -55,7 +54,7 @@ const AssetActualVsTarget = ({
           <div>{record?.date} 現在</div>
           <Typography
             variant='lead'
-            className='text-blue-600 font-bold flex justify-center items-center'
+            className='text-blue-100 font-bold flex justify-center items-center'
           >
             {rate}%
           </Typography>
@@ -68,7 +67,7 @@ const AssetActualVsTarget = ({
         </Typography>
         <Typography className='text-2xl font-bold'>{goal?.goal}</Typography>
       </CardFooter>
-    </Card>
+    </CustomCard>
   )
 }
 

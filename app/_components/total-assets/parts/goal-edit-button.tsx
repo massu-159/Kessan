@@ -1,17 +1,21 @@
 'use client'
 import { PencilSquareIcon } from '@heroicons/react/24/solid'
-import { Button } from '../common'
+import { Button } from '../../common'
 import { useState } from 'react'
 import GoalEditForm from './goal-edit-form'
-import { Database } from '../../../lib/database.types'
+import { Goal } from '../../../_common/types/Goal'
 
-export default function GoalEditButton({
-  goal,
-  userId,
-}: {
-  goal: any
+type Props = {
+  goal: Goal | null
   userId: string | undefined
-}) {
+}
+
+/**
+ * 目標編集ボタン
+ * @param goal 目標
+ * @param userId ユーザーID
+ */
+export default function GoalEditButton({ goal, userId }: Props) {
   const [open, setOpen] = useState<boolean>(false)
 
   // 金額入力ボタンを押したら、金額入力モーダルウィンドウを表示する

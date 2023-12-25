@@ -2,15 +2,22 @@
 import {
   PieChart,
   Pie,
-  Sector,
   Cell,
   ResponsiveContainer,
   Tooltip,
 } from 'recharts'
+import { colors } from '../../../_common/constants/colors'
+import { ProcessedData } from '../../../_common/types/ProcessedData'
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042']
+type Props = {
+  data: ProcessedData
+}
 
-const AssetTotalPieChart = ({ data }:any) => {
+/**
+ * 資産推移の円グラフ
+ * @param data 資産推移データ
+ */
+const AssetTotalPieChart = ({ data }:Props) => {
   // 直近のデータを取得(date,total以外)
   const record = Object.entries(data)
     .slice(2)
@@ -31,7 +38,7 @@ const AssetTotalPieChart = ({ data }:any) => {
           label
         >
           {record.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+            <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>
         <Tooltip></Tooltip>

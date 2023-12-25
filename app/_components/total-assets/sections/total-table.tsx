@@ -1,5 +1,5 @@
 import { ArrowLongDownIcon, ArrowLongUpIcon } from '@heroicons/react/24/solid'
-import { Card, Typography } from '../common'
+import { Card, Typography } from '../../common'
 
 const TABLE_HEAD = ['日付', '資産残高', '増減率', '増減額']
 
