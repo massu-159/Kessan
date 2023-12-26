@@ -11,7 +11,7 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
-import { colors } from '../../../_common/constants/colors'
+import { colors } from '../../../_common/constants/colorList'
 import { ProcessedData } from '../../../_common/types/ProcessedData'
 
 type Props = {

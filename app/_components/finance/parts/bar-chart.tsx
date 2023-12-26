@@ -8,7 +8,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import { colors } from '../../../_common/constants/colors'
+import { colors } from '../../../_common/constants/colorList'
 import { ParFinancialInstitutionAsset } from '../../../_common/types/AssetParFinancialInstitution'
 
 type Props = {

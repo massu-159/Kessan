@@ -1,12 +1,6 @@
 'use client'
-import {
-  PieChart,
-  Pie,
-  Cell,
-  ResponsiveContainer,
-  Tooltip,
-} from 'recharts'
-import { colors } from '../../../_common/constants/colors'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
+import { colors } from '../../../_common/constants/colorList'
 import { ProcessedData } from '../../../_common/types/ProcessedData'
 
 type Props = {
@@ -17,7 +11,7 @@ type Props = {
  * 資産推移の円グラフ
  * @param data 資産推移データ
  */
-const AssetTotalPieChart = ({ data }:Props) => {
+const AssetTotalPieChart = ({ data }: Props) => {
   // 直近のデータを取得(date,total以外)
   const record = Object.entries(data)
     .slice(2)

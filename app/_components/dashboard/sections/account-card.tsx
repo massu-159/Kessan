@@ -7,7 +7,7 @@ import { Button, CardBody, CardFooter, Typography } from '../../common'
 import { CustomCard } from '../../ui/custom-card'
 import Link from 'next/link'
 import { financePath } from '../../../_common/constants/path'
-import { colors } from '../../../_common/constants/colors'
+import { colors } from '../../../_common/constants/colorList'
 import { AccountAssets } from '../../../_common/types/AccountAssets'
 
 type Props = {

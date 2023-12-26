@@ -1,7 +1,7 @@
 'use client'
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
-import { colors } from '../../../_common/constants/colors'
+import { colors } from '../../../_common/constants/colorList'
 import { ProcessedData } from '../../../_common/types/ProcessedData'
 
 type Props = {
