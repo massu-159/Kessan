@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import Loading from '../../../(routes)/loading'
 import { ProcessedData } from '../../../_common/types/ProcessedData'
 import { CardBody } from '../../common'
 import { CustomCard } from '../../ui/custom-card'
@@ -14,7 +16,9 @@ const AssetTotalPieChartCard = ({data}:Props) => {
   return (
     <CustomCard>
       <CardBody className='w-full h-96 flex justify-center items-center'>
-        <AssetTotalPieChart data={data}></AssetTotalPieChart>
+        <Suspense fallback={<Loading />}>
+          <AssetTotalPieChart data={data}></AssetTotalPieChart>
+        </Suspense>
       </CardBody>
     </CustomCard>
   )

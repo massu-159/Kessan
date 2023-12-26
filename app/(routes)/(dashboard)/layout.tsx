@@ -1,10 +1,11 @@
-import { ReactNode } from 'react'
+import { ReactNode, Suspense } from 'react'
 import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Database } from '../../../lib/database.types'
 import { cookies } from 'next/headers'
 import Navigation from '../../_components/navigation'
 import Content from '../../_components/content'
 import SupabaseListener from '../../_components/supabase-listener'
+import Loading from '../loading'
 
 export default async function Dashboardlayout({
   children,
@@ -48,7 +49,9 @@ export default async function Dashboardlayout({
   return (
     <div className='flex'>
       <div className='flex-[1_1_22%] max-w-[16rem]'>
-        <SupabaseListener />
+        <Suspense fallback={<Loading />}>
+          <SupabaseListener />
+        </Suspense>
       </div>
       <div className='flex-[1_1_78%] bg-opacity-0 w-screen'>
         <video

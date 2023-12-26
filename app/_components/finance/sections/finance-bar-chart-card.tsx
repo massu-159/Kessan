@@ -1,3 +1,5 @@
+import { Suspense } from 'react'
+import Loading from '../../../(routes)/loading'
 import { ParFinancialInstitutionAsset } from '../../../_common/types/AssetParFinancialInstitution'
 import { Card, CardBody } from '../../common'
 import FinanceBarChart from '../parts/bar-chart'
@@ -17,9 +19,11 @@ type Props = {
 const FinanceBarChartCard = ({ key, data, index }: Props) => {
   return (
     <Card className='bg-opacity-0 shadow-none' key={key}>
-      <CardBody className='w-full h-60'>
-        <FinanceBarChart data={data} index={index}></FinanceBarChart>
-      </CardBody>
+      <Suspense fallback={<Loading />}>
+        <CardBody className='w-full h-60'>
+          <FinanceBarChart data={data} index={index}></FinanceBarChart>
+        </CardBody>
+      </Suspense>
     </Card>
   )
 }
