@@ -10,6 +10,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Database } from '../../lib/database.types'
 import { emailPath, profilePath } from '../_common/constants/path'
+import { Suspense } from 'react'
+import Loading from '../(routes)/loading'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
@@ -35,29 +37,31 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
           </Button>
         </div>
         <div className='ml-auto flex gap-3 md:mr-4'>
-          <Link href={emailPath}>
+          <Suspense fallback={<Loading />}>
+            <Link href={emailPath}>
+              <IconButton variant='text' color='cyan'>
+                <Cog6ToothIcon className='h-7 w-7' />
+              </IconButton>
+            </Link>
             <IconButton variant='text' color='cyan'>
-              <Cog6ToothIcon className='h-7 w-7' />
+              <BellIcon className='h-7 w-7' />
             </IconButton>
-          </Link>
-          <IconButton variant='text' color='cyan'>
-            <BellIcon className='h-7 w-7' />
-          </IconButton>
-          <Link href={profilePath}>
-            <div className='relative w-10 h-10'>
-              <Image
-                src={
-                  profile && profile.avatar_url
-                    ? profile.avatar_url
-                    : '/default.png'
-                }
-                className='rounded-full object-cover'
-                alt='avatar'
-                fill
-                sizes='100vw'
-              />
-            </div>
-          </Link>
+            <Link href={profilePath}>
+              <div className='relative w-10 h-10'>
+                <Image
+                  src={
+                    profile && profile.avatar_url
+                      ? profile.avatar_url
+                      : '/default.png'
+                  }
+                  className='rounded-full object-cover'
+                  alt='avatar'
+                  fill
+                  sizes='100vw'
+                />
+              </div>
+            </Link>
+          </Suspense>
         </div>
       </div>
     </nav>

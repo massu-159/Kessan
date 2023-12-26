@@ -1,10 +1,11 @@
 'use client'
 import { CreditCardIcon, PencilSquareIcon } from '@heroicons/react/24/solid'
 import { Card, CardBody, CardFooter, Typography, Button } from '../../common'
-import { useState } from 'react'
+import { Suspense, useState } from 'react'
 import PopUpForm from '../parts/finance-form'
 import AccountEditForm from '../parts/account-edit-form'
 import { colors } from '../../../_common/constants/colorList'
+import Loading from '../../../(routes)/loading'
 
 type Props = {
   account: any
@@ -37,46 +38,48 @@ const AccountCard = ({ account, userId, index }: Props) => {
 
   return (
     <Card className='bg-opacity-50'>
-      <CardBody className='w-full h-fit pb-0'>
-        <div className='flex gap-4 items-center justify-between'>
-          <div className='flex gap-4 items-center'>
-            <CreditCardIcon
-              fill={colors[colorIndex]}
-              className='w-10 h-10'
-            ></CreditCardIcon>
-            <Typography variant='h5' color='blue-gray'>
-              {account.name}
-            </Typography>
+      <Suspense fallback={<Loading />}>
+        <CardBody className='w-full h-fit pb-0'>
+          <div className='flex gap-4 items-center justify-between'>
+            <div className='flex gap-4 items-center'>
+              <CreditCardIcon
+                fill={colors[colorIndex]}
+                className='w-10 h-10'
+              ></CreditCardIcon>
+              <Typography variant='h5' color='blue-gray'>
+                {account.name}
+              </Typography>
+            </div>
+            <Button variant='text' color='cyan' onClick={handleClickEdit}>
+              <PencilSquareIcon
+                fill='#035f64'
+                className='w-6 h-6'
+              ></PencilSquareIcon>
+            </Button>
+            <AccountEditForm
+              show={show}
+              setShow={setShow}
+              account={account}
+              id={userId}
+            ></AccountEditForm>
           </div>
-          <Button variant='text' color='cyan' onClick={handleClickEdit}>
-            <PencilSquareIcon
-              fill='#035f64'
-              className='w-6 h-6'
-            ></PencilSquareIcon>
-          </Button>
-          <AccountEditForm
-            show={show}
-            setShow={setShow}
-            account={account}
-            id={userId}
-          ></AccountEditForm>
-        </div>
-        <Typography>{account.usage}</Typography>
-        <div className='text-end'>
-          <Button color='cyan' onClick={handleClick}>
-            金額入力
-          </Button>
-          <PopUpForm
-            open={open}
-            setOpen={setOpen}
-            name={account.name}
-            id={userId}
-          ></PopUpForm>
-        </div>
-      </CardBody>
-      <CardFooter className='pt-0 pb-2'>
-        <Typography variant='small'>shelter and nurture my wealth</Typography>
-      </CardFooter>
+          <Typography>{account.usage}</Typography>
+          <div className='text-end'>
+            <Button color='cyan' onClick={handleClick}>
+              金額入力
+            </Button>
+            <PopUpForm
+              open={open}
+              setOpen={setOpen}
+              name={account.name}
+              id={userId}
+            ></PopUpForm>
+          </div>
+        </CardBody>
+        <CardFooter className='pt-0 pb-2'>
+          <Typography variant='small'>shelter and nurture my wealth</Typography>
+        </CardFooter>
+      </Suspense>
     </Card>
   )
 }

@@ -12,6 +12,8 @@ import AssetTotalBarChartCard from './sections/asset-total-bar-chart-card'
 import { ProcessedData } from '../../_common/types/ProcessedData'
 import { AssetsWithoutUsage } from '../../_common/types/AssetsWithoutUsage'
 import { ParFinancialInstitutionAsset } from '../../_common/types/AssetParFinancialInstitution'
+import Loading from '../../(routes)/loading'
+import { Suspense } from 'react'
 
 /**
  * 資産ダッシュボード
@@ -161,7 +163,9 @@ const TotalAssetDashboard = async () => {
       </div>
 
       <div className='col-span-8'>
-        <AssetsTable totalAmountParDate={totalAmountParDate} />
+        <Suspense fallback={<Loading />}>
+          <AssetsTable totalAmountParDate={totalAmountParDate} />
+        </Suspense>
       </div>
     </div>
   )

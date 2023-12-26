@@ -167,7 +167,12 @@ const Profile = () => {
                   height={60}
                 />
               </div>
-              <input type='file' id='avatar' onChange={onUploadImage} />
+              <input
+                type='file'
+                id='avatar'
+                className='block w-full text-sm text-gray-900 border border-gray-300 rounded-md cursor-pointer bg-gray-50 focus:outline-none'
+                onChange={onUploadImage}
+              />
               {fileMessage && (
                 <div className='text-center text-red-500 my-5'>
                   {fileMessage}
