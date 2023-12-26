@@ -4,7 +4,7 @@ import { Card, CardBody, CardFooter, Typography, Button } from '../../common'
 import { useState } from 'react'
 import PopUpForm from '../parts/finance-form'
 import AccountEditForm from '../parts/account-edit-form'
-import { colors } from '../../../_common/constants/colors'
+import { colors } from '../../../_common/constants/colorList'
 
 type Props = {
   account: any
