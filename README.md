@@ -1,6 +1,7 @@
-<img width="1000" alt="kessanのTop画面" src="https://github.com/massu-159/Kessan/assets/75517054/b349696c-26b9-435d-8168-4d805fff0bfd">
+<img width="1000" alt="kessanのTop画面v2" src="https://github.com/massu-159/Kessan/assets/75517054/5b30818c-a78d-4324-a21c-f78b9277d53e">
 
 # Kessan
+
 金融機関と残高を登録。決算を見る感覚で資産を管理できるWebアプリケーションです。
 Next.js AppRouter を使用しています。
 DBには Supabase を使用しています。
@@ -88,3 +89,9 @@ yarn dev
 NEXT_PUBLIC_SUPABASE_URL=xxxxxxxxxxx
 NEXT_PUBLIC_SUPABASE_ANON_KEY=xxxxxxxxxxx
 ```
+
+## 履歴
+
+v1
+
+<img width="400" alt="kessanのTop画面" src="https://github.com/massu-159/Kessan/assets/75517054/b349696c-26b9-435d-8168-4d805fff0bfd">
