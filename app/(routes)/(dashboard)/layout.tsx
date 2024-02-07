@@ -52,6 +52,7 @@ export default async function Dashboardlayout({
       <div className='flex-[1_1_78%] bg-opacity-0 w-screen'>
         <video
           src='/bg.mp4'
+          poster='/bg.webp'
           className='fixed inset-0 -z-10 w-screen h-screen object-cover blur-xl'
           loop
           autoPlay
