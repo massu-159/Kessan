@@ -6,7 +6,7 @@ import useStore from '../../store'
 import Image from 'next/image'
 import type { Database } from '../../lib/database.types'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import {
   Card,
   Typography,
@@ -29,10 +29,7 @@ import {
   KeyIcon,
   Square3Stack3DIcon,
 } from '@heroicons/react/24/solid'
-import {
-  ChevronDownIcon,
-  EnvelopeIcon,
-} from '@heroicons/react/24/outline'
+import { ChevronDownIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
 import {
   chatPath,
   dashboardPath,
@@ -44,6 +41,7 @@ import {
   totalAssetsPath,
 } from '../_common/constants/path'
 import { usePathname } from 'next/navigation'
+import SideBarSkeleton from './ui/side-bar-skeleton'
 
 export default function SideBar({
   user,
@@ -73,7 +71,7 @@ export default function SideBar({
   }
 
   return (
-    <>
+    <Suspense fallback={<SideBarSkeleton />}>
       {user && (
         <Card className='fixed min-h-screen bg-cyan-900 bg-opacity-80 rounded-none w-full max-w-[16rem] p-4 shadow-xl'>
           {/* タイトル */}
@@ -244,6 +242,6 @@ export default function SideBar({
           </List>
         </Card>
       )}
-    </>
+    </Suspense>
   )
 }
