@@ -3,7 +3,6 @@ import { CurrencyYenIcon } from '@heroicons/react/24/solid'
 import GoalEditButton from '../parts/goal-edit-button'
 import { CustomCard } from '../../ui/custom-card'
 import { Suspense } from 'react'
-import Loading from '../../../(routes)/loading'
 import { createClient } from '../../../../utils/supabase/server'
 import { getGoal } from '../../../api/goal/fetcher'
 import { getAssetPerDate } from '../../../api/asset/fetcher'
@@ -14,6 +13,7 @@ import {
 } from '../../../_common/utils/calc'
 import { redirect } from 'next/navigation'
 import AssetActualVsTargetNoData from '../parts/asset-actual-vs-target-no-data'
+import CardSkeletonXs from '../../ui/card-skeleton-xs'
 
 /**
  * 実績と目標の比較カード
@@ -49,8 +49,8 @@ const AssetActualVsTarget = async () => {
   )
 
   return (
-    <CustomCard className='bg-opacity-0 text-white'>
-      <Suspense fallback={<Loading />}>
+    <Suspense fallback={<CardSkeletonXs />}>
+      <CustomCard className='bg-opacity-0 text-white'>
         <CardBody className='w-full h-fit'>
           <div className='flex gap-4 items-center justify-between'>
             <div>
@@ -85,8 +85,8 @@ const AssetActualVsTarget = async () => {
           </Typography>
           <Typography className='text-2xl font-bold'>{goal.goal}</Typography>
         </CardFooter>
-      </Suspense>
-    </CustomCard>
+      </CustomCard>
+    </Suspense>
   )
 }
 
