@@ -11,33 +11,33 @@ import Image from 'next/image'
 import { Database } from '../../lib/database.types'
 import { emailPath, profilePath } from '../_common/constants/path'
 import { Suspense } from 'react'
-import Loading from '../(routes)/loading'
+import NavSkelton from './ui/nav-skeleton'
 type ProfileType = Database['public']['Tables']['profiles']['Row']
 
 // ナビゲーション
 const Navigation = ({ profile }: { profile: ProfileType | null }) => {
   return (
-    <nav className='block fixed max-w-[calc(100vw-16rem)] bg-[#f4fcfc] bg-opacity-5 text-white mx-auto w-screen px-4 py-3 rounded-none shadow-none backdrop-blur-sm z-30'>
-      <div className='flex flex-wrap items-center justify-between gap-y-4 text-blue-gray-900'>
-        <div className='relative flex w-full gap-2 md:w-max'>
-          <Input
-            type='search'
-            label='Type here...'
-            className='pr-20'
-            containerProps={{
-              className: 'min-w-[480px]',
-            }}
-          />
-          <Button
-            size='sm'
-            color='cyan'
-            className='!absolute right-1 top-1 rounded'
-          >
-            <MagnifyingGlassIcon className='w-4 h-4' />
-          </Button>
-        </div>
-        <div className='ml-auto flex gap-3 md:mr-4'>
-          <Suspense fallback={<Loading />}>
+    <Suspense fallback={<NavSkelton />}>
+      <nav className='block fixed max-w-[calc(100vw-16rem)] bg-[#f4fcfc] bg-opacity-5 text-white mx-auto w-screen px-4 py-3 rounded-none shadow-none backdrop-blur-sm z-30'>
+        <div className='flex flex-wrap items-center justify-between gap-y-4 text-blue-gray-900'>
+          <div className='relative flex w-full gap-2 md:w-max'>
+            <Input
+              type='search'
+              label='Type here...'
+              className='pr-20'
+              containerProps={{
+                className: 'min-w-[480px]',
+              }}
+            />
+            <Button
+              size='sm'
+              color='cyan'
+              className='!absolute right-1 top-1 rounded'
+            >
+              <MagnifyingGlassIcon className='w-4 h-4' />
+            </Button>
+          </div>
+          <div className='ml-auto flex gap-3 md:mr-4'>
             <Link href={emailPath}>
               <IconButton variant='text' color='cyan'>
                 <Cog6ToothIcon className='h-7 w-7' />
@@ -61,10 +61,10 @@ const Navigation = ({ profile }: { profile: ProfileType | null }) => {
                 />
               </div>
             </Link>
-          </Suspense>
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </Suspense>
   )
 }
 
