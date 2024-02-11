@@ -5,7 +5,6 @@ import { CustomCard } from '../../ui/custom-card'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
 import { totalAssetsPath } from '../../../_common/constants/path'
 import { Suspense } from 'react'
-import Loading from '../../../(routes)/loading'
 import { createClient } from '../../../../utils/supabase/server'
 import { getGoal } from '../../../api/goal/fetcher'
 import { redirect } from 'next/navigation'
@@ -16,6 +15,7 @@ import {
   calcTotalAmountParDate,
 } from '../../../_common/utils/calc'
 import ActualVsTargetNoDataCard from '../parts/actual-vs-target-no-data-card'
+import CardSkeletonS from '../../ui/card-skeleton-s'
 
 /**
  * 目標達成率カード
@@ -51,8 +51,8 @@ const ActualVsTargetCard = async () => {
   )
 
   return (
-    <CustomCard>
-      <Suspense fallback={<Loading />}>
+    <Suspense fallback={<CardSkeletonS />}>
+      <CustomCard>
         <CardBody className='w-full h-fit'>
           <div className='flex gap-4 items-center'>
             <div>
@@ -87,8 +87,8 @@ const ActualVsTargetCard = async () => {
             </Button>
           </Link>
         </CardFooter>
-      </Suspense>
-    </CustomCard>
+      </CustomCard>
+    </Suspense>
   )
 }
 
