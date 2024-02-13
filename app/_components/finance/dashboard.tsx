@@ -10,6 +10,7 @@ import { createClient } from '../../../utils/supabase/server'
 import { getAssetPerFinancialInstitution } from '../../api/asset/fetcher'
 import { getFinancialInstitution } from '../../api/financial-institution/fetcher'
 import { redirect } from 'next/navigation'
+import AccountNoDataTable from './sections/account-no-data-table'
 
 /**
  * ファイナンスダッシュボード
@@ -27,15 +28,17 @@ const FinanceDashboard = async () => {
   }
 
   // 金融機関ごとの資産を取得
-  const AssetParFinancialInstitution = await getAssetPerFinancialInstitution(user.id)
+  const AssetParFinancialInstitution = await getAssetPerFinancialInstitution(
+    user.id
+  )
 
   // 金融機関のみを取得
   const FinancialInstitution = await getFinancialInstitution(user.id)
 
   return (
     <div className='grid grid-cols-8 gap-4'>
-      {(!FinancialInstitution || FinancialInstitution?.length < 0) &&
-      (!AssetParFinancialInstitution || AssetParFinancialInstitution?.length < 0) ? (
+      {FinancialInstitution.length <= 0 &&
+      AssetParFinancialInstitution.length < 0 ? (
         <>
           <div className='col-span-4 pb-2'>
             <AccountCardDefault />
@@ -52,27 +55,24 @@ const FinanceDashboard = async () => {
             ))}
           </div>
         </>
-      ) : FinancialInstitution?.length === 0 && AssetParFinancialInstitution?.length === 0 ? (
+      ) : FinancialInstitution.length > 0 &&
+        AssetParFinancialInstitution.length === 0 ? (
         <>
           {FinancialInstitution?.map((account, i: number) => (
-            <>
-              <div className='col-span-4 pb-2' key={i}>
-                <AccountCard
-                  account={account}
-                  userId={user?.id}
-                  index={i}
-                />
+            <div className='col-span-8 grid grid-cols-8 gap-4' key={i}>
+              <div className='col-span-4 pb-2'>
+                <AccountCard account={account} userId={user?.id} index={i} />
                 <AccountNoDataBarChart />
               </div>
-              <div className='col-span-4 pb-2 max-h-96'></div>
-            </>
+              <div className='col-span-4 pb-2 max-h-96'>
+                <AccountNoDataTable />
+              </div>
+            </div>
           ))}
         </>
       ) : (
         <>
-          {FinancialInstitution &&
-            FinancialInstitution.length > 0 &&
-            AssetParFinancialInstitution &&
+          {FinancialInstitution.length > 0 &&
             AssetParFinancialInstitution.length > 0 && (
               <>
                 {FinancialInstitution?.map((acount, i: number) => {
@@ -102,16 +102,18 @@ const FinanceDashboard = async () => {
                         )}
                       </div>
                       <div className='col-span-4 pb-2 max-h-96'>
-                        {result && result.length > 0
-                          ? result.map((asset) => (
-                              <AccountTable
-                                tableRows={asset.Asset}
-                                name={asset.name}
-                                userId={user?.id}
-                                key={asset.name}
-                              />
-                            ))
-                          : null}
+                        {result && result.length > 0 ? (
+                          result.map((asset) => (
+                            <AccountTable
+                              tableRows={asset.Asset}
+                              name={asset.name}
+                              userId={user?.id}
+                              key={asset.name}
+                            />
+                          ))
+                        ) : (
+                          <AccountNoDataTable />
+                        )}
                       </div>
                     </>
                   )
