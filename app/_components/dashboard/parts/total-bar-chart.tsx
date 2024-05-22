@@ -49,13 +49,13 @@ const TotalBarChart = ({ data }: Props) => {
         margin={{
           top: 20,
           right: 30,
-          left: 20,
+          left: 50,
           bottom: 5,
         }}
       >
-        <CartesianGrid strokeDasharray='3 3' />
+        <CartesianGrid stroke='#eee' strokeDasharray='3 3' />
         <XAxis dataKey='date' />
-        <YAxis />
+        <YAxis unit='円' />
         <Tooltip />
         <Legend />
         {financeInstitutions.map((item, index) => (
