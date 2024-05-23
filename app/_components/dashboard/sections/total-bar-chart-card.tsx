@@ -20,7 +20,7 @@ const TotalBarChartCard = ({ accountData }: Props) => {
     <div>
       <CustomCard>
         <Suspense fallback={<Loading />}>
-          <CardBody className='w-11/12 h-96'>
+          <CardBody className='w-11/12 h-96 mx-auto'>
             <TotalBarChart data={accountData}></TotalBarChart>
           </CardBody>
           <CardFooter className='pt-0 text-end'>
