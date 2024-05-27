@@ -12,7 +12,7 @@ type Props = {
 /**
  * 資産円グラフ
  */
-const AssetTotalPieChartCard = ({data}:Props) => {
+const AssetTotalPieChartCard = ({ data }: Props) => {
   return (
     <CustomCard>
       <CardBody className='w-full h-96 flex justify-center items-center'>
