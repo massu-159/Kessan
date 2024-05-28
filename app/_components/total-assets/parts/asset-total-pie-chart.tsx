@@ -2,6 +2,7 @@
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { colors } from '../../../_common/constants/colorList'
 import { ProcessedData } from '../../../_common/types/ProcessedData'
+import { AssetTotalPieChartLabel } from './asset-total-pie-chart-label'
 
 type Props = {
   data: ProcessedData
@@ -16,6 +17,11 @@ const AssetTotalPieChart = ({ data }: Props) => {
   const record = Object.entries(data)
     .slice(2)
     .map(([name, value]) => ({ name, value }))
+  
+  // 日本円表示
+  const currencyFormatter = (value: number) => {
+    return `${value.toLocaleString()}円`;
+  }
 
   return (
     <ResponsiveContainer width='100%' height='100%'>
@@ -24,18 +30,18 @@ const AssetTotalPieChart = ({ data }: Props) => {
           data={record}
           cx='50%'
           cy='50%'
-          innerRadius={60}
-          outerRadius={100}
+          innerRadius={50}
+          outerRadius={80}
           fill='#8884d8'
           paddingAngle={1}
           dataKey='value'
-          label
+          label={AssetTotalPieChartLabel}
         >
           {record.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={colors[index % colors.length]} />
           ))}
         </Pie>
-        <Tooltip></Tooltip>
+        <Tooltip formatter={currencyFormatter}></Tooltip>
       </PieChart>
     </ResponsiveContainer>
   )
