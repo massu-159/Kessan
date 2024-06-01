@@ -39,6 +39,11 @@ const AssetTotalBarChart = ({ data }: Props) => {
   )
   const financeInstitutions = Array.from(set)
 
+  // 日本円表示
+  const currencyFormatter = (value: number) => {
+    return `${value.toLocaleString()}円`
+  }
+
   return (
     <ResponsiveContainer width='100%' height='100%'>
       <ComposedChart
@@ -54,15 +59,14 @@ const AssetTotalBarChart = ({ data }: Props) => {
       >
         <CartesianGrid stroke='#eee' strokeDasharray='3 3' />
         <XAxis dataKey='date' />
-        <YAxis unit='円'/>
-        <Tooltip />
+        <YAxis tickFormatter={(value) => `${value.toLocaleString()}円`} />
+        <Tooltip formatter={currencyFormatter} />
         <Legend />
         {financeInstitutions.map((item: any, index) => (
           <Bar
             dataKey={item}
             stackId='a'
             fill={colors[Math.floor(index % colors.length)]}
-            unit='円'
             barSize={28}
             key={item}
           />
