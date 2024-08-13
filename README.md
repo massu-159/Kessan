@@ -76,7 +76,8 @@ yarn dev
 - zod: ^3.21.4,
 - zustand: ^4.3.9
 - uuid: ^9.0.0,
-- @supabase/auth-helpers-nextjs: ^0.7.2,
+- @supabase/ssr: ^0.5.1,
+- @supabase/supabase-js: ^2.45.4,
 - recharts: ^2.7.2,
 - tailwindcss: ^3.3.2
 - @material-tailwind/react: ^2.0.5,
