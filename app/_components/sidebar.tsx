@@ -1,6 +1,6 @@
 'use client'
 
-import { Session } from '@supabase/auth-helpers-nextjs'
+import { User } from '@supabase/supabase-js'
 import Link from 'next/link'
 import useStore from '../../store'
 import Image from 'next/image'
@@ -33,10 +33,10 @@ import { ChevronRightIcon, ChevronDownIcon, TableCellsIcon, CircleStackIcon, Env
 import { dashboardPath, emailPath, financePath, logoutPath, passwordPath, profilePath, totalAssetsPath } from '../_common/constants/path'
 
 export default function SideBar({
-  session,
+  user,
   profile,
 }: {
-  session: Session | null
+  user: User | null
   profile: ProfileType | null
 }) {
   const [open, setOpen] = useState(0)
@@ -45,13 +45,13 @@ export default function SideBar({
   // 状態管理にユーザー情報を保存
   useEffect(() => {
     setUser({
-      id: session ? session.user.id : '',
-      email: session ? session.user.email! : '',
-      name: session && profile ? profile.name : '',
-      introduce: session && profile ? profile.introduce : '',
-      avatar_url: session && profile ? profile.avatar_url : '',
+      id: user ? user.id : '',
+      email: user ? user.email! : '',
+      name: profile ? profile.name : '',
+      introduce: profile ? profile.introduce : '',
+      avatar_url: profile ? profile.avatar_url : '',
     })
-  }, [session, setUser, profile])
+  }, [user, setUser, profile])
 
   const handleOpen = (value: React.SetStateAction<number>) => {
     setOpen(open === value ? 0 : value)
@@ -59,7 +59,7 @@ export default function SideBar({
 
   return (
     <>
-      {session && (
+      {user && (
         <Card className='fixed min-h-screen bg-cyan-900 bg-opacity-80 rounded-none w-full max-w-[16rem] p-4 shadow-xl'>
           {/* タイトル */}
           <div className='mb-2 flex items-center gap-4 p-4'>

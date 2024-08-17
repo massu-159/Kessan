@@ -1,32 +1,30 @@
 'use server'
 
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs"
-import {cookies} from 'next/headers'
-import { Database } from "../../lib/database.types"
 import SideBar from "./sidebar"
+import { createClient } from "../../utils/supabase/server"
 
 const SupabaseListener = async () => {
-  const supabase = createServerComponentClient<Database>({ cookies })
+  const supabase = createClient()
   
-  const { data: { session }, } = await supabase.auth.getSession()
+  const { data: { user }, } = await supabase.auth.getUser()
   
   let profile = null
-  if (session) {
+  if (user) {
     const { data: currentProfile } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
     
     profile = currentProfile
 
     // メールアドレスを変更した場合、プロフィールを更新
-    if (currentProfile && currentProfile.email !== session.user.email) {
+    if (currentProfile && currentProfile.email !== user.email) {
       // プロフィール(メールアドレス)を更新
       const { data: updatedProfile } = await supabase
         .from('profiles')
-        .update({ email: session.user.email })
-        .match({ id: session.user.id })
+        .update({ email: user.email })
+        .match({ id: user.id })
         .select('*')
         .single()
       
@@ -34,7 +32,7 @@ const SupabaseListener = async () => {
     }
   }
   return (
-      <SideBar session={session} profile={profile} />
+      <SideBar user={user} profile={profile} />
   )
 }
 
