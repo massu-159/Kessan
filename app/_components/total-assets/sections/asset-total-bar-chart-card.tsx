@@ -15,7 +15,7 @@ type Props = {
 const AssetTotalBarChartCard = ({ data }: Props) => {
   return (
     <CustomCard>
-      <CardBody className='w-11/12 h-96'>
+      <CardBody className='w-11/12 h-96 mx-auto'>
         <Suspense fallback={<Loading />}>
           <AssetTotalBarChart data={data}></AssetTotalBarChart>
         </Suspense>
