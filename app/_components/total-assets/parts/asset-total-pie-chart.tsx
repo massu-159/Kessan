@@ -1,11 +1,11 @@
 'use client'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { colors } from '../../../_common/constants/colorList'
-import { ProcessedData } from '../../../_common/types/ProcessedData'
+import { EachAssetPerDate } from '../../../_common/types/EachAssetPerDate'
 import { AssetTotalPieChartLabel } from './asset-total-pie-chart-label'
 
 type Props = {
-  data: ProcessedData
+  data: EachAssetPerDate
 }
 
 /**
@@ -17,10 +17,10 @@ const AssetTotalPieChart = ({ data }: Props) => {
   const record = Object.entries(data)
     .slice(2)
     .map(([name, value]) => ({ name, value }))
-  
+
   // 日本円表示
   const currencyFormatter = (value: number) => {
-    return `${value.toLocaleString()}円`;
+    return `${value.toLocaleString()}円`
   }
 
   return (
