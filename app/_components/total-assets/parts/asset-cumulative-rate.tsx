@@ -1,4 +1,4 @@
-import { Card, CardBody, Typography } from '../../common'
+import { CardBody, CardFooter, Typography } from '../../common'
 import {
   ArrowLongUpIcon,
   ArrowLongDownIcon,
@@ -11,13 +11,14 @@ import Loading from '../../../(routes)/loading'
 
 type Props = {
   cumulative: Cumulative
+  recentAmount: number
 }
 
 /**
  * 累積比較カード
  * @param cumulative 累積比較データ
  */
-const AssetCumulativeRate = ({ cumulative }: Props) => {
+const AssetCumulativeRate = ({ cumulative, recentAmount }: Props) => {
   return (
     <CustomCard className='bg-opacity-0 text-white'>
       <Suspense fallback={<Loading />}>
@@ -77,6 +78,11 @@ const AssetCumulativeRate = ({ cumulative }: Props) => {
           </div>
           <Typography variant='small'>Since last month</Typography>
         </CardBody>
+        <CardFooter className='pt-6 pb-2'>
+          <Typography className='text-2xl font-bold'>
+            資産合計 {recentAmount?.toLocaleString() ?? 0}円
+          </Typography>
+        </CardFooter>
       </Suspense>
     </CustomCard>
   )
