@@ -107,25 +107,25 @@ export interface Database {
       }
       Goal: {
         Row: {
-          amount: number | null
-          created_at: string | null
-          goal: string | null
-          id: string | null
-          user_id: string | null
+          amount: number
+          created_at: string
+          goal: string
+          id: string
+          user_id: string
         }
         Insert: {
-          amount?: number | null
-          created_at?: string | null
-          goal?: string | null
-          id?: string | null
-          user_id?: string | null
+          amount?: number
+          created_at?: string
+          goal?: string
+          id?: string
+          user_id?: string
         }
         Update: {
-          amount?: number | null
-          created_at?: string | null
-          goal?: string | null
-          id?: string | null
-          user_id?: string | null
+          amount?: number
+          created_at?: string
+          goal?: string
+          id?: string
+          user_id?: string
         }
         Relationships: [
           {
