@@ -1,4 +1,6 @@
+import { redirect } from 'next/navigation'
 import { createClient } from '../../../../utils/supabase/server'
+import { getAssetPerFinancialInstitution } from '../../../api/asset/fetcher'
 import AccountCard from '../parts/account-card'
 
 /**
@@ -11,24 +13,17 @@ const AccountCards = async () => {
     data: { user },
   } = await supabase.auth.getUser()
 
-  let assetsParAcount = null
-  if (user) {
-    // 金融機関・資産を取得
-    const { data: AssetParFinancialInstitution } = await supabase
-      .from('FinancialInstitution')
-      .select(`name, usage, Asset!inner(date, amount)`)
-      .eq('user_id', user.id)
-      .order('date', {
-        referencedTable: 'Asset',
-        ascending: false,
-      })
-
-    assetsParAcount = AssetParFinancialInstitution
+  // ログインしていない場合はリダイレクト
+  if (!user || !user.id) {
+    return redirect('/login')
   }
+
+  // 金融機関ごとの資産を取得
+  const AssetParFinancialInstitution = await getAssetPerFinancialInstitution(user.id)
 
   return (
     <>
-      {assetsParAcount?.map((account, i) => (
+      {AssetParFinancialInstitution?.map((account, i) => (
         <div className='col-span-2' key={account.name}>
           <AccountCard account={account} index={i} />
         </div>
