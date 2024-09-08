@@ -1,8 +1,6 @@
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
-import { cookies } from 'next/headers'
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
-import { Database } from '../../../../lib/database.types'
+import { createClient } from '../../../../utils/supabase/server'
 
 
 // サインアップ後のリダイレクト先
@@ -15,7 +13,7 @@ export async function GET(request: NextRequest) {
 
   if (code) {
     // Supabaseのクライアントインスタンスを作成
-    const supabase = createRouteHandlerClient<Database>({ cookies })
+    const supabase = createClient()
 
     // 認証コードをセッショントークンに交換
     await supabase.auth.exchangeCodeForSession(code)

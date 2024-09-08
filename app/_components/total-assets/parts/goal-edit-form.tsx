@@ -11,7 +11,6 @@ import {
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
 import Loading from '../../../(routes)/loading'
-import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
