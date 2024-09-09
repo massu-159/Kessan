@@ -71,7 +71,7 @@ const AssetActualVsTarget = async () => {
               fill='#00C49F'
               className='w-10 h-10'
             ></CurrencyYenIcon>
-            <GoalEditButton goal={goal}></GoalEditButton>
+            <GoalEditButton goal={goal} userId={userId}></GoalEditButton>
           </div>
 
           <div className='flex justify-center items-center gap-6'>
