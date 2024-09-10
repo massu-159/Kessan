@@ -32,8 +32,6 @@ const FinanceDashboard = async () => {
   // 金融機関のみを取得
   const FinancialInstitution = await getFinancialInstitution(user.id)
 
-  // TODO: null の時と空の時の処理を追加する
-
   return (
     <div className='grid grid-cols-8 gap-4'>
       {(!FinancialInstitution || FinancialInstitution?.length < 0) &&

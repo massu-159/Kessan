@@ -13,7 +13,6 @@ import {
 import { colors } from '../../../_common/constants/colorList'
 import { EachAssetPerDate } from '../../../_common/types/EachAssetPerDate'
 
-
 type Props = {
   data: EachAssetPerDate[]
 }
@@ -24,7 +23,7 @@ type Props = {
  */
 const AssetTotalBarChart = ({ data }: Props) => {
   // dataを日付昇順にソート
-  data.sort((a: any, b: any) => {
+  data.sort((a: EachAssetPerDate, b: EachAssetPerDate) => {
     if (a.date < b.date) {
       return -1
     } else {
@@ -34,7 +33,7 @@ const AssetTotalBarChart = ({ data }: Props) => {
 
   // 金融機関の配列を取得
   const set = new Set(
-    data.flatMap((item: {}) =>
+    data.flatMap((item: EachAssetPerDate) =>
       Object.keys(item).filter((key) => key !== 'date' && key !== 'total')
     )
   )
@@ -71,7 +70,7 @@ const AssetTotalBarChart = ({ data }: Props) => {
         <YAxis tickFormatter={(value) => `${value.toLocaleString()}円`} />
         <Tooltip formatter={currencyFormatter} />
         <Legend />
-        {financeInstitutions.map((item: any, index) => (
+        {financeInstitutions.map((item: string, index) => (
           <Bar
             dataKey={item}
             stackId='a'
