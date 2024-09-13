@@ -40,9 +40,17 @@ const TotalBarChart = ({ data }: Props) => {
   )
   const financeInstitutions = Array.from(set)
 
-  // 日本円表示
+  // 日本円のフォーマット
   const currencyFormatter = (value: number) => {
     return `${value.toLocaleString()}円`
+  }
+
+  // 日付のフォーマット
+  const DateFormatter = (dateString: string) => {
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = ('0' + (date.getMonth() + 1)).slice(-2)
+    return `${year}/${month}`
   }
 
   return (
@@ -59,7 +67,7 @@ const TotalBarChart = ({ data }: Props) => {
         }}
       >
         <CartesianGrid stroke='#eee' strokeDasharray='3 3' />
-        <XAxis dataKey='date' />
+        <XAxis dataKey='date' tickFormatter={DateFormatter} />
         <YAxis tickFormatter={(value) => `${value.toLocaleString()}円`} />
         <Tooltip formatter={currencyFormatter} />
         <Legend />
@@ -72,13 +80,7 @@ const TotalBarChart = ({ data }: Props) => {
             key={item}
           />
         ))}
-        <Line
-          type='monotone'
-          dataKey='total'
-          stroke='#8884d8'
-          unit='円'
-          key='total'
-        />
+        <Line type='monotone' dataKey='total' stroke='#8884d8' key='total' />
       </ComposedChart>
     </ResponsiveContainer>
   )
