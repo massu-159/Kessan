@@ -1,24 +1,17 @@
 import { CardBody, CardFooter, Typography } from '../../common'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
-import GoalEditButton from '../parts/goal-edit-button'
+import GoalEditButton from './goal-edit-button'
 import { CustomCard } from '../../ui/custom-card'
 import { Suspense } from 'react'
 import Loading from '../../../(routes)/loading'
 import { createClient } from '../../../../utils/supabase/server'
 import { getGoal } from '../../../api/goal/fetcher'
-import { getAssetPerDate } from '../../../api/asset/fetcher'
-import {
-  calcDifference,
-  calcTargetAchievementRate,
-  calcTotalAmountParDate,
-} from '../../../_common/utils/calc'
 import { redirect } from 'next/navigation'
-import AssetActualVsTargetNoData from '../parts/asset-actual-vs-target-no-data'
 
 /**
  * 実績と目標の比較カード
  */
-const AssetActualVsTarget = async () => {
+const AssetActualVsTargetNoData = async () => {
   const supabase = createClient()
   const {
     data: { user },
@@ -29,24 +22,8 @@ const AssetActualVsTarget = async () => {
     return redirect('/login')
   }
 
-  // 資産を取得
-  const assetParDate = await getAssetPerDate(userId)
-  // 各日付ごとの資産合計を計算
-  const totalAmountParDate = calcTotalAmountParDate(assetParDate)
-
   // 目標を取得
   const goal = await getGoal(userId)
-  if (!goal || !totalAmountParDate[0]) {
-    return <AssetActualVsTargetNoData />
-  }
-
-  // 目標と実績の差分
-  const difference = calcDifference(goal.amount, totalAmountParDate[0].amount)
-  // 目標達成率
-  const rate = calcTargetAchievementRate(
-    goal.amount,
-    totalAmountParDate[0].amount
-  )
 
   return (
     <CustomCard className='bg-opacity-0 text-white'>
@@ -58,7 +35,7 @@ const AssetActualVsTarget = async () => {
                 actual vs target
               </Typography>
               <Typography variant='lead' className='text-2xl font-bold'>
-                あと {difference.toLocaleString()} 円
+                目標が未設定です
               </Typography>
             </div>
             <CurrencyYenIcon
@@ -69,25 +46,24 @@ const AssetActualVsTarget = async () => {
           </div>
 
           <div className='flex justify-center items-center gap-6'>
-            <div>{totalAmountParDate[0].date} 現在</div>
+            <div>現在</div>
             <Typography
               variant='lead'
               className='text-blue-100 font-bold flex justify-center items-center'
             >
-              {rate}%
+              0 %
             </Typography>
           </div>
           <Typography variant='small'>Target achievement rate</Typography>
         </CardBody>
         <CardFooter className='pt-0 pb-2'>
           <Typography className='text-base font-bold'>
-            目標金額 {goal.amount.toLocaleString()}円
+            目標金額 0 円
           </Typography>
-          <Typography className='text-2xl font-bold'>{goal.goal}</Typography>
         </CardFooter>
       </Suspense>
     </CustomCard>
   )
 }
 
-export default AssetActualVsTarget
+export default AssetActualVsTargetNoData
