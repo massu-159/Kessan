@@ -1,26 +1,46 @@
 import { Suspense } from 'react'
 import Loading from '../../../(routes)/loading'
-import { ProcessedData } from '../../../_common/types/ProcessedData'
 import { CardBody } from '../../common'
 import { CustomCard } from '../../ui/custom-card'
 import AssetTotalPieChart from '../parts/asset-total-pie-chart'
-
-type Props = {
-  data: ProcessedData
-}
+import { createClient } from '../../../../utils/supabase/server'
+import { redirect } from 'next/navigation'
+import { getAssetPerDate } from '../../../api/asset/fetcher'
+import { calcEachAssetPerDate } from '../../../_common/utils/calc'
+import AssetNoDataPieChart from './asset-no-data-pie-chart'
 
 /**
  * 資産円グラフ
  */
-const AssetTotalPieChartCard = ({ data }: Props) => {
+const AssetTotalPieChartCard = async () => {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  const userId = user?.id
+  // ユーザーが存在しない場合はログイン画面にリダイレクト
+  if (!user || !userId) {
+    return redirect('/login')
+  }
+
+  // 資産を取得
+  const assetParDate = await getAssetPerDate(userId)
+  // 資産を日付ごとに集計
+  const eachAssetPerDate = calcEachAssetPerDate(assetParDate)
   return (
-    <CustomCard>
-      <CardBody className='w-full h-96 flex justify-center items-center'>
-        <Suspense fallback={<Loading />}>
-          <AssetTotalPieChart data={data}></AssetTotalPieChart>
-        </Suspense>
-      </CardBody>
-    </CustomCard>
+    <>
+      {eachAssetPerDate.length > 1 ? (
+        <CustomCard>
+          <CardBody className='w-full h-96 flex justify-center items-center'>
+            <Suspense fallback={<Loading />}>
+              <AssetTotalPieChart data={eachAssetPerDate[0]}></AssetTotalPieChart>
+            </Suspense>
+          </CardBody>
+        </CustomCard>
+      ) : (
+        <AssetNoDataPieChart />
+      )}
+    </>
   )
 }
 

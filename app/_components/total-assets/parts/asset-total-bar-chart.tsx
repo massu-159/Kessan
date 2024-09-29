@@ -11,10 +11,11 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { colors } from '../../../_common/constants/colorList'
-import { ProcessedData } from '../../../_common/types/ProcessedData'
+import { EachAssetPerDate } from '../../../_common/types/EachAssetPerDate'
+
 
 type Props = {
-  data: ProcessedData[]
+  data: EachAssetPerDate[]
 }
 
 /**

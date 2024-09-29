@@ -2,11 +2,11 @@
 
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { colors } from '../../../_common/constants/colorList'
-import { ProcessedData } from '../../../_common/types/ProcessedData'
+import { EachAssetPerDate } from '../../../_common/types/EachAssetPerDate'
 import { TotalPieChartLabel } from './total-pie-chart-label'
 
 type Props = {
-  data: ProcessedData
+  data: EachAssetPerDate
 }
 
 /**

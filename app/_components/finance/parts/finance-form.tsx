@@ -5,11 +5,10 @@ import { Card, CardBody, Input, Button, Typography } from '../../common'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { z } from 'zod'
 import Loading from '../../../(routes)/loading'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
+import { createClient } from '../../../../utils/supabase/client'
 type Schema = z.infer<typeof schema>
 
 // 入力データの検証ルールを定義
@@ -45,7 +44,7 @@ type Props = {
  */
 export default function PopUpForm({ open, setOpen, name, id }: Props) {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 

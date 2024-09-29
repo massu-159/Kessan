@@ -3,5 +3,5 @@ export type AssetsWithoutUsage = {
   amount: number | null
   FinancialInstitution: {
     name: string | null
-  } | null
+  }
 }

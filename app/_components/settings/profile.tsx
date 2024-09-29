@@ -1,7 +1,6 @@
 'use client'
 
 import { useCallback, useState, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { v4 as uuidv4 } from 'uuid'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -9,11 +8,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import Loading from '../../(routes)/loading'
 import * as z from 'zod'
-import type { Database } from '../../../lib/database.types'
 import useStore from '../../../store'
 import { CardBody, Button } from '../common'
 type Schema = z.infer<typeof schema>
 import { CustomCard } from '../ui/custom-card'
+import { createClient } from '../../../utils/supabase/client'
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -24,7 +23,7 @@ const schema = z.object({
 // プロフィール
 const Profile = () => {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [avatar, setAvatar] = useState<File | null>(null)
   const [message, setMessage] = useState('')

@@ -1,13 +1,11 @@
 'use client'
 
 import { useState } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Loading from '../../(routes)/loading'
 import * as z from 'zod'
-import type { Database } from '../../../lib/database.types'
 type Schema = z.infer<typeof schema>
 import Image from 'next/image'
 import {
@@ -20,6 +18,7 @@ import {
   Button,
 } from '../common'
 import { callbackPath, loginPath } from '../../_common/constants/path'
+import { createClient } from '../../../utils/supabase/client'
 
 // 入力データの検証ルールを定義
 const schema = z.object({
@@ -34,7 +33,7 @@ const schema = z.object({
  */
 const Signup = () => {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 

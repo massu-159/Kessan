@@ -1,45 +1,41 @@
 import { ReactNode, Suspense } from 'react'
-import { createServerComponentClient } from '@supabase/auth-helpers-nextjs'
-import { Database } from '../../../lib/database.types'
-import { cookies } from 'next/headers'
 import Navigation from '../../_components/navigation'
 import Content from '../../_components/content'
 import SupabaseListener from '../../_components/supabase-listener'
 import Loading from '../loading'
+import { createClient } from '../../../utils/supabase/server'
 
 export default async function Dashboardlayout({
   children,
 }: {
   children: ReactNode
 }) {
-  const supabase = createServerComponentClient<Database>({
-    cookies,
-  })
+  const supabase = createClient()
 
   // セッションの取得
   const {
-    data: { session },
-  } = await supabase.auth.getSession()
+    data: { user },
+  } = await supabase.auth.getUser()
 
   // プロフィールの取得
   let profile = null
 
-  if (session) {
+  if (user) {
     const { data: currentProfile } = await supabase
       .from('profiles')
       .select('*')
-      .eq('id', session.user.id)
+      .eq('id', user.id)
       .single()
 
     profile = currentProfile
 
     // メールアドレスを変更した場合、プロフィールを更新
-    if (currentProfile && currentProfile.email !== session.user.email) {
+    if (currentProfile && currentProfile.email !== user.email) {
       // 表示するメールアドレスを更新
       const { data: updatedProfile } = await supabase
         .from('profiles')
-        .update({ email: session.user.email })
-        .match({ id: session.user.id })
+        .update({ email: user.email })
+        .match({ id: user.id })
         .select('*')
         .single()
 

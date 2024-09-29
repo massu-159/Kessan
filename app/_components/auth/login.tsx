@@ -1,10 +1,8 @@
 'use client'
 
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import * as z from 'zod'
-import type { Database } from '../../../lib/database.types'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import Loading from '../../(routes)/loading'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -19,6 +17,7 @@ import {
   Button,
 } from '../common'
 import { signupPath } from '../../_common/constants/path'
+import { createClient } from '../../../utils/supabase/client'
 type Schema = z.infer<typeof schema>
 
 const schema = z.object({
@@ -33,7 +32,7 @@ const schema = z.object({
  */
 const Login = () => {
   const router = useRouter()
-  const supabase = createClientComponentClient<Database>()
+  const supabase = createClient()
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
 

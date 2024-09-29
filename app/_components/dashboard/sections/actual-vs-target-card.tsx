@@ -4,30 +4,48 @@ import { Button, CardBody, CardFooter, Typography } from '../../common'
 import { CustomCard } from '../../ui/custom-card'
 import { CurrencyYenIcon } from '@heroicons/react/24/solid'
 import { totalAssetsPath } from '../../../_common/constants/path'
-import { AmountRecord } from '../../../_common/types/AmountRecord'
 import { Suspense } from 'react'
 import Loading from '../../../(routes)/loading'
-type GoalType = Database['public']['Tables']['Goal']['Row']
-
-type Props = {
-  goal: GoalType | null
-  record: AmountRecord
-}
+import { createClient } from '../../../../utils/supabase/server'
+import { getGoal } from '../../../api/goal/fetcher'
+import { redirect } from 'next/navigation'
+import { getAssetPerDate } from '../../../api/asset/fetcher'
+import { calcDifference, calcTargetAchievementRate, calcTotalAmountParDate } from '../../../_common/utils/calc'
 
 /**
  * 目標達成率カード
- * @param goal 目標
- * @param record 直近の資産残高
  */
-const ActualVsTargetCard = ({ goal, record }: Props) => {
-  let difference = 0
-  let rate = 0
-  if (goal && goal.amount) {
-    // 目標と実績の差分
-    difference = goal.amount - record.amount
-    // 目標達成率
-    rate = Math.round((record.amount / goal.amount) * 100)
+const ActualVsTargetCard = async () => {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  const userId = user?.id
+  // ユーザーが存在しない場合はログイン画面にリダイレクト
+  if (!user || !userId) {
+    return redirect('/login')
   }
+
+  // 資産を取得
+  const assetParDate = await getAssetPerDate(userId)
+  // 各日付ごとの資産合計を計算
+  const totalAmountParDate = calcTotalAmountParDate(assetParDate)
+
+  // 目標を取得
+  const goal = await getGoal(userId)
+  if (!goal || !totalAmountParDate[0]) {
+    // TODO: 目標未設定のコンポーネントを作る
+    return <Loading />
+  }
+
+  // 目標と実績の差分
+  const difference = calcDifference(goal.amount, totalAmountParDate[0].amount)
+  // 目標達成率
+  const rate = calcTargetAchievementRate(
+    goal.amount,
+    totalAmountParDate[0].amount
+  )
+
   return (
     <CustomCard>
       <Suspense fallback={<Loading />}>
@@ -54,7 +72,7 @@ const ActualVsTargetCard = ({ goal, record }: Props) => {
           </div>
 
           <div className='flex justify-center items-center gap-6'>
-            <div>{record?.date} 現在</div>
+            <div>{totalAmountParDate[0].date} 現在</div>
             <Typography
               variant='lead'
               className='text-blue-600 font-bold flex justify-center items-center'
