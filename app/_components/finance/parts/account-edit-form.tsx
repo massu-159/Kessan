@@ -14,7 +14,6 @@ import Loading from '../../../(routes)/loading'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { Account } from '../../../_common/types/Account'
 import { FinancialInstitution } from '../../../_common/types/FinancialInstitution'
 import { createClient } from '../../../../utils/supabase/client'
 type Schema = z.infer<typeof schema>
@@ -32,7 +31,7 @@ const schema = z.object({
 type Props = {
   show: boolean
   setShow: Dispatch<SetStateAction<boolean>>
-  account: Account
+  account: FinancialInstitution
   id: string | undefined
 }
 

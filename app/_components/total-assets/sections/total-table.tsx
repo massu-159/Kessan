@@ -72,7 +72,7 @@ export default async function AssetsTable() {
               </tr>
             )}
             {totalAmountParDate.length > 1 &&
-              totalAmountParDate.map(({ date, amount }: any, index: number) => {
+              totalAmountParDate.map(({ date, amount }: {date: string, amount: number}, index: number) => {
                 const previousAmount = totalAmountParDate[index + 1]?.amount
                 return (
                   <tr key={date} className='even:bg-blue-gray-50/50'>

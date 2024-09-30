@@ -6,9 +6,10 @@ import PopUpForm from '../parts/finance-form'
 import AccountEditForm from '../parts/account-edit-form'
 import { colors } from '../../../_common/constants/colorList'
 import Loading from '../../../(routes)/loading'
+import { FinancialInstitution } from '../../../_common/types/FinancialInstitution'
 
 type Props = {
-  account: any
+  account: FinancialInstitution
   userId: string | undefined
   index: number
 }
