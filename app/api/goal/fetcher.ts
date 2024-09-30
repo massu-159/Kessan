@@ -13,7 +13,8 @@ export async function getGoal(userId: string) {
     .select('*')
     .eq('user_id', userId)
     .order('created_at', { ascending: false })
-    .single()
+    .limit(1)
+    .maybeSingle()
 
   if (error) {
     console.error("エラー", error)

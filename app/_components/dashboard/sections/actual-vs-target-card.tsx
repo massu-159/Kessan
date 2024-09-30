@@ -10,7 +10,12 @@ import { createClient } from '../../../../utils/supabase/server'
 import { getGoal } from '../../../api/goal/fetcher'
 import { redirect } from 'next/navigation'
 import { getAssetPerDate } from '../../../api/asset/fetcher'
-import { calcDifference, calcTargetAchievementRate, calcTotalAmountParDate } from '../../../_common/utils/calc'
+import {
+  calcDifference,
+  calcTargetAchievementRate,
+  calcTotalAmountParDate,
+} from '../../../_common/utils/calc'
+import ActualVsTargetNoDataCard from '../parts/actual-vs-target-no-data-card'
 
 /**
  * 目標達成率カード
@@ -34,8 +39,7 @@ const ActualVsTargetCard = async () => {
   // 目標を取得
   const goal = await getGoal(userId)
   if (!goal || !totalAmountParDate[0]) {
-    // TODO: 目標未設定のコンポーネントを作る
-    return <Loading />
+    return <ActualVsTargetNoDataCard />
   }
 
   // 目標と実績の差分
@@ -55,15 +59,9 @@ const ActualVsTargetCard = async () => {
               <Typography variant='h5' className='text-sm font-normal'>
                 actual vs target
               </Typography>
-              {goal && goal.amount ? (
-                <Typography variant='lead' className='text-2xl font-bold'>
-                  あと {difference.toLocaleString()} 円
-                </Typography>
-              ) : (
-                <Typography variant='lead' className='text-2xl font-bold'>
-                  目標が未設定です
-                </Typography>
-              )}
+              <Typography variant='lead' className='text-2xl font-bold'>
+                あと {difference.toLocaleString()} 円
+              </Typography>
             </div>
             <CurrencyYenIcon
               fill='#00C49F'
@@ -82,23 +80,13 @@ const ActualVsTargetCard = async () => {
           </div>
           <Typography variant='small'>Target achievement rate</Typography>
         </CardBody>
-        {goal && goal.amount ? (
-          <CardFooter className='pt-0 pb-2 text-end'>
-            <Link href={totalAssetsPath}>
-              <Button color='cyan' variant='text'>
-                view all →
-              </Button>
-            </Link>
-          </CardFooter>
-        ) : (
-          <CardFooter className='pt-0 pb-2 text-center'>
-            <Link href={totalAssetsPath}>
-              <Button color='cyan' variant='gradient'>
-                登録する →
-              </Button>
-            </Link>
-          </CardFooter>
-        )}
+        <CardFooter className='pt-0 pb-2 text-end'>
+          <Link href={totalAssetsPath}>
+            <Button color='cyan' variant='text'>
+              view all →
+            </Button>
+          </Link>
+        </CardFooter>
       </Suspense>
     </CustomCard>
   )
