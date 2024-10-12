@@ -29,8 +29,21 @@ import {
   KeyIcon,
   Square3Stack3DIcon,
 } from '@heroicons/react/24/solid'
-import { ChevronRightIcon, ChevronDownIcon, TableCellsIcon, CircleStackIcon, EnvelopeIcon } from '@heroicons/react/24/outline'
-import { dashboardPath, emailPath, financePath, logoutPath, passwordPath, profilePath, totalAssetsPath } from '../_common/constants/path'
+import {
+  ChevronDownIcon,
+  EnvelopeIcon,
+} from '@heroicons/react/24/outline'
+import {
+  chatPath,
+  dashboardPath,
+  emailPath,
+  financePath,
+  logoutPath,
+  passwordPath,
+  profilePath,
+  totalAssetsPath,
+} from '../_common/constants/path'
+import { usePathname } from 'next/navigation'
 
 export default function SideBar({
   user,
@@ -40,6 +53,8 @@ export default function SideBar({
   profile: ProfileType | null
 }) {
   const [open, setOpen] = useState(0)
+  // パスを取得
+  const pathname = usePathname()
 
   const { setUser } = useStore()
   // 状態管理にユーザー情報を保存
@@ -80,8 +95,9 @@ export default function SideBar({
             {/* ダッシュボード */}
             <Link href={dashboardPath}>
               <ListItem
-                className='p-3 hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'
-                ripple
+                className={`p-3 hover:bg-cyan-800 active:bg-cyan-700 focus:bg-cyan-700 ${
+                  pathname === dashboardPath ? 'bg-cyan-700' : ''
+                }`}
               >
                 <ListItemPrefix>
                   <ChartBarIcon className='h-5 w-5' fill='cyan' />
@@ -94,7 +110,11 @@ export default function SideBar({
 
             {/* 資産合計テーブル */}
             <Link href={totalAssetsPath}>
-              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+              <ListItem
+                className={`hover:bg-cyan-800 active:bg-cyan-700 focus:bg-cyan-700 ${
+                  pathname === totalAssetsPath ? 'bg-cyan-700' : ''
+                }`}
+              >
                 <ListItemPrefix>
                   <AdjustmentsHorizontalIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
@@ -104,7 +124,11 @@ export default function SideBar({
 
             {/* 各資産テーブル */}
             <Link href={financePath}>
-              <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+              <ListItem
+                className={`hover:bg-cyan-800 active:bg-cyan-700 focus:bg-cyan-700 ${
+                  pathname === financePath ? 'bg-cyan-700' : ''
+                }`}
+              >
                 <ListItemPrefix>
                   <Square3Stack3DIcon className='h-5 w-5' fill='cyan' />
                 </ListItemPrefix>
@@ -115,17 +139,17 @@ export default function SideBar({
             <hr className='my-2 border-blue-gray-50' />
 
             {/* AIチャット */}
-            <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+            <ListItem
+              className={`hover:bg-cyan-800 focus:bg-inherit active:bg-inherit ${
+                pathname === chatPath ? 'bg-cyan-700' : ''
+              }`}
+            >
               <ListItemPrefix>
                 <ChatBubbleLeftEllipsisIcon className='h-5 w-5' fill='cyan' />
               </ListItemPrefix>
               <Typography color='white'>AI Chat</Typography>
               <ListItemSuffix>
-                <Chip
-                  value='Beta'
-                  size='sm'
-                  className='rounded-full'
-                />
+                <Chip value='Beta' size='sm' className='rounded-full' />
               </ListItemSuffix>
             </ListItem>
 
@@ -142,7 +166,7 @@ export default function SideBar({
               }
             >
               <ListItem
-                className='p-0 hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'
+                className='p-0 hover:bg-cyan-800 focus:bg-cyan-800 active:bg-transparent bg-transparent'
                 selected={open === 1}
               >
                 <AccordionHeader
@@ -161,15 +185,13 @@ export default function SideBar({
                 <List className='p-0'>
                   {/* プロフィール */}
                   <Link href={profilePath}>
-                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                    <ListItem
+                      className={`hover:bg-cyan-800 focus:bg-cyan-700 active:bg-cyan-700 ${
+                        pathname === profilePath ? 'bg-cyan-700' : ''
+                      }`}
+                    >
                       <ListItemPrefix>
-                        <ChevronRightIcon
-                          strokeWidth={3}
-                          className='text-white h-3 w-5'
-                        />
-                      </ListItemPrefix>
-                      <ListItemPrefix>
-                        <UserCircleIcon className='h-5 w-5' fill='cyan' />
+                        <UserCircleIcon className='h-5 w-5 ml-9' fill='cyan' />
                       </ListItemPrefix>
                       <Typography color='white'>Profile</Typography>
                     </ListItem>
@@ -177,15 +199,13 @@ export default function SideBar({
 
                   {/* メールアドレス */}
                   <Link href={emailPath}>
-                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                    <ListItem
+                      className={`hover:bg-cyan-800 focus:bg-cyan-700 active:bg-cyan-700 ${
+                        pathname === emailPath ? 'bg-cyan-700' : ''
+                      }`}
+                    >
                       <ListItemPrefix>
-                        <ChevronRightIcon
-                          strokeWidth={3}
-                          className='text-white h-3 w-5'
-                        />
-                      </ListItemPrefix>
-                      <ListItemPrefix>
-                        <EnvelopeIcon className='h-5 w-5' fill='cyan' />
+                        <EnvelopeIcon className='h-5 w-5 ml-9' fill='cyan' />
                       </ListItemPrefix>
                       <Typography color='white'>Email</Typography>
                     </ListItem>
@@ -193,15 +213,13 @@ export default function SideBar({
 
                   {/* パスワード */}
                   <Link href={passwordPath}>
-                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                    <ListItem
+                      className={`hover:bg-cyan-800 focus:bg-cyan-700 active:bg-cyan-700 ${
+                        pathname === passwordPath ? 'bg-cyan-700' : ''
+                      }`}
+                    >
                       <ListItemPrefix>
-                        <ChevronRightIcon
-                          strokeWidth={3}
-                          className='text-white h-3 w-5'
-                        />
-                      </ListItemPrefix>
-                      <ListItemPrefix>
-                        <KeyIcon className='h-5 w-5' fill='cyan' />
+                        <KeyIcon className='h-5 w-5 ml-9' fill='cyan' />
                       </ListItemPrefix>
                       <Typography color='white'>Password</Typography>
                     </ListItem>
@@ -209,15 +227,13 @@ export default function SideBar({
 
                   {/* ログアウト */}
                   <Link href={logoutPath}>
-                    <ListItem className='hover:bg-cyan-800 focus:bg-cyan-900 active:bg-cyan-600'>
+                    <ListItem
+                      className={`hover:bg-cyan-800 focus:bg-cyan-700 active:bg-cyan-700 ${
+                        pathname === logoutPath ? 'bg-cyan-700' : ''
+                      }`}
+                    >
                       <ListItemPrefix>
-                        <ChevronRightIcon
-                          strokeWidth={3}
-                          className='text-white h-3 w-5'
-                        />
-                      </ListItemPrefix>
-                      <ListItemPrefix>
-                        <PowerIcon className='h-5 w-5' fill='cyan' />
+                        <PowerIcon className='h-5 w-5 ml-9' fill='cyan' />
                       </ListItemPrefix>
                       <Typography color='white'>Log Out</Typography>
                     </ListItem>

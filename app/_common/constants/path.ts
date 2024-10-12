@@ -17,6 +17,8 @@ export const dashboardPath = '/dashboard'
 export const totalAssetsPath = '/total-assets'
 // 個別資産
 export const financePath = '/finance'
+// AIチャット
+export const chatPath = '/chat'
 
 // --- 設定 ---
 // 設定(基底)
