@@ -1,6 +1,7 @@
 import Link from 'next/link'
-import { Button, Card, CardBody, CardFooter, Typography } from '../../common'
+import { Button, CardBody, CardFooter, Typography } from '../../common'
 import { financePath } from '../../../_common/constants/path'
+import { CustomCard } from '../../ui/custom-card'
 
 /**
  * 累積比較カード
@@ -8,7 +9,7 @@ import { financePath } from '../../../_common/constants/path'
  */
 const AssetCumulativeRateNoData = () => {
   return (
-    <Card className=''>
+    <CustomCard className=''>
       <CardBody className='flex flex-col justify-center pb-4'>
         <Typography variant='h5' className='text-sm font-normal mb-4'>
           cumulative rate
@@ -29,7 +30,7 @@ const AssetCumulativeRateNoData = () => {
           </Button>
         </Link>
       </CardFooter>
-    </Card>
+    </CustomCard>
   )
 }
 

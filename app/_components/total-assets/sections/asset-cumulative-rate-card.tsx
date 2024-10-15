@@ -1,4 +1,3 @@
-import { Cumulative } from '../../../_common/types/Cumulative'
 import AssetCumulativeRateNoData from '../parts/asset-cumulative-rate-no-data'
 import AssetCumulativeRate from '../parts/asset-cumulative-rate'
 import { createClient } from '../../../../utils/supabase/server'
@@ -9,6 +8,8 @@ import {
   calcRate,
   calcTotalAmountParDate,
 } from '../../../_common/utils/calc'
+import { Suspense } from 'react'
+import CardSkeletonS from '../../ui/card-skeleton-s'
 
 /**
  * 累積比較カード
@@ -51,13 +52,16 @@ const AssetCumulativeRateCard = async () => {
   }
 
   return (
-    <>
+    <Suspense fallback={<CardSkeletonS />}>
       {cumulative.amount === null && cumulative.rate === null ? (
         <AssetCumulativeRateNoData />
       ) : (
-        <AssetCumulativeRate cumulative={cumulative} recentAmount={recentAmount} />
+        <AssetCumulativeRate
+          cumulative={cumulative}
+          recentAmount={recentAmount}
+        />
       )}
-    </>
+    </Suspense>
   )
 }
 
